@@ -357,31 +357,35 @@
             grid.innerHTML = '';
             document.getElementById('statTotalProduct').textContent = products.length + " Item";
 
-            products.forEach(p => {
-                const card = document.createElement('div');
-                card.className = "bg-white rounded-xl shadow-sm overflow-hidden border border-gray-100 hover:shadow-md transition";
-                card.innerHTML = `
-                    <div class="relative">
-                        <span class="absolute top-2 left-2 bg-red-600 text-white text-xs font-bold px-2 py-1 rounded">PROMO</span>
-                        <img src="${p.img || 'https://images.unsplash.com/photo-1523275335684-37898b6baf30?w=500'}" class="w-full h-48 object-cover">
-                        ${isAdmin ? `
-                            <button onclick="deleteProduct(${p.id})" class="absolute top-2 right-2 bg-red-600 text-white p-2 rounded-lg text-xs font-bold shadow hover:bg-red-700">
-                                <i class="fa-solid fa-trash"></i> Hapus
-                            </button>
-                        ` : ''}
-                    </div>
-                    <div class="p-4">
-                        <h4 class="font-bold text-slate-800 text-lg">${p.title}</h4>
-                        <div class="flex items-center justify-between mt-3">
-                            <div>
-                                <p class="text-amber-600 font-bold text-lg">${p.price}</p>
-                            </div>
-                            <a href="${p.link}" target="_blank" class="bg-slate-900 hover:bg-slate-800 text-white px-3 py-2 rounded-lg text-sm font-medium">Beli Sekarang</a>
-                        </div>
-                    </div>
-                `;
-                grid.appendChild(card);
-            });
+ const allProducts = JSON.parse(localStorage.getItem('shaneProducts')) || products;
+    const list = itemsToRender || allProducts;
+
+    const productGrid = document.getElementById('productGrid');
+    if (productGrid) productGrid.innerHTML = '';
+
+    list.forEach(p => {
+        const card = document.createElement('div');
+        card.className = "bg-white rounded-xl shadow-sm overflow-hidden border border-gray-100 hover:shadow-md transition";
+        card.innerHTML = `
+            <div class="relative">
+                <span class="absolute top-2 left-2 bg-red-500 text-white text-xs font-bold px-2 py-1 rounded">${p.category || 'PROMO'}</span>
+                <img src="${p.img || 'https://images.unsplash.com/photo-1523275335684-37898b6baf30?w=500'}" class="w-full h-48 object-cover">
+                ${isAdmin ? `
+                    <button onclick="deleteProduct(${p.id})" class="absolute top-2 right-2 bg-red-600 text-white p-2 rounded-lg text-xs font-bold shadow hover:bg-red-700">
+                        <i class="fa-solid fa-trash"></i> Hapus
+                    </button>
+                ` : ''}
+            </div>
+            <div class="p-4">
+                <h4 class="font-bold text-slate-800 text-lg">${p.title}</h4>
+                <div class="flex items-center justify-between mt-3">
+                    <p class="text-amber-600 font-bold text-lg">${p.price}</p>
+                </div>
+                <a href="${p.link}" target="_blank" class="block text-center mt-3 bg-slate-900 hover:bg-slate-800 text-white py-2 rounded-lg text-xs font-bold">Beli Sekarang</a>
+            </div>
+        `;
+        if (productGrid) productGrid.appendChild(card);
+    });
         }
 
       function toggleAdminMode() {
