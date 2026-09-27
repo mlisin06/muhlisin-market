@@ -1,0 +1,425 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Shane Market - Dasbor, Afiliasi & Toko Online</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <style>
+        @media screen and (orientation: portrait) and (max-width: 768px) {
+            #rotate-notice { display: flex !important; }
+        }
+    </style>
+</head>
+<body class="bg-gray-100 font-sans text-gray-800">
+
+    <!-- Peringatan Rotasi Layar HP -->
+    <div id="rotate-notice" class="hidden fixed inset-0 bg-slate-900 bg-opacity-95 text-white z-50 flex-col items-center justify-center text-center p-6">
+        <i class="fa-solid fa-mobile-screen-button text-6xl mb-4 animate-bounce text-yellow-400"></i>
+        <h2 class="text-2xl font-bold mb-2">Putar HP Anda ke Layar Mendatar (Landscape)</h2>
+        <p class="text-gray-300 max-w-sm">Untuk pengalaman terbaik melihat Dasbor Shane Market, silakan putar HP Anda.</p>
+    </div>
+
+    <!-- Layout Utama Dasbor -->
+    <div class="flex min-h-screen">
+        
+        <!-- Sidebar Navigasi Samping -->
+        <aside class="w-64 bg-slate-900 text-white p-5 flex flex-col justify-between hidden md:block shrink-0 sticky top-0 h-screen">
+            <div>
+                <div class="flex items-center gap-3 mb-8">
+                    <i class="fa-solid fa-store text-2xl text-amber-400"></i>
+                    <h1 class="text-xl font-bold tracking-wide">Shane Market</h1>
+                </div>
+                <nav class="space-y-2 text-sm">
+                    <a href="#dasbor" class="flex items-center gap-3 px-4 py-2.5 rounded-lg bg-amber-500 text-slate-900 font-semibold hover:bg-amber-400 transition">
+                        <i class="fa-solid fa-chart-pie"></i> Dasbor Utama
+                    </a>
+                    <a href="#tentang" class="flex items-center gap-3 px-4 py-2.5 rounded-lg hover:bg-slate-800 transition text-gray-300">
+                        <i class="fa-solid fa-user-tie text-blue-400"></i> Tentang Kami
+                    </a>
+                    <a href="#terlaris" class="flex items-center gap-3 px-4 py-2.5 rounded-lg hover:bg-slate-800 transition text-gray-300">
+                        <i class="fa-solid fa-fire text-orange-500"></i> Produk Terlaris
+                    </a>
+                    <a href="#afiliasi" class="flex items-center gap-3 px-4 py-2.5 rounded-lg hover:bg-slate-800 transition text-gray-300">
+                        <i class="fa-solid fa-link text-purple-400"></i> Rekomendasi Afiliasi
+                    </a>
+                    <a href="#diskon" class="flex items-center gap-3 px-4 py-2.5 rounded-lg hover:bg-slate-800 transition text-gray-300">
+                        <i class="fa-solid fa-tags text-green-400"></i> Promo & Diskon
+                    </a>
+                    <a href="#testimoni" class="flex items-center gap-3 px-4 py-2.5 rounded-lg hover:bg-slate-800 transition text-gray-300">
+                        <i class="fa-solid fa-star text-yellow-400"></i> Testimoni Klien
+                    </a>
+                    <a href="#kontak" class="flex items-center gap-3 px-4 py-2.5 rounded-lg hover:bg-slate-800 transition text-gray-300">
+                        <i class="fa-solid fa-envelope text-red-400"></i> Kontak Kami
+                    </a>
+                </nav>
+            </div>
+            <div class="border-t border-slate-800 pt-4">
+                <button id="adminToggleBtn" onclick="toggleAdminMode()" class="w-full py-2 bg-slate-800 hover:bg-slate-700 text-xs text-gray-300 rounded text-center font-bold">
+                    <i class="fa-solid fa-lock mr-1"></i> Mode Admin: OFF
+                </button>
+            </div>
+        </aside>
+
+        <!-- Area Konten Utama -->
+        <main class="flex-1 p-6 overflow-y-auto">
+            
+            <!-- Header Atas -->
+            <header class="flex flex-col md:flex-row justify-between items-start md:items-center bg-white p-4 rounded-xl shadow-sm mb-6 gap-4">
+                <div>
+                    <h2 class="text-2xl font-bold text-slate-800">Selamat Datang di Shane Market!</h2>
+                    <p class="text-sm text-gray-500">Pusat Belanja & Penawaran Rekomendasi Produk Pilihan</p>
+                </div>
+                <div class="flex items-center gap-3">
+                    <button id="addProductBtn" onclick="openProductModal()" class="admin-only hidden bg-amber-500 hover:bg-amber-600 text-slate-900 px-4 py-2 rounded-lg text-sm font-bold flex items-center gap-2 transition">
+                        <i class="fa-solid fa-plus"></i> Tambah Produk
+                    </button>
+                    <a href="https://wa.me/6281234567890" target="_blank" class="bg-green-600 hover:bg-green-700 text-white px-4 py-2 rounded-lg text-sm font-semibold flex items-center gap-2 transition">
+                        <i class="fa-brands fa-whatsapp text-lg"></i> Hubungi WA
+                    </a>
+                </div>
+            </header>
+
+            <!-- Ringkasan Statistik -->
+            <section id="dasbor" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 mb-8">
+                <div class="bg-white p-4 rounded-xl shadow-sm border-l-4 border-amber-500 flex items-center justify-between">
+                    <div>
+                        <p class="text-xs text-gray-500 font-semibold uppercase">Total Produk</p>
+                        <h3 id="statTotalProduct" class="text-xl font-bold text-slate-800">0 Item</h3>
+                    </div>
+                    <i class="fa-solid fa-box-open text-2xl text-amber-500"></i>
+                </div>
+                <div class="bg-white p-4 rounded-xl shadow-sm border-l-4 border-red-500 flex items-center justify-between">
+                    <div>
+                        <p class="text-xs text-gray-500 font-semibold uppercase">Flash Sale</p>
+                        <h3 class="text-xl font-bold text-slate-800">Diskon s/d 50%</h3>
+                    </div>
+                    <i class="fa-solid fa-bolt text-2xl text-red-500"></i>
+                </div>
+                <div class="bg-white p-4 rounded-xl shadow-sm border-l-4 border-blue-500 flex items-center justify-between">
+                    <div>
+                        <p class="text-xs text-gray-500 font-semibold uppercase">Mitra Afiliasi</p>
+                        <h3 class="text-xl font-bold text-slate-800">Shopee & TikTok</h3>
+                    </div>
+                    <i class="fa-solid fa-handshake text-2xl text-blue-500"></i>
+                </div>
+                <div class="bg-white p-4 rounded-xl shadow-sm border-l-4 border-emerald-500 flex items-center justify-between">
+                    <div>
+                        <p class="text-xs text-gray-500 font-semibold uppercase">Layanan</p>
+                        <h3 class="text-xl font-bold text-slate-800">Fast Response</h3>
+                    </div>
+                    <i class="fa-solid fa-headset text-2xl text-emerald-500"></i>
+                </div>
+            </section>
+
+            <!-- SEKSI 1: TENTANG KAMI -->
+            <section id="tentang" class="mb-8 bg-white p-6 rounded-xl shadow-sm">
+                <div class="flex flex-col md:flex-row items-center gap-6">
+                    <img src=https://i.postimg.cc/HngqWp0p/FOTO-LISIN.jpg alt="Muhlisin Profil" class="w-28 h-28 rounded-2xl object-cover shadow-md border-2 border-amber-400">
+                    <div class="space-y-2">
+                        <span class="bg-amber-100 text-amber-800 text-xs font-bold px-2.5 py-1 rounded-md">TENTANG KAMI</span>
+                        <h3 class="text-xl font-bold text-slate-800">Muhlisin — Digital Marketer & Affiliate Curator</h3>
+                        <p class="text-sm text-gray-600 leading-relaxed">
+                            Selamat datang di <strong>Shane Market</strong>! Saya membantu Anda menemukan rekomendasi produk-produk terbaik pilihan yang berkualitas tinggi, terpercaya, dan memberikan penawaran harga paling hemat. Semua produk yang direkomendasikan telah dikurasi secara akurat untuk kebutuhan Anda.
+                        </p>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Banner Kupon Diskon -->
+            <section id="diskon" class="mb-8">
+                <div class="bg-gradient-to-r from-amber-500 to-red-500 rounded-xl p-6 text-white shadow-md flex flex-col lg:flex-row justify-between items-center gap-4">
+                    <div>
+                        <span class="bg-white text-red-600 text-xs font-bold px-3 py-1 rounded-full uppercase">Kupon Spesial</span>
+                        <h3 class="text-2xl font-bold mt-2">Diskon Potongan Harga Rp 20.000</h3>
+                        <p class="text-amber-100 text-sm">Gunakan kode voucher saat pesan lewat WhatsApp!</p>
+                    </div>
+                    <div class="bg-white/20 backdrop-blur-md p-3 rounded-lg border border-white/30 text-center">
+                        <p class="text-xs uppercase tracking-wider text-amber-100">Kode Voucher:</p>
+                        <p class="text-xl font-mono font-bold tracking-widest my-1">SHANE20K</p>
+                        <button onclick="navigator.clipboard.writeText('SHANE20K'); alert('Kode Voucher Di-Copy!');" class="bg-white text-slate-900 hover:bg-amber-100 text-xs font-bold px-3 py-1 rounded transition">Salin Kode</button>
+                    </div>
+                </div>
+            </section>
+
+            <!-- SEKSI 2: PRODUK TOKO / KATALOG -->
+            <section id="terlaris" class="mb-8">
+                <div class="flex justify-between items-center mb-4">
+                    <h3 class="text-xl font-bold text-slate-800 flex items-center gap-2">
+                        <i class="fa-solid fa-fire text-orange-500"></i> Daftar Produk Toko
+                    </h3>
+                </div>
+                <div id="productGrid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                    <!-- Produk Ditampilkan Lewat JavaScript -->
+                </div>
+            </section>
+
+            <!-- SEKSI 3: REKOMENDASI PRODUK & LINK AFILIASI -->
+            <section id="afiliasi" class="mb-8 bg-slate-900 text-white p-6 rounded-xl shadow-md">
+                <div class="mb-6">
+                    <span class="bg-purple-600 text-white text-xs font-bold px-3 py-1 rounded-full uppercase">Etalase Afiliasi</span>
+                    <h3 class="text-xl font-bold mt-2 text-white flex items-center gap-2">
+                        <i class="fa-solid fa-bag-shopping text-purple-400"></i> Rekomendasi Produk & Link Afiliasi Favorit
+                    </h3>
+                    <p class="text-xs text-gray-400 mt-1">Dapatkan diskon khusus dengan membeli langsung dari e-commerce pilihan berikut:</p>
+                </div>
+
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+                    <!-- Link Afiliasi 1 -->
+                    <div class="bg-slate-800 p-4 rounded-xl border border-slate-700 hover:border-amber-400 transition flex flex-col justify-between">
+                        <div>
+                            <div class="flex items-center justify-between mb-2">
+                                <span class="bg-orange-600 text-white text-[10px] font-bold px-2 py-0.5 rounded">Shopee Choice</span>
+                                <i class="fa-solid fa-[#store] text-orange-400"></i>
+                            </div>
+                            <h4 class="font-bold text-white text-sm">Peralatan Rumah Tangga Aesthetic</h4>
+                            <p class="text-xs text-gray-400 mt-1">Kumpulan barang perlengkapan dapur & dekorasi pilihan.</p>
+                        </div>
+                        <a href="https://shopee.co.id" target="_blank" class="mt-4 bg-orange-500 hover:bg-orange-600 text-white text-xs font-bold py-2 px-3 rounded-lg text-center transition flex items-center justify-center gap-2">
+                            Beli via Shopee <i class="fa-solid fa-arrow-up-right-from-square"></i>
+                        </a>
+                    </div>
+
+                    <!-- Link Afiliasi 2 -->
+                    <div class="bg-slate-800 p-4 rounded-xl border border-slate-700 hover:border-amber-400 transition flex flex-col justify-between">
+                        <div>
+                            <div class="flex items-center justify-between mb-2">
+                                <span class="bg-black text-white text-[10px] font-bold px-2 py-0.5 rounded border border-gray-600">TikTok Shop</span>
+                                <i class="fa-brands fa-tiktok text-white"></i>
+                            </div>
+                            <h4 class="font-bold text-white text-sm">Gadget & Aksesoris HP Viral</h4>
+                            <p class="text-xs text-gray-400 mt-1">Rekomendasi tripod, lampu studio, dan casing terlaris.</p>
+                        </div>
+                        <a href="https://tiktok.com" target="_blank" class="mt-4 bg-slate-700 hover:bg-slate-600 text-white text-xs font-bold py-2 px-3 rounded-lg text-center transition flex items-center justify-center gap-2">
+                            Beli via TikTok Shop <i class="fa-solid fa-arrow-up-right-from-square"></i>
+                        </a>
+                    </div>
+
+                    <!-- Link Afiliasi 3 -->
+                    <div class="bg-slate-800 p-4 rounded-xl border border-slate-700 hover:border-amber-400 transition flex flex-col justify-between">
+                        <div>
+                            <div class="flex items-center justify-between mb-2">
+                                <span class="bg-green-600 text-white text-[10px] font-bold px-2 py-0.5 rounded">Tokopedia</span>
+                                <i class="fa-solid fa-bag-shopping text-green-400"></i>
+                            </div>
+                            <h4 class="font-bold text-white text-sm">Fashion & Outfits Elegan</h4>
+                            <p class="text-xs text-gray-400 mt-1">Pakaian kasual & formal dengan rating bintang 5.</p>
+                        </div>
+                        <a href="https://tokopedia.com" target="_blank" class="mt-4 bg-green-600 hover:bg-green-700 text-white text-xs font-bold py-2 px-3 rounded-lg text-center transition flex items-center justify-center gap-2">
+                            Beli via Tokopedia <i class="fa-solid fa-arrow-up-right-from-square"></i>
+                        </a>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Seksi Testimoni Pelanggan -->
+            <section id="testimoni" class="mb-8 bg-white p-6 rounded-xl shadow-sm">
+                <h3 class="text-xl font-bold text-slate-800 mb-4 flex items-center gap-2">
+                    <i class="fa-solid fa-star text-yellow-400"></i> Apa Kata Pembeli Kami?
+                </h3>
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                    <div class="p-4 bg-gray-50 rounded-lg border border-gray-100">
+                        <div class="flex text-yellow-400 text-sm mb-2">
+                            <i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i>
+                        </div>
+                        <p class="text-sm text-gray-600 italic">"Pengiriman cepat sekali, respon admin ramah, dan barangnya original!"</p>
+                        <p class="text-xs font-bold text-slate-800 mt-2">— Budi Santoso, Jakarta</p>
+                    </div>
+                    <div class="p-4 bg-gray-50 rounded-lg border border-gray-100">
+                        <div class="flex text-yellow-400 text-sm mb-2">
+                            <i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i>
+                        </div>
+                        <p class="text-sm text-gray-600 italic">"Dapat potongan diskon 20rb lumayan banget. Barangnya berfungsi dengan baik!"</p>
+                        <p class="text-xs font-bold text-slate-800 mt-2">— Siti Rahma, Semarang</p>
+                    </div>
+                </div>
+            </section>
+
+            <!-- SEKSI 4: KONTAKI KAMI -->
+            <section id="kontak" class="mb-8 bg-white p-6 rounded-xl shadow-sm">
+                <h3 class="text-xl font-bold text-slate-800 mb-4 flex items-center gap-2">
+                    <i class="fa-solid fa-envelope text-red-500"></i> Hubungi Kami
+                </h3>
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                    <!-- Form Pesan -->
+                    <form onsubmit="event.preventDefault(); alert('Pesan Anda berhasil terkirim!');" class="space-y-3">
+                        <div>
+                            <label class="block text-xs font-bold text-gray-700 mb-1">Nama Anda</label>
+                            <input type="text" placeholder="Masukkan nama..." required class="w-full bg-gray-50 border rounded-lg p-2.5 text-xs outline-none focus:ring-2 focus:ring-amber-500">
+                        </div>
+                        <div>
+                            <label class="block text-xs font-bold text-gray-700 mb-1">Pesan / Pertanyaan</label>
+                            <textarea rows="3" placeholder="Tuliskan pesan Anda..." required class="w-full bg-gray-50 border rounded-lg p-2.5 text-xs outline-none focus:ring-2 focus:ring-amber-500"></textarea>
+                        </div>
+                        <button type="submit" class="bg-slate-900 hover:bg-slate-800 text-white text-xs font-bold px-4 py-2.5 rounded-lg transition">
+                            Kirim Pesan
+                        </button>
+                    </form>
+
+                    <!-- Info Sosial Media & Alamat -->
+                    <div class="space-y-4 border-t md:border-t-0 md:border-l pt-4 md:pt-0 md:pl-6 border-gray-100">
+                        <p class="text-xs text-gray-600 leading-relaxed">
+                            Punya pertanyaan seputar produk atau kerja sama afiliasi? Jangan ragu untuk langsung berkonsultasi via WhatsApp atau media sosial kami.
+                        </p>
+                        <div class="space-y-2 text-xs">
+                            <a href="https://wa.me/62895422768896" target="_blank" class="flex items-center gap-3 text-green-600 font-semibold hover:underline">
+                                <i class="fa-brands fa-whatsapp text-lg"></i> +62 812-3456-7890
+                            </a>
+                            <a href="https://instagram.com" target="_blank" class="flex items-center gap-3 text-pink-600 font-semibold hover:underline">
+                                <i class="fa-brands fa-instagram text-lg"></i> @shanemarket_id
+                            </a>
+                            <a href="https://tiktok.com" target="_blank" class="flex items-center gap-3 text-black font-semibold hover:underline">
+                                <i class="fa-brands fa-tiktok text-lg"></i> @shanemarket.official
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <footer class="text-center text-xs text-gray-400 py-4">
+                &copy; 2026 Shane Market. All Rights Reserved.
+            </footer>
+
+        </main>
+    </div>
+
+    <!-- POPUP MODAL TAMBAH PRODUK -->
+    <div id="productModal" class="fixed inset-0 bg-slate-900 bg-opacity-50 backdrop-blur-sm z-50 flex items-center justify-center hidden p-4">
+        <div class="bg-white rounded-2xl shadow-xl max-w-md w-full p-6 space-y-4">
+            <div class="flex items-center justify-between border-b pb-3">
+                <h3 class="font-bold text-slate-900 text-lg">Tambah Produk Baru</h3>
+                <button onclick="closeProductModal()" class="text-gray-400 hover:text-gray-600"><i class="fa-solid fa-xmark text-xl"></i></button>
+            </div>
+            
+            <div class="space-y-3 text-xs">
+                <div>
+                    <label class="block font-bold text-gray-700 mb-1">Nama Barang</label>
+                    <input type="text" id="prodTitle" placeholder="Contoh: Sepatu Casual" class="w-full bg-gray-50 border rounded-xl p-2.5 outline-none focus:ring-2 focus:ring-amber-500">
+                </div>
+                <div>
+                    <label class="block font-bold text-gray-700 mb-1">Harga Diskon / Harga Jual</label>
+                    <input type="text" id="prodPrice" placeholder="Contoh: Rp 150.000" class="w-full bg-gray-50 border rounded-xl p-2.5 outline-none focus:ring-2 focus:ring-amber-500">
+                </div>
+                <div>
+                    <label class="block font-bold text-gray-700 mb-1">URL Link Gambar Barang</label>
+                    <input type="text" id="prodImg" placeholder="Tempel link foto produk" class="w-full bg-gray-50 border rounded-xl p-2.5 outline-none focus:ring-2 focus:ring-amber-500">
+                </div>
+                <div>
+                    <label class="block font-bold text-gray-700 mb-1">Link Pembelian / WhatsApp</label>
+                    <input type="text" id="prodLink" placeholder="Link WhatsApp / Shopee Anda" class="w-full bg-gray-50 border rounded-xl p-2.5 outline-none focus:ring-2 focus:ring-amber-500">
+                </div>
+            </div>
+
+            <div class="flex justify-end gap-2 pt-2">
+                <button onclick="closeProductModal()" class="px-4 py-2 border text-gray-600 rounded-xl text-xs font-bold">Batal</button>
+                <button onclick="saveProduct()" class="px-4 py-2 bg-amber-500 text-slate-900 rounded-xl text-xs font-bold hover:bg-amber-600">Simpan Barang</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- LOGIKA SISTEM SCRIPT -->
+    <script>
+        let isAdmin = false;
+        const defaultProducts = [
+            {
+                id: 1,
+                title: "Smartwatch Elegant Series",
+                price: "Rp 299.000",
+                img: "https://images.unsplash.com/photo-1523275335684-37898b6baf30?w=500",
+                link: "https://wa.me/62895422768896?text=Halo,%20saya%20mau%20pesan%20Smartwatch"
+            },
+            {
+                id: 2,
+                title: "Headphone Wireless Bass Pro",
+                price: "Rp 245.000",
+                img: "https://images.unsplash.com/photo-1505740420928-5e560c06d30e?w=500",
+                link: "https://wa.me/62895422768896?text=Halo,%20saya%20mau%20pesan%20Headphone"
+            }
+        ];
+
+        let products = JSON.parse(localStorage.getItem('shaneProducts')) || defaultProducts;
+
+        function renderProducts() {
+            const grid = document.getElementById('productGrid');
+            grid.innerHTML = '';
+            document.getElementById('statTotalProduct').textContent = products.length + " Item";
+
+            products.forEach(p => {
+                const card = document.createElement('div');
+                card.className = "bg-white rounded-xl shadow-sm overflow-hidden border border-gray-100 hover:shadow-md transition";
+                card.innerHTML = `
+                    <div class="relative">
+                        <span class="absolute top-2 left-2 bg-red-600 text-white text-xs font-bold px-2 py-1 rounded">PROMO</span>
+                        <img src="${p.img || 'https://images.unsplash.com/photo-1523275335684-37898b6baf30?w=500'}" class="w-full h-48 object-cover">
+                        ${isAdmin ? `
+                            <button onclick="deleteProduct(${p.id})" class="absolute top-2 right-2 bg-red-600 text-white p-2 rounded-lg text-xs font-bold shadow hover:bg-red-700">
+                                <i class="fa-solid fa-trash"></i> Hapus
+                            </button>
+                        ` : ''}
+                    </div>
+                    <div class="p-4">
+                        <h4 class="font-bold text-slate-800 text-lg">${p.title}</h4>
+                        <div class="flex items-center justify-between mt-3">
+                            <div>
+                                <p class="text-amber-600 font-bold text-lg">${p.price}</p>
+                            </div>
+                            <a href="${p.link}" target="_blank" class="bg-slate-900 hover:bg-slate-800 text-white px-3 py-2 rounded-lg text-sm font-medium">Beli Sekarang</a>
+                        </div>
+                    </div>
+                `;
+                grid.appendChild(card);
+            });
+        }
+
+        function toggleAdminMode() {
+            isAdmin = !isAdmin;
+            const btn = document.getElementById('adminToggleBtn');
+            const addBtn = document.getElementById('addProductBtn');
+
+            if(isAdmin) {
+                btn.innerHTML = '<i class="fa-solid fa-unlock text-green-400 mr-1"></i> Mode Admin: ON';
+                btn.className = "w-full py-2 bg-green-900 text-green-200 text-xs rounded text-center font-bold";
+                addBtn.classList.remove('hidden');
+            } else {
+                btn.innerHTML = '<i class="fa-solid fa-lock mr-1"></i> Mode Admin: OFF';
+                btn.className = "w-full py-2 bg-slate-800 text-gray-300 text-xs rounded text-center font-bold";
+                addBtn.classList.add('hidden');
+            }
+            renderProducts();
+        }
+
+        function openProductModal() { document.getElementById('productModal').classList.remove('hidden'); }
+        function closeProductModal() { document.getElementById('productModal').classList.add('hidden'); }
+
+        function saveProduct() {
+            const title = document.getElementById('prodTitle').value;
+            const price = document.getElementById('prodPrice').value;
+            const img = document.getElementById('prodImg').value;
+            const link = document.getElementById('prodLink').value || 'https://wa.me/62895422768896';
+
+            if(!title || !price) return alert("Nama barang dan harga wajib diisi!");
+
+            products.push({ id: Date.now(), title, price, img, link });
+            localStorage.setItem('shaneProducts', JSON.stringify(products));
+            renderProducts();
+            closeProductModal();
+
+            document.getElementById('prodTitle').value = '';
+            document.getElementById('prodPrice').value = '';
+            document.getElementById('prodImg').value = '';
+            document.getElementById('prodLink').value = '';
+        }
+
+        function deleteProduct(id) {
+            if(confirm("Apakah Anda yakin ingin menghapus barang ini?")) {
+                products = products.filter(p => p.id !== id);
+                localStorage.setItem('shaneProducts', JSON.stringify(products));
+                renderProducts();
+            }
+        }
+
+        window.onload = renderProducts;
+    </script>
+</body>
+</html>
