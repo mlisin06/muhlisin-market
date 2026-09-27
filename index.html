@@ -419,10 +419,11 @@
             const price = document.getElementById('prodPrice').value;
             const img = document.getElementById('prodImg').value;
             const link = document.getElementById('prodLink').value || 'https://wa.me/62895422768896';
+const category = document.getElementById('prodCategory') ? document.getElementById('prodCategory').value : 'semua';
 
             if(!title || !price) return alert("Nama barang dan harga wajib diisi!");
 
-            products.push({ id: Date.now(), title, price, img, link });
+           products.push({ id: Date.now(), title, price, img, link, category });
             localStorage.setItem('shaneProducts', JSON.stringify(products));
             renderProducts();
             closeProductModal();
@@ -440,7 +441,15 @@
                 renderProducts();
             }
         }
-
+function filterKategori(kat) {
+    const allProducts = JSON.parse(localStorage.getItem('shaneProducts')) || products;
+    if (kat === 'semua') {
+        renderProducts(allProducts);
+        return;
+    }
+    const filtered = allProducts.filter(p => p.category === kat);
+    renderProducts(filtered);
+}
         window.onload = renderProducts;
     </script>
 </body>
