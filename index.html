@@ -355,22 +355,32 @@
             });
         }
 
-        function toggleAdminMode() {
-            isAdmin = !isAdmin;
-            const btn = document.getElementById('adminToggleBtn');
-            const addBtn = document.getElementById('addProductBtn');
-
-            if(isAdmin) {
-                btn.innerHTML = '<i class="fa-solid fa-unlock text-green-400 mr-1"></i> Mode Admin: ON';
-                btn.className = "w-full py-2 bg-green-900 text-green-200 text-xs rounded text-center font-bold";
-                addBtn.classList.remove('hidden');
-            } else {
-                btn.innerHTML = '<i class="fa-solid fa-lock mr-1"></i> Mode Admin: OFF';
-                btn.className = "w-full py-2 bg-slate-800 text-gray-300 text-xs rounded text-center font-bold";
-                addBtn.classList.add('hidden');
-            }
-            renderProducts();
+      function toggleAdminMode() {
+    // Jika posisi sekarang sedang OFF, minta password dulu
+    if (!isAdmin) {
+        const password = prompt("Masukkan password Admin:");
+        if (password !== "240785") { // Ganti 240785 dengan password pilihan Anda
+            alert("Password salah!");
+            return; // Hentikan fungsi jika password salah
         }
+    }
+
+    // Ubah status ON/OFF jika password benar (atau jika sedang mematikan Mode Admin)
+    isAdmin = !isAdmin;
+    const btn = document.getElementById('adminToggleBtn');
+    const addBtn = document.getElementById('addProductBtn');
+
+    if (isAdmin) {
+        btn.innerHTML = '<i class="fa-solid fa-unlock text-green-400 mr-1"></i> Mode Admin: ON';
+        btn.className = "w-full py-2 bg-green-900 text-green-200 text-xs rounded text-center font-bold";
+        addBtn.classList.remove('hidden');
+    } else {
+        btn.innerHTML = '<i class="fa-solid fa-lock mr-1"></i> Mode Admin: OFF';
+        btn.className = "w-full py-2 bg-slate-800 text-gray-300 text-xs rounded text-center font-bold";
+        addBtn.classList.add('hidden');
+    }
+    renderProducts();
+}
 
         function openProductModal() { document.getElementById('productModal').classList.remove('hidden'); }
         function closeProductModal() { document.getElementById('productModal').classList.add('hidden'); }
