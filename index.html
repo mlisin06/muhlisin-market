@@ -148,6 +148,15 @@
             <!-- SEKSI 2: PRODUK TOKO / KATALOG -->
             <section id="terlaris" class="mb-8">
                 <div class="flex justify-between items-center mb-4">
+                    <!-- Kotak Pencarian Produk -->
+<div class="mb-6 max-w-md mx-auto">
+    <div class="relative">
+        <input type="text" id="searchInput" onkeyup="searchProducts()" placeholder="Cari produk di Muhlisin Market..." class="w-full pl-10 pr-4 py-2.5 rounded-xl border border-slate-200 focus:outline-none focus:ring-2 focus:ring-amber-500 bg-white text-slate-800 shadow-sm text-sm">
+        <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none text-slate-400">
+            <i class="fa-solid fa-magnifying-glass"></i>
+        </div>
+    </div>
+</div>
                     <h3 class="text-xl font-bold text-slate-800 flex items-center gap-2">
                         <i class="fa-solid fa-fire text-orange-500"></i> Daftar Produk Toko
                     </h3>
@@ -452,6 +461,17 @@ function filterKategori(kat) {
         return;
     }
     const filtered = allProducts.filter(p => p.category === kat);
+    renderProducts(filtered);
+}
+        function searchProducts() {
+    const query = document.getElementById('searchInput').value.toLowerCase();
+    const allProducts = JSON.parse(localStorage.getItem('shaneProducts')) || (typeof products !== 'undefined' ? products : []);
+    
+    const filtered = allProducts.filter(p => 
+        (p.title && p.title.toLowerCase().includes(query)) || 
+        (p.category && p.category.toLowerCase().includes(query))
+    );
+    
     renderProducts(filtered);
 }
         window.onload = renderProducts;
