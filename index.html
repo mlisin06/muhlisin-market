@@ -211,7 +211,7 @@
             container.innerHTML += `
               <div class="bg-slate-800 p-3 rounded-xl border border-slate-700 flex flex-col justify-between hover:border-amber-400 transition">
                 <div>
-                  <img src="${foto || 'https://via.placeholder.com/300'}" alt="${nama}" class="w-full h-36 object-cover rounded-lg mb-2" onerror="this.src='https://via.placeholder.com/300?text=No+Image'">
+               <img src="${foto || 'https://via.placeholder.com/300'}" alt="${nama}" class="w-full h-auto max-h-80 object-contain rounded-lg mb-2">
                   <span class="text-[10px] font-bold px-2 py-0.5 rounded ${badgeBg}">${platform || 'Produk'}</span>
                   <h4 class="font-bold text-white text-xs mt-1 line-clamp-2">${nama}</h4>
                   <p class="text-amber-400 font-bold text-sm mt-1">${harga}</p>
