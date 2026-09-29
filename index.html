@@ -385,9 +385,10 @@
         const card = document.createElement('div');
         card.className = "bg-white rounded-xl shadow-sm overflow-hidden border border-gray-100 hover:shadow-md transition";
         card.innerHTML = `
-            <div class="relative">
-                <span class="absolute top-2 left-2 bg-red-500 text-white text-xs font-bold px-2 py-1 rounded uppercase">${p.category || 'PROMO'}</span>
-                <img src="${p.img || 'https://images.unsplash.com/photo-1523275335684-37898b6baf30?w=500'}" class="w-full h-auto object-contain">
+           <div class="relative w-full bg-slate-800 rounded-lg overflow-hidden flex items-center justify-center">
+  <span class="...">...</span>
+  <img src="${p.img || 'https://images.unsplash.com/photo-1523275335684-37898b6baf30?w=500'}" class="w-full h-auto max-h-80 object-contain rounded-lg">
+</div>
                 ${isAdmin ? `
                     <button onclick="deleteProduct(${p.id})" class="absolute top-2 right-2 bg-red-600 text-white p-2 rounded-lg text-xs font-bold shadow hover:bg-red-700">
                         <i class="fa-solid fa-trash"></i> Hapus
