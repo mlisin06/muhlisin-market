@@ -387,7 +387,7 @@
         card.innerHTML = `
             <div class="relative">
                 <span class="absolute top-2 left-2 bg-red-500 text-white text-xs font-bold px-2 py-1 rounded uppercase">${p.category || 'PROMO'}</span>
-                <img src="${p.img || 'https://images.unsplash.com/photo-1523275335684-37898b6baf30?w=500'}" class="w-full h-64 object-contain">
+                <img src="${p.img || 'https://images.unsplash.com/photo-1523275335684-37898b6baf30?w=500'}" class="w-full h-auto object-contain">
                 ${isAdmin ? `
                     <button onclick="deleteProduct(${p.id})" class="absolute top-2 right-2 bg-red-600 text-white p-2 rounded-lg text-xs font-bold shadow hover:bg-red-700">
                         <i class="fa-solid fa-trash"></i> Hapus
