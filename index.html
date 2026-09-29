@@ -472,13 +472,15 @@ const category = document.getElementById('prodCategory') ? document.getElementBy
             }
         }
 function filterKategori(kat) {
-    const allProducts = JSON.parse(localStorage.getItem('shaneProducts')) || products;
-    if (kat === 'semua') {
-        renderProducts(allProducts);
-        return;
+  const cards = document.querySelectorAll('.product-card');
+  cards.forEach(card => {
+    const cardKat = card.getAttribute('data-kategori') || '';
+    if (kat === 'semua' || cardKat.trim().toLowerCase() === kat.trim().toLowerCase()) {
+      card.style.display = 'flex';
+    } else {
+      card.style.display = 'none';
     }
-    const filtered = allProducts.filter(p => p.category === kat);
-    renderProducts(filtered);
+  });
 }
         function searchProducts() {
     const query = document.getElementById('searchInput').value.toLowerCase();
