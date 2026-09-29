@@ -197,19 +197,24 @@
       rows.forEach(row => {
         const cols = row.split(',');
         if (cols.length >= 5) {
-          const [nama, harga, platform, foto, link] = cols.map(c => c.trim().replace(/^"|"$/g, ''));
+         const [nama, harga, platform, foto, link, kategori] = cols.map(c => c.trim().replace(/^"|"$/g, ''));
           
           if(nama && link) {
             count++;
-            const isShopee = platform.toLowerCase().includes('shopee');
-            const isTokped = platform.toLowerCase().includes('tokopedia');
-            
-            let badgeBg = 'bg-black text-white border border-gray-600';
-            if (isShopee) badgeBg = 'bg-orange-600 text-white';
-            if (isTokped) badgeBg = 'bg-emerald-600 text-white';
+           const plat = (platform || '').toLowerCase();
+
+let badgeBg = 'bg-slate-700 text-white'; // Warna default jika platform lain
+
+if (plat.includes('shopee')) {
+  badgeBg = 'bg-orange-500 text-white';  // Warna Oranye Shopee
+} else if (plat.includes('tokopedia') || plat.includes('tokped')) {
+  badgeBg = 'bg-emerald-600 text-white'; // Warna Hijau Tokopedia
+} else if (plat.includes('tiktok')) {
+  badgeBg = 'bg-black text-white border border-gray-600'; // Warna Hitam TikTok
+}
 
             container.innerHTML += `
-              <div class="bg-slate-800 p-3 rounded-xl border border-slate-700 flex flex-col justify-between hover:border-amber-400 transition">
+              <div class="product-card bg-slate-800 p-3 rounded-xl border border-slate-700 flex flex-col justify-between hover:border-amber-400 transition" data-kategori="${kategori}">
                 <div>
                <img src="${foto || 'https://via.placeholder.com/300'}" alt="${nama}" class="w-full h-auto max-h-80 object-contain rounded-lg mb-2">
                   <span class="text-[10px] font-bold px-2 py-0.5 rounded ${badgeBg}">${platform || 'Produk'}</span>
