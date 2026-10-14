@@ -1,0 +1,237 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Panel Admin - Muhlisin Market</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    
+    <!-- FIREBASE SDK -->
+    <script src="https://www.gstatic.com/firebasejs/9.22.1/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.22.1/firebase-database-compat.js"></script>
+</head>
+<body class="bg-slate-900 text-gray-100 font-sans min-h-screen">
+
+    <!-- LOGIN SCREEN -->
+    <div id="loginScreen" class="fixed inset-0 bg-slate-950 flex items-center justify-center p-4 z-50">
+        <div class="bg-slate-900 border border-slate-800 p-8 rounded-2xl max-w-sm w-full shadow-2xl space-y-4">
+            <div class="text-center space-y-2">
+                <i class="fa-solid fa-shield-halved text-4xl text-amber-400"></i>
+                <h2 class="text-xl font-bold text-white">Login Admin Market</h2>
+                <p class="text-xs text-gray-400">Masukkan PIN Admin untuk mengelola toko</p>
+            </div>
+            <div>
+                <input type="password" id="adminPin" placeholder="Masukkan Password Admin" class="w-full bg-slate-800 border border-slate-700 rounded-xl p-3 text-center text-sm font-bold tracking-widest text-white outline-none focus:ring-2 focus:ring-amber-500">
+            </div>
+            <button onclick="checkAuth()" class="w-full bg-amber-500 hover:bg-amber-600 text-slate-950 font-bold py-3 rounded-xl transition text-sm">
+                Masuk ke Panel Admin
+            </button>
+        </div>
+    </div>
+
+    <!-- MAIN ADMIN DASHBOARD -->
+    <div id="adminPanel" class="hidden min-h-screen flex flex-col md:flex-row">
+        
+        <!-- Sidebar Navigation -->
+        <aside class="w-full md:w-64 bg-slate-950 p-6 border-b md:border-b-0 md:border-r border-slate-800 shrink-0">
+            <div class="flex items-center gap-3 mb-8">
+                <i class="fa-solid fa-store text-2xl text-amber-400"></i>
+                <h1 class="font-bold text-lg text-white">Admin Dashboard</h1>
+            </div>
+            <nav class="space-y-2 text-sm">
+                <button onclick="showTab('produk')" class="w-full flex items-center gap-3 px-4 py-3 rounded-xl bg-amber-500 text-slate-950 font-bold hover:bg-amber-400 transition">
+                    <i class="fa-solid fa-box-open"></i> Kelola Produk
+                </button>
+                <button onclick="showTab('kontak')" class="w-full flex items-center gap-3 px-4 py-3 rounded-xl hover:bg-slate-800 transition text-gray-300">
+                    <i class="fa-solid fa-address-book"></i> Info Kontak & Sosmed
+                </button>
+                <a href="index.html" target="_blank" class="w-full flex items-center gap-3 px-4 py-3 rounded-xl hover:bg-slate-800 transition text-gray-300">
+                    <i class="fa-solid fa-arrow-up-right-from-square"></i> Lihat Website
+                </a>
+            </nav>
+            <div class="mt-10 border-t border-slate-800 pt-4">
+                <button onclick="location.reload()" class="w-full py-2 bg-red-900/50 hover:bg-red-800 text-red-200 text-xs font-bold rounded-xl transition">
+                    <i class="fa-solid fa-right-from-bracket mr-1"></i> Keluar / Logout
+                </button>
+            </div>
+        </aside>
+
+        <!-- Main Content Area -->
+        <main class="flex-1 p-6 md:p-8 overflow-y-auto">
+            
+            <!-- SECTION 1: KELOLA PRODUK -->
+            <div id="tabProduk" class="space-y-6">
+                <div class="flex justify-between items-center bg-slate-800 p-4 rounded-xl border border-slate-700">
+                    <div>
+                        <h2 class="text-xl font-bold text-white">Manajemen Katalog Produk</h2>
+                        <p class="text-xs text-gray-400">Tambah atau hapus produk di Firebase secara real-time</p>
+                    </div>
+                </div>
+
+                <!-- Form Tambah Produk -->
+                <div class="bg-slate-800/80 p-6 rounded-2xl border border-slate-700 space-y-4">
+                    <h3 class="font-bold text-amber-400 text-sm flex items-center gap-2">
+                        <i class="fa-solid fa-plus-circle"></i> Form Tambah Produk Baru
+                    </h3>
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-4 text-xs">
+                        <div>
+                            <label class="block text-gray-300 font-bold mb-1">Nama Produk</label>
+                            <input type="text" id="pTitle" placeholder="Contoh: Kemeja Unisex Premium" class="w-full bg-slate-900 border border-slate-700 rounded-xl p-3 text-white outline-none focus:ring-2 focus:ring-amber-500">
+                        </div>
+                        <div>
+                            <label class="block text-gray-300 font-bold mb-1">Harga Jual</label>
+                            <input type="text" id="pPrice" placeholder="Contoh: Rp 120.000" class="w-full bg-slate-900 border border-slate-700 rounded-xl p-3 text-white outline-none focus:ring-2 focus:ring-amber-500">
+                        </div>
+                        <div>
+                            <label class="block text-gray-300 font-bold mb-1">Kategori</label>
+                            <select id="pCategory" class="w-full bg-slate-900 border border-slate-700 rounded-xl p-3 text-white outline-none focus:ring-2 focus:ring-amber-500">
+                                <option value="pakaian">Pakaian Anak & Dewasa</option>
+                                <option value="hijab">Hijab</option>
+                                <option value="rumah-tangga">Alat Rumah Tangga</option>
+                                <option value="perlengkapan-sekolah">Perlengkapan Sekolah</option>
+                                <option value="parfum">Parfum</option>
+                            </select>
+                        </div>
+                        <div>
+                            <label class="block text-gray-300 font-bold mb-1">URL Link Gambar/Foto</label>
+                            <input type="text" id="pImg" placeholder="https://i.postimg.cc/..." class="w-full bg-slate-900 border border-slate-700 rounded-xl p-3 text-white outline-none focus:ring-2 focus:ring-amber-500">
+                        </div>
+                        <div class="md:col-span-2">
+                            <label class="block text-gray-300 font-bold mb-1">Link Pembelian / Shopee / WA</label>
+                            <input type="text" id="pLink" placeholder="https://shopee.co.id/..." class="w-full bg-slate-900 border border-slate-700 rounded-xl p-3 text-white outline-none focus:ring-2 focus:ring-amber-500">
+                        </div>
+                    </div>
+                    <button onclick="addProductToFirebase()" class="bg-amber-500 hover:bg-amber-400 text-slate-950 font-bold text-xs px-6 py-3 rounded-xl transition">
+                        <i class="fa-solid fa-save mr-1"></i> Simpan Produk ke Firebase
+                    </button>
+                </div>
+
+                <!-- List Produk Aktif -->
+                <div class="space-y-3">
+                    <h3 class="font-bold text-white text-sm">Daftar Produk Terpasang</h3>
+                    <div id="adminProductList" class="grid grid-cols-1 md:grid-cols-3 gap-4">
+                        <p class="text-xs text-gray-500 col-span-full">Memuat produk dari Firebase...</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- SECTION 2: KELOLA KONTAK -->
+            <div id="tabKontak" class="hidden space-y-6">
+                <div class="bg-slate-800 p-6 rounded-2xl border border-slate-700 space-y-4">
+                    <h3 class="font-bold text-amber-400 text-sm">Pengaturan Nomor WA & Sosial Media</h3>
+                    <div class="space-y-3 text-xs">
+                        <div>
+                            <label class="block text-gray-300 font-bold mb-1">Nomor WhatsApp Utama (Format 628...)</label>
+                            <input type="text" id="cfgWa" value="62895422768896" class="w-full bg-slate-900 border border-slate-700 rounded-xl p-3 text-white">
+                        </div>
+                        <div>
+                            <label class="block text-gray-300 font-bold mb-1">Username Instagram</label>
+                            <input type="text" id="cfgIg" value="@shane_feela" class="w-full bg-slate-900 border border-slate-700 rounded-xl p-3 text-white">
+                        </div>
+                        <div>
+                            <label class="block text-gray-300 font-bold mb-1">Username TikTok</label>
+                            <input type="text" id="cfgTiktok" value="@shane_feela" class="w-full bg-slate-900 border border-slate-700 rounded-xl p-3 text-white">
+                        </div>
+                    </div>
+                    <button onclick="saveContactConfig()" class="bg-amber-500 hover:bg-amber-400 text-slate-950 font-bold text-xs px-6 py-3 rounded-xl transition">
+                        Update Informasi Kontak
+                    </button>
+                </div>
+            </div>
+
+        </main>
+    </div>
+
+    <!-- SCRIPT FIREBASE LOGIC -->
+    <script>
+        const firebaseConfig = {
+            databaseURL: "https://muhlisin-market-default-rtdb.asia-southeast1.firebasedatabase.app/"
+        };
+
+        firebase.initializeApp(firebaseConfig);
+        const db = firebase.database();
+
+        function checkAuth() {
+            const pin = document.getElementById('adminPin').value;
+            if (pin === "240785") {
+                document.getElementById('loginScreen').classList.add('hidden');
+                document.getElementById('adminPanel').classList.remove('hidden');
+                loadAdminProducts();
+            } else {
+                alert("PIN Admin Salah!");
+            }
+        }
+
+        function showTab(tab) {
+            document.getElementById('tabProduk').classList.toggle('hidden', tab !== 'produk');
+            document.getElementById('tabKontak').classList.toggle('hidden', tab !== 'kontak');
+        }
+
+        function addProductToFirebase() {
+            const title = document.getElementById('pTitle').value;
+            const price = document.getElementById('pPrice').value;
+            const category = document.getElementById('pCategory').value;
+            const img = document.getElementById('pImg').value;
+            const link = document.getElementById('pLink').value || 'https://wa.me/62895422768896';
+
+            if (!title || !price) return alert("Nama dan harga barang wajib diisi!");
+
+            db.ref('products').push({
+                title, price, category, img, link, createdAt: Date.now()
+            }).then(() => {
+                alert("Produk berhasil ditambahkan!");
+                document.getElementById('pTitle').value = '';
+                document.getElementById('pPrice').value = '';
+                document.getElementById('pImg').value = '';
+                document.getElementById('pLink').value = '';
+            });
+        }
+
+        function loadAdminProducts() {
+            db.ref('products').on('value', (snapshot) => {
+                const data = snapshot.val();
+                const list = document.getElementById('adminProductList');
+                list.innerHTML = '';
+
+                if (data) {
+                    Object.keys(data).forEach(id => {
+                        const p = data[id];
+                        list.innerHTML += `
+                            <div class="bg-slate-800 p-4 rounded-xl border border-slate-700 flex flex-col justify-between space-y-3">
+                                <img src="${p.img || 'https://via.placeholder.com/150'}" class="w-full h-32 object-cover rounded-lg">
+                                <div>
+                                    <span class="text-[10px] bg-amber-500/20 text-amber-400 font-bold px-2 py-0.5 rounded uppercase">${p.category || 'Umum'}</span>
+                                    <h4 class="font-bold text-white text-sm mt-1">${p.title}</h4>
+                                    <p class="text-amber-400 font-bold text-xs">${p.price}</p>
+                                </div>
+                                <button onclick="deleteProduct('${id}')" class="bg-red-600/20 hover:bg-red-600 text-red-300 hover:text-white border border-red-600/30 text-xs font-bold py-2 rounded-lg transition">
+                                    <i class="fa-solid fa-trash"></i> Hapus Produk
+                                </button>
+                            </div>
+                        `;
+                    });
+                } else {
+                    list.innerHTML = '<p class="text-xs text-gray-500 col-span-full">Belum ada produk di database.</p>';
+                }
+            });
+        }
+
+        function deleteProduct(id) {
+            if (confirm("Hapus produk ini dari database?")) {
+                db.ref('products/' + id).remove();
+            }
+        }
+
+        function saveContactConfig() {
+            const wa = document.getElementById('cfgWa').value;
+            const ig = document.getElementById('cfgIg').value;
+            const tiktok = document.getElementById('cfgTiktok').value;
+
+            db.ref('config/contact').set({ wa, ig, tiktok }).then(() => {
+                alert("Konfigurasi kontak berhasil disimpan!");
+            });
+        }
+    </script>
+</body>
+</html>
