@@ -7,7 +7,7 @@
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
     
-    <!-- 1. SCRIPT FIREBASE SDK (COMPAT VERSION) -->
+    <!-- FIREBASE SDK -->
     <script src="https://www.gstatic.com/firebasejs/9.22.1/firebase-app-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/9.22.1/firebase-database-compat.js"></script>
 
@@ -165,7 +165,7 @@
                     </div>
                 </div>
                 <div id="productGrid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-                    <!-- Produk Ditampilkan Lewat Firebase / JavaScript -->
+                    <!-- Produk Ditampilkan Lewat Firebase -->
                 </div>
             </section>
 
@@ -297,25 +297,19 @@
 
     <!-- LOGIKA SISTEM SCRIPT FIREBASE -->
     <script>
-        // 2. PASTE CONFIG FIREBASE ANDA DI SINI
+        // CONFIG FIREBASE SINKRON DENGAN DATABASE ASIA SOUTHEAST 1 ANDA
         const firebaseConfig = {
-            apiKey: "AIzaSyXXXXXX_PASTE_API_KEY_ANDA",
-            authDomain: "muhlisin-market.firebaseapp.com",
-            databaseURL: "https://muhlisin-market-default-rtdb.firebaseio.com",
-            projectId: "muhlisin-market",
-            storageBucket: "muhlisin-market.appspot.com",
-            messagingSenderId: "1234567890",
-            appId: "1:1234567890:web:abcdef123456"
+            databaseURL: "https://muhlisin-market-default-rtdb.asia-southeast1.firebasedatabase.app/"
         };
 
-        // Inisialisasi Firebase
+        // Inisialisasi Firebase Database
         firebase.initializeApp(firebaseConfig);
         const db = firebase.database();
 
         let isAdmin = false;
         let products = [];
 
-        // AMBIL DATA DARI FIREBASE SECARA REALTIME
+        // AMBIL DATA PRODUK REALTIME DARI FIREBASE
         db.ref('products').on('value', (snapshot) => {
             const data = snapshot.val();
             products = [];
@@ -336,7 +330,7 @@
 
             list.forEach(p => {
                 const card = document.createElement('div');
-                card.className = "product-card bg-white rounded-xl shadow-sm overflow-hidden border border-gray-100 hover:shadow-md transition" ;
+                card.className = "product-card bg-white rounded-xl shadow-sm overflow-hidden border border-gray-100 hover:shadow-md transition";
                 card.setAttribute('data-kategori', p.category || '');
                 card.innerHTML = `
                     <div class="relative w-full bg-slate-800 rounded-t-lg overflow-hidden flex items-center justify-center p-2">
@@ -390,7 +384,7 @@
         function openProductModal() { document.getElementById('productModal').classList.remove('hidden'); }
         function closeProductModal() { document.getElementById('productModal').classList.add('hidden'); }
 
-        // SIMPAN PRODUK LANGSUNG KE FIREBASE
+        // MENGIRIM PRODUK BARU KE DATABASE FIREBASE
         function saveProduct() {
             const title = document.getElementById('prodTitle').value;
             const price = document.getElementById('prodPrice').value;
@@ -400,7 +394,6 @@
 
             if(!title || !price) return alert("Nama barang dan harga wajib diisi!");
 
-            // Push data ke Firebase Database
             db.ref('products').push({
                 title: title,
                 price: price,
@@ -419,9 +412,9 @@
             });
         }
 
-        // HAPUS PRODUK DARI FIREBASE
+        // MENGHAPUS PRODUK DARI DATABASE FIREBASE
         function deleteProduct(id) {
-            if(confirm("Apakah Anda yakin ingin menghapus barang ini?")) {
+            if(confirm("Apakah Anda yakin ingin menghapus barang ini dari Firebase?")) {
                 db.ref('products/' + id).remove();
             }
         }
