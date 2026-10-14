@@ -46,9 +46,6 @@
                     <a href="#terlaris" class="flex items-center gap-3 px-4 py-2.5 rounded-lg hover:bg-slate-800 transition text-gray-300">
                         <i class="fa-solid fa-fire text-orange-500"></i> Produk Terlaris
                     </a>
-                    <a href="#afiliasi" class="flex items-center gap-3 px-4 py-2.5 rounded-lg hover:bg-slate-800 transition text-gray-300">
-                        <i class="fa-solid fa-link text-purple-400"></i> Rekomendasi Afiliasi
-                    </a>
                     
                     <!-- Menu Dropdown Pilihan Produk -->
                     <details class="group">
@@ -61,6 +58,7 @@
                         </summary>
                         
                         <div class="pl-9 pr-2 py-2 space-y-1 text-sm text-gray-400">
+                            <button onclick="filterKategori('semua')" class="w-full text-left block py-1.5 px-3 rounded hover:bg-slate-800 hover:text-white transition">Semua Produk</button>
                             <button onclick="filterKategori('pakaian')" class="w-full text-left block py-1.5 px-3 rounded hover:bg-slate-800 hover:text-white transition">Pakaian Anak & Dewasa</button>
                             <button onclick="filterKategori('hijab')" class="w-full text-left block py-1.5 px-3 rounded hover:bg-slate-800 hover:text-white transition">Hijab</button>
                             <button onclick="filterKategori('rumah-tangga')" class="w-full text-left block py-1.5 px-3 rounded hover:bg-slate-800 hover:text-white transition">Alat Rumah Tangga</button>
@@ -69,9 +67,6 @@
                         </div>
                     </details>
 
-                    <a href="#diskon" class="flex items-center gap-3 px-4 py-2.5 rounded-lg hover:bg-slate-800 transition text-gray-300">
-                        <i class="fa-solid fa-tags text-green-400"></i> Promo & Diskon
-                    </a>
                     <a href="#testimoni" class="flex items-center gap-3 px-4 py-2.5 rounded-lg hover:bg-slate-800 transition text-gray-300">
                         <i class="fa-solid fa-star text-yellow-400"></i> Testimoni Klien
                     </a>
@@ -81,9 +76,9 @@
                 </nav>
             </div>
             <div class="border-t border-slate-800 pt-4">
-                <button id="adminToggleBtn" onclick="toggleAdminMode()" class="w-full py-2 bg-slate-800 hover:bg-slate-700 text-xs text-gray-300 rounded text-center font-bold">
-                    <i class="fa-solid fa-lock mr-1"></i> Mode Admin: OFF
-                </button>
+                <a href="admin.html" target="_blank" class="block w-full py-2 bg-slate-800 hover:bg-slate-700 text-xs text-amber-400 rounded text-center font-bold">
+                    <i class="fa-solid fa-user-gear mr-1"></i> Buka Panel Admin
+                </a>
             </div>
         </aside>
 
@@ -97,10 +92,7 @@
                     <p class="text-sm text-gray-500">Pusat Belanja & Penawaran Rekomendasi Produk Pilihan</p>
                 </div>
                 <div class="flex items-center gap-3">
-                    <button id="addProductBtn" onclick="openProductModal()" class="admin-only hidden bg-amber-500 hover:bg-amber-600 text-slate-900 px-4 py-2 rounded-lg text-sm font-bold flex items-center gap-2 transition">
-                        <i class="fa-solid fa-plus"></i> Tambah Produk
-                    </button>
-                    <a href="https://wa.me/62895422768896" target="_blank" class="bg-green-600 hover:bg-green-700 text-white px-4 py-2 rounded-lg text-sm font-semibold flex items-center gap-2 transition">
+                    <a id="headerWaBtn" href="https://wa.me/62895422768896" target="_blank" class="bg-green-600 hover:bg-green-700 text-white px-4 py-2 rounded-lg text-sm font-semibold flex items-center gap-2 transition">
                         <i class="fa-brands fa-whatsapp text-lg"></i> Hubungi WA
                     </a>
                 </div>
@@ -152,20 +144,23 @@
                 </div>
             </section>
 
-            <!-- SEKSI 2: PRODUK TOKO / KATALOG -->
+            <!-- SEKSI 2: PRODUK TOKO / KATALOG FIREBASE -->
             <section id="terlaris" class="mb-8">
-                <div class="flex justify-between items-center mb-4">
-                    <div class="mb-6 max-w-md mx-auto w-full">
+                <div class="flex flex-col md:flex-row justify-between items-center mb-4 gap-4">
+                    <h3 class="text-xl font-bold text-slate-800 flex items-center gap-2 shrink-0">
+                        <i class="fa-solid fa-fire text-orange-500"></i> Rekomendasi Produk Terbaik
+                    </h3>
+                    <div class="w-full md:max-w-xs">
                         <div class="relative">
-                            <input type="text" id="searchInput" onkeyup="searchProducts()" placeholder="Cari produk di Muhlisin Market..." class="w-full pl-10 pr-4 py-2.5 rounded-xl border border-slate-200 focus:outline-none focus:ring-2 focus:ring-amber-500 bg-white text-slate-800 shadow-sm text-sm">
+                            <input type="text" id="searchInput" onkeyup="searchProducts()" placeholder="Cari produk..." class="w-full pl-10 pr-4 py-2 rounded-xl border border-slate-200 focus:outline-none focus:ring-2 focus:ring-amber-500 bg-white text-slate-800 shadow-sm text-sm">
                             <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none text-slate-400">
-                                <i class="fa-solid fa-magnifying-glass"></i>
+                                <i class="fa-solid fa-magnifying-glass text-xs"></i>
                             </div>
                         </div>
                     </div>
                 </div>
                 <div id="productGrid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-                    <!-- Produk Ditampilkan Lewat Firebase -->
+                    <p class="text-gray-400 text-xs col-span-full py-4 text-center">Memuat produk dari Firebase...</p>
                 </div>
             </section>
 
@@ -173,7 +168,7 @@
             <section class="mb-8 bg-slate-900 text-white p-6 rounded-xl shadow-md">
                 <div class="flex items-center justify-between mb-4">
                     <h3 class="text-lg font-bold text-white flex items-center gap-2">
-                        <i class="fa-solid fa-store text-amber-400"></i> Semua Produk Kami (Google Sheets)
+                        <i class="fa-solid fa-store text-amber-400"></i> Katalog Tambahan (Google Sheets)
                     </h3>
                     <span class="text-xs text-gray-400">Update Otomatis</span>
                 </div>
@@ -199,7 +194,7 @@
                         <div class="flex text-yellow-400 text-sm mb-2">
                             <i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i>
                         </div>
-                        <p class="text-sm text-gray-600 italic">"Dapat potongan diskon 20rb lumayan banget. Barangnya berfungsi dengan baik!"</p>
+                        <p class="text-sm text-gray-600 italic">"Dapat potongan diskon lumayan banget. Barangnya berfungsi dengan baik!"</p>
                         <p class="text-xs font-bold text-slate-800 mt-2">— Siti Rahma, Semarang</p>
                     </div>
                 </div>
@@ -230,14 +225,14 @@
                             Punya pertanyaan seputar produk atau kerja sama afiliasi? Jangan ragu untuk langsung berkonsultasi via WhatsApp.
                         </p>
                         <div class="space-y-2 text-xs">
-                            <a href="https://wa.me/62895422768896" target="_blank" class="flex items-center gap-3 text-green-600 font-semibold hover:underline">
-                                <i class="fa-brands fa-whatsapp text-lg"></i> +62 895422768896
+                            <a id="cntWa" href="https://wa.me/62895422768896" target="_blank" class="flex items-center gap-3 text-green-600 font-semibold hover:underline">
+                                <i class="fa-brands fa-whatsapp text-lg"></i> <span id="cntWaText">+62 895422768896</span>
                             </a>
-                            <a href="https://instagram.com" target="_blank" class="flex items-center gap-3 text-pink-600 font-semibold hover:underline">
-                                <i class="fa-brands fa-instagram text-lg"></i> @shane_feela
+                            <a id="cntIg" href="https://instagram.com" target="_blank" class="flex items-center gap-3 text-pink-600 font-semibold hover:underline">
+                                <i class="fa-brands fa-instagram text-lg"></i> <span id="cntIgText">@shane_feela</span>
                             </a>
-                            <a href="https://tiktok.com" target="_blank" class="flex items-center gap-3 text-black font-semibold hover:underline">
-                                <i class="fa-brands fa-tiktok text-lg"></i> @shane_feela
+                            <a id="cntTiktok" href="https://tiktok.com" target="_blank" class="flex items-center gap-3 text-black font-semibold hover:underline">
+                                <i class="fa-brands fa-tiktok text-lg"></i> <span id="cntTiktokText">@shane_feela</span>
                             </a>
                         </div>
                     </div>
@@ -251,65 +246,18 @@
         </main>
     </div>
 
-    <!-- POPUP MODAL TAMBAH PRODUK -->
-    <div id="productModal" class="fixed inset-0 bg-slate-900 bg-opacity-50 backdrop-blur-sm z-50 flex items-center justify-center hidden p-4">
-        <div class="bg-white rounded-2xl shadow-xl max-w-md w-full p-6 space-y-4">
-            <div class="flex items-center justify-between border-b pb-3">
-                <h3 class="font-bold text-slate-900 text-lg">Tambah Produk Baru</h3>
-                <button onclick="closeProductModal()" class="text-gray-400 hover:text-gray-600"><i class="fa-solid fa-xmark text-xl"></i></button>
-            </div>
-            
-            <div class="space-y-3 text-xs">
-                <div>
-                    <label class="block font-bold text-gray-700 mb-1">Nama Barang</label>
-                    <input type="text" id="prodTitle" placeholder="Contoh: Sepatu Casual" class="w-full bg-gray-50 border rounded-xl p-2.5 outline-none focus:ring-2 focus:ring-amber-500">
-                </div>
-                <div>
-                    <label class="block font-bold text-gray-700 mb-1">Harga Diskon / Harga Jual</label>
-                    <input type="text" id="prodPrice" placeholder="Contoh: Rp 150.000" class="w-full bg-gray-50 border rounded-xl p-2.5 outline-none focus:ring-2 focus:ring-amber-500">
-                </div>
-                <div>
-                    <label class="block font-bold text-gray-700 mb-1">Kategori Produk</label>
-                    <select id="prodCategory" class="w-full bg-gray-50 border rounded-xl p-2.5 outline-none focus:ring-2 focus:ring-amber-500 text-sm">
-                        <option value="pakaian">Pakaian Anak & Dewasa</option>
-                        <option value="hijab">Hijab</option>
-                        <option value="rumah-tangga">Alat Rumah Tangga</option>
-                        <option value="perlengkapan-sekolah">Perlengkapan Sekolah</option>
-                        <option value="parfum">Parfum</option>
-                    </select>
-                </div>
-                <div>
-                    <label class="block font-bold text-gray-700 mb-1">URL Link Gambar Barang</label>
-                    <input type="text" id="prodImg" placeholder="Tempel link foto produk" class="w-full bg-gray-50 border rounded-xl p-2.5 outline-none focus:ring-2 focus:ring-amber-500">
-                </div>
-                <div>
-                    <label class="block font-bold text-gray-700 mb-1">Link Pembelian / WhatsApp</label>
-                    <input type="text" id="prodLink" placeholder="Link WhatsApp / Shopee Anda" class="w-full bg-gray-50 border rounded-xl p-2.5 outline-none focus:ring-2 focus:ring-amber-500">
-                </div>
-            </div>
-
-            <div class="flex justify-end gap-2 pt-2">
-                <button onclick="closeProductModal()" class="px-4 py-2 border text-gray-600 rounded-xl text-xs font-bold">Batal</button>
-                <button onclick="saveProduct()" class="px-4 py-2 bg-amber-500 text-slate-900 rounded-xl text-xs font-bold hover:bg-amber-600">Simpan Barang</button>
-            </div>
-        </div>
-    </div>
-
     <!-- LOGIKA SISTEM SCRIPT FIREBASE -->
     <script>
-        // CONFIG FIREBASE SINKRON DENGAN DATABASE ASIA SOUTHEAST 1 ANDA
         const firebaseConfig = {
             databaseURL: "https://muhlisin-market-default-rtdb.asia-southeast1.firebasedatabase.app/"
         };
 
-        // Inisialisasi Firebase Database
         firebase.initializeApp(firebaseConfig);
         const db = firebase.database();
 
-        let isAdmin = false;
         let products = [];
 
-        // AMBIL DATA PRODUK REALTIME DARI FIREBASE
+        // 1. LISTEN PRODUK DARI FIREBASE
         db.ref('products').on('value', (snapshot) => {
             const data = snapshot.val();
             products = [];
@@ -321,6 +269,25 @@
             renderProducts();
         });
 
+        // 2. LISTEN KONFIGURASI KONTAK DARI FIREBASE
+        db.ref('config/contact').on('value', (snapshot) => {
+            const cfg = snapshot.val();
+            if (cfg) {
+                if (cfg.wa) {
+                    const waUrl = "https://wa.me/" + cfg.wa;
+                    document.getElementById('headerWaBtn').href = waUrl;
+                    document.getElementById('cntWa').href = waUrl;
+                    document.getElementById('cntWaText').textContent = "+" + cfg.wa;
+                }
+                if (cfg.ig) {
+                    document.getElementById('cntIgText').textContent = cfg.ig;
+                }
+                if (cfg.tiktok) {
+                    document.getElementById('cntTiktokText').textContent = cfg.tiktok;
+                }
+            }
+        });
+
         function renderProducts(itemsToRender = null) {
             const productGrid = document.getElementById('productGrid');
             if (!productGrid) return;
@@ -328,25 +295,28 @@
             const list = itemsToRender || products;
             productGrid.innerHTML = '';
 
+            if (list.length === 0) {
+                productGrid.innerHTML = '<p class="text-gray-400 text-xs col-span-full py-4 text-center">Belum ada produk di database Firebase.</p>';
+                return;
+            }
+
             list.forEach(p => {
                 const card = document.createElement('div');
-                card.className = "product-card bg-white rounded-xl shadow-sm overflow-hidden border border-gray-100 hover:shadow-md transition";
+                card.className = "product-card bg-white rounded-xl shadow-sm overflow-hidden border border-gray-100 hover:shadow-md transition flex flex-col justify-between";
                 card.setAttribute('data-kategori', p.category || '');
                 card.innerHTML = `
-                    <div class="relative w-full bg-slate-800 rounded-t-lg overflow-hidden flex items-center justify-center p-2">
-                        <img src="${p.img || 'https://images.unsplash.com/photo-1523275335684-37898b6baf30?w=500'}" class="w-full h-auto max-h-80 object-contain rounded-lg">
-                        ${isAdmin ? `
-                            <button onclick="deleteProduct('${p.id}')" class="absolute top-2 right-2 bg-red-600 text-white p-2 rounded-lg text-xs font-bold shadow hover:bg-red-700">
-                                <i class="fa-solid fa-trash"></i> Hapus
-                            </button>
-                        ` : ''}
-                    </div>
-                    <div class="p-4">
-                        <h4 class="font-bold text-slate-800 text-lg">${p.title}</h4>
-                        <div class="flex items-center justify-between mt-3">
-                            <p class="text-amber-600 font-bold text-lg">${p.price}</p>
+                    <div>
+                        <div class="relative w-full bg-slate-800 rounded-t-lg overflow-hidden flex items-center justify-center p-2">
+                            <img src="${p.img || 'https://via.placeholder.com/300'}" class="w-full h-auto max-h-80 object-contain rounded-lg">
                         </div>
-                        <a href="${p.link || '#'}" target="_blank" class="block text-center mt-3 bg-slate-900 hover:bg-slate-800 text-white py-2 rounded-lg text-xs font-bold">Beli Sekarang</a>
+                        <div class="p-4">
+                            <span class="text-[10px] bg-amber-100 text-amber-800 font-bold px-2 py-0.5 rounded uppercase">${p.category || 'Umum'}</span>
+                            <h4 class="font-bold text-slate-800 text-lg mt-1">${p.title}</h4>
+                            <p class="text-amber-600 font-bold text-lg mt-1">${p.price}</p>
+                        </div>
+                    </div>
+                    <div class="p-4 pt-0">
+                        <a href="${p.link || '#'}" target="_blank" class="block text-center bg-slate-900 hover:bg-slate-800 text-white py-2 rounded-lg text-xs font-bold transition">Beli Sekarang <i class="fa-solid fa-arrow-up-right-from-square text-[10px] ml-1"></i></a>
                     </div>
                 `;
                 productGrid.appendChild(card);
@@ -356,75 +326,12 @@
             if (statTotal) statTotal.textContent = products.length + " Item";
         }
 
-        function toggleAdminMode() {
-            if (!isAdmin) {
-                const password = prompt("Masukkan password Admin:");
-                if (password !== "240785") {
-                    alert("Password salah!");
-                    return;
-                }
-            }
-
-            isAdmin = !isAdmin;
-            const btn = document.getElementById('adminToggleBtn');
-            const addBtn = document.getElementById('addProductBtn');
-
-            if (isAdmin) {
-                btn.innerHTML = '<i class="fa-solid fa-unlock text-green-400 mr-1"></i> Mode Admin: ON';
-                btn.className = "w-full py-2 bg-green-900 text-green-200 text-xs rounded text-center font-bold";
-                addBtn.classList.remove('hidden');
-            } else {
-                btn.innerHTML = '<i class="fa-solid fa-lock mr-1"></i> Mode Admin: OFF';
-                btn.className = "w-full py-2 bg-slate-800 text-gray-300 text-xs rounded text-center font-bold";
-                addBtn.classList.add('hidden');
-            }
-            renderProducts();
-        }
-
-        function openProductModal() { document.getElementById('productModal').classList.remove('hidden'); }
-        function closeProductModal() { document.getElementById('productModal').classList.add('hidden'); }
-
-        // MENGIRIM PRODUK BARU KE DATABASE FIREBASE
-        function saveProduct() {
-            const title = document.getElementById('prodTitle').value;
-            const price = document.getElementById('prodPrice').value;
-            const img = document.getElementById('prodImg').value;
-            const link = document.getElementById('prodLink').value || 'https://wa.me/62895422768896';
-            const category = document.getElementById('prodCategory') ? document.getElementById('prodCategory').value : 'pakaian';
-
-            if(!title || !price) return alert("Nama barang dan harga wajib diisi!");
-
-            db.ref('products').push({
-                title: title,
-                price: price,
-                img: img,
-                link: link,
-                category: category,
-                createdAt: Date.now()
-            }).then(() => {
-                closeProductModal();
-                document.getElementById('prodTitle').value = '';
-                document.getElementById('prodPrice').value = '';
-                document.getElementById('prodImg').value = '';
-                document.getElementById('prodLink').value = '';
-            }).catch((err) => {
-                alert("Gagal menyimpan ke Firebase: " + err.message);
-            });
-        }
-
-        // MENGHAPUS PRODUK DARI DATABASE FIREBASE
-        function deleteProduct(id) {
-            if(confirm("Apakah Anda yakin ingin menghapus barang ini dari Firebase?")) {
-                db.ref('products/' + id).remove();
-            }
-        }
-
         function filterKategori(kat) {
             const cards = document.querySelectorAll('#productGrid .product-card');
             cards.forEach(card => {
                 const cardKat = card.getAttribute('data-kategori') || '';
                 if (kat === 'semua' || cardKat.trim().toLowerCase() === kat.trim().toLowerCase()) {
-                    card.style.display = 'block';
+                    card.style.display = 'flex';
                 } else {
                     card.style.display = 'none';
                 }
