@@ -6,6 +6,11 @@
     <title>Muhlisin Market - Dasbor, Afiliasi & Toko Online</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    
+    <!-- 1. SCRIPT FIREBASE SDK (COMPAT VERSION) -->
+    <script src="https://www.gstatic.com/firebasejs/9.22.1/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.22.1/firebase-database-compat.js"></script>
+
     <style>
         @media screen and (orientation: portrait) and (max-width: 768px) {
             #rotate-notice { display: flex !important; }
@@ -44,27 +49,28 @@
                     <a href="#afiliasi" class="flex items-center gap-3 px-4 py-2.5 rounded-lg hover:bg-slate-800 transition text-gray-300">
                         <i class="fa-solid fa-link text-purple-400"></i> Rekomendasi Afiliasi
                     </a>
+                    
                     <!-- Menu Dropdown Pilihan Produk -->
-<details class="group">
-    <summary class="flex items-center justify-between gap-3 px-4 py-2.5 rounded-lg hover:bg-slate-800 transition cursor-pointer text-gray-300">
-        <div class="flex items-center gap-3">
-            <i class="fa-solid fa-boxes-stacked text-amber-400"></i>
-            <span>Pilihan Produk</span>
-        </div>
-        <i class="fa-solid fa-chevron-down text-xs transition-transform group-open:rotate-180"></i>
-    </summary>
-    
-    <!-- Sub Menu / Kategori -->
-    <div class="pl-9 pr-2 py-2 space-y-1 text-sm text-gray-400">
-       <button onclick="filterKategori('pakaian')" class="w-full text-left block py-1.5 px-3 rounded hover:bg-slate-800 hover:text-white transition">Pakaian Anak & Dewasa</button>
-<button onclick="filterKategori('hijab')" class="w-full text-left block py-1.5 px-3 rounded hover:bg-slate-800 hover:text-white transition">Hijab</button>
-<button onclick="filterKategori('rumah-tangga')" class="w-full text-left block py-1.5 px-3 rounded hover:bg-slate-800 hover:text-white transition">Alat Rumah Tangga</button>
-<button onclick="filterKategori('perlengkapan-sekolah')" class="w-full text-left block py-1.5 px-3 rounded hover:bg-slate-800 hover:text-white transition">Perlengkapan Sekolah</button>
-<button onclick="filterKategori('parfum')" class="w-full text-left block py-1.5 px-3 rounded hover:bg-slate-800 hover:text-white transition">Parfum</button>
-    </div>
-</details>
+                    <details class="group">
+                        <summary class="flex items-center justify-between gap-3 px-4 py-2.5 rounded-lg hover:bg-slate-800 transition cursor-pointer text-gray-300">
+                            <div class="flex items-center gap-3">
+                                <i class="fa-solid fa-boxes-stacked text-amber-400"></i>
+                                <span>Pilihan Produk</span>
+                            </div>
+                            <i class="fa-solid fa-chevron-down text-xs transition-transform group-open:rotate-180"></i>
+                        </summary>
+                        
+                        <div class="pl-9 pr-2 py-2 space-y-1 text-sm text-gray-400">
+                            <button onclick="filterKategori('pakaian')" class="w-full text-left block py-1.5 px-3 rounded hover:bg-slate-800 hover:text-white transition">Pakaian Anak & Dewasa</button>
+                            <button onclick="filterKategori('hijab')" class="w-full text-left block py-1.5 px-3 rounded hover:bg-slate-800 hover:text-white transition">Hijab</button>
+                            <button onclick="filterKategori('rumah-tangga')" class="w-full text-left block py-1.5 px-3 rounded hover:bg-slate-800 hover:text-white transition">Alat Rumah Tangga</button>
+                            <button onclick="filterKategori('perlengkapan-sekolah')" class="w-full text-left block py-1.5 px-3 rounded hover:bg-slate-800 hover:text-white transition">Perlengkapan Sekolah</button>
+                            <button onclick="filterKategori('parfum')" class="w-full text-left block py-1.5 px-3 rounded hover:bg-slate-800 hover:text-white transition">Parfum</button>
+                        </div>
+                    </details>
+
                     <a href="#diskon" class="flex items-center gap-3 px-4 py-2.5 rounded-lg hover:bg-slate-800 transition text-gray-300">
-                        <i class="fa-solid fa-tags text-green-400"></i>  promo & diskon
+                        <i class="fa-solid fa-tags text-green-400"></i> Promo & Diskon
                     </a>
                     <a href="#testimoni" class="flex items-center gap-3 px-4 py-2.5 rounded-lg hover:bg-slate-800 transition text-gray-300">
                         <i class="fa-solid fa-star text-yellow-400"></i> Testimoni Klien
@@ -135,111 +141,47 @@
             <!-- SEKSI 1: TENTANG KAMI -->
             <section id="tentang" class="mb-8 bg-white p-6 rounded-xl shadow-sm">
                 <div class="flex flex-col md:flex-row items-center gap-6">
-                    <img src=https://i.postimg.cc/HngqWp0p/FOTO-LISIN.jpg alt="Muhlisin Profil" class="w-28 h-28 rounded-2xl object-cover shadow-md border-2 border-amber-400">
+                    <img src="https://i.postimg.cc/HngqWp0p/FOTO-LISIN.jpg" alt="Muhlisin Profil" class="w-28 h-28 rounded-2xl object-cover shadow-md border-2 border-amber-400">
                     <div class="space-y-2">
                         <span class="bg-amber-100 text-amber-800 text-xs font-bold px-2.5 py-1 rounded-md">TENTANG KAMI</span>
                         <h3 class="text-xl font-bold text-slate-800">Muhlisin — Digital Marketer & Affiliate Curator</h3>
                         <p class="text-sm text-gray-600 leading-relaxed">
-                            Selamat datang di <strong>Muhlisin Market</strong>! Saya membantu Anda menemukan rekomendasi produk-produk terbaik pilihan yang berkualitas tinggi, terpercaya, dan memberikan penawaran harga paling hemat. Semua produk yang direkomendasikan telah dikurasi secara akurat untuk kebutuhan Anda.
+                            Selamat datang di <strong>Muhlisin Market</strong>! Saya membantu Anda menemukan rekomendasi produk-produk terbaik pilihan yang berkualitas tinggi, terpercaya, dan memberikan penawaran harga paling hemat.
                         </p>
                     </div>
                 </div>
             </section>
+
             <!-- SEKSI 2: PRODUK TOKO / KATALOG -->
             <section id="terlaris" class="mb-8">
                 <div class="flex justify-between items-center mb-4">
-                    <!-- Kotak Pencarian Produk -->
-<div class="mb-6 max-w-md mx-auto">
-    <div class="relative">
-        <input type="text" id="searchInput" onkeyup="searchProducts()" placeholder="Cari produk di Muhlisin Market..." class="w-full pl-10 pr-4 py-2.5 rounded-xl border border-slate-200 focus:outline-none focus:ring-2 focus:ring-amber-500 bg-white text-slate-800 shadow-sm text-sm">
-        <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none text-slate-400">
-            <i class="fa-solid fa-magnifying-glass"></i>
-        </div>
-    </div>
-</div>
-                    <h3 class="text-xl font-bold text-slate-800 flex items-center gap-2">
-                        <i class="fa-solid fa-fire text-orange-500"></i> Daftar Produk Toko
-                    </h3>
+                    <div class="mb-6 max-w-md mx-auto w-full">
+                        <div class="relative">
+                            <input type="text" id="searchInput" onkeyup="searchProducts()" placeholder="Cari produk di Muhlisin Market..." class="w-full pl-10 pr-4 py-2.5 rounded-xl border border-slate-200 focus:outline-none focus:ring-2 focus:ring-amber-500 bg-white text-slate-800 shadow-sm text-sm">
+                            <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none text-slate-400">
+                                <i class="fa-solid fa-magnifying-glass"></i>
+                            </div>
+                        </div>
+                    </div>
                 </div>
                 <div id="productGrid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-                    <!-- Produk Ditampilkan Lewat JavaScript -->
+                    <!-- Produk Ditampilkan Lewat Firebase / JavaScript -->
                 </div>
             </section>
 
-            
-           <!-- KATALOG AUTOMATIS DARI GOOGLE SHEETS -->
-<section class="mb-8 bg-slate-900 text-white p-6 rounded-xl shadow-md">
-  <div class="flex items-center justify-between mb-4">
-    <h3 class="text-lg font-bold text-white flex items-center gap-2">
-      <i class="fa-solid fa-store text-amber-400"></i> Semua Produk Kami
-    </h3>
-    <span class="text-xs text-gray-400">Update Otomatis</span>
-  </div>
-  
-  <!-- Tempat Produk Muncul -->
-  <div id="daftar-produk" class="grid grid-cols-2 md:grid-cols-3 gap-3">
-    <p class="text-gray-400 text-xs col-span-full py-4 text-center">Memuat produk dari Google Sheets...</p>
-  </div>
-</section>
-
-<script>
-  // Ganti teks di bawah ini dengan Link CSV dari "Publikasikan ke web" Google Sheets Anda:
-  const SHEET_CSV_URL = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vTNjG6NbRm9fgnKmm4MyIaejESx_CEG-ZaWYtPvPB4UXE8PAIchdQt8Akukie0HbzRgyKdROWcIMscL/pub?gid=0&single=true&output=csv';
-
-  fetch(SHEET_CSV_URL)
-    .then(response => response.text())
-    .then(csvText => {
-      const rows = csvText.split('\n').slice(1);
-      const container = document.getElementById('daftar-produk');
-      container.innerHTML = '';
-
-      let count = 0;
-      rows.forEach(row => {
-        const cols = row.split(',');
-        if (cols.length >= 5) {
-         const [nama, harga, platform, foto, link, kategori] = cols.map(c => c.trim().replace(/^"|"$/g, ''));
-          
-          if(nama && link) {
-            count++;
-           const plat = (platform || '').toLowerCase();
-
-let badgeBg = 'bg-slate-700 text-white'; // Warna default jika platform lain
-
-if (plat.includes('shopee')) {
-  badgeBg = 'bg-orange-500 text-white';  // Warna Oranye Shopee
-} else if (plat.includes('tokopedia') || plat.includes('tokped')) {
-  badgeBg = 'bg-emerald-600 text-white'; // Warna Hijau Tokopedia
-} else if (plat.includes('tiktok')) {
-  badgeBg = 'bg-black text-white border border-gray-600'; // Warna Hitam TikTok
-}
-
-            container.innerHTML += `
-              <div class="product-card bg-slate-800 p-3 rounded-xl border border-slate-700 flex flex-col justify-between hover:border-amber-400 transition" data-kategori="${kategori}">
-                <div>
-               <img src="${foto || 'https://via.placeholder.com/300'}" alt="${nama}" class="w-full h-auto max-h-80 object-contain rounded-lg mb-2">
-                  <span class="text-[10px] font-bold px-2 py-0.5 rounded ${badgeBg}">${platform || 'Produk'}</span>
-                  <h4 class="font-bold text-white text-xs mt-1 line-clamp-2">${nama}</h4>
-                  <p class="text-amber-400 font-bold text-sm mt-1">${harga}</p>
+            <!-- KATALOG OTOMATIS DARI GOOGLE SHEETS -->
+            <section class="mb-8 bg-slate-900 text-white p-6 rounded-xl shadow-md">
+                <div class="flex items-center justify-between mb-4">
+                    <h3 class="text-lg font-bold text-white flex items-center gap-2">
+                        <i class="fa-solid fa-store text-amber-400"></i> Semua Produk Kami (Google Sheets)
+                    </h3>
+                    <span class="text-xs text-gray-400">Update Otomatis</span>
                 </div>
-                <a href="${link}" target="_blank" class="mt-3 bg-amber-500 hover:bg-amber-600 text-slate-900 text-xs font-bold py-2 rounded-lg text-center block">
-                  Beli Sekarang <i class="fa-solid fa-arrow-up-right-from-square text-[10px]"></i>
-                </a>
-              </div>
-            `;
-          }
-        }
-      });
+                <div id="daftar-produk" class="grid grid-cols-2 md:grid-cols-3 gap-3">
+                    <p class="text-gray-400 text-xs col-span-full py-4 text-center">Memuat produk dari Google Sheets...</p>
+                </div>
+            </section>
 
-      if (count === 0) {
-        container.innerHTML = '<p class="text-gray-400 text-xs col-span-full py-4 text-center">Belum ada produk di Google Sheets.</p>';
-      }
-    })
-    .catch(err => {
-      console.error(err);
-      document.getElementById('daftar-produk').innerHTML = '<p class="text-red-400 text-xs col-span-full py-4 text-center">Gagal memuat produk. Pastikan link CSV Google Sheets sudah benar.</p>';
-    });
-</script>
-            
             <!-- Seksi Testimoni Pelanggan -->
             <section id="testimoni" class="mb-8 bg-white p-6 rounded-xl shadow-sm">
                 <h3 class="text-xl font-bold text-slate-800 mb-4 flex items-center gap-2">
@@ -263,13 +205,12 @@ if (plat.includes('shopee')) {
                 </div>
             </section>
 
-            <!-- SEKSI 4: KONTAKI KAMI -->
+            <!-- SEKSI 4: KONTAK KAMI -->
             <section id="kontak" class="mb-8 bg-white p-6 rounded-xl shadow-sm">
                 <h3 class="text-xl font-bold text-slate-800 mb-4 flex items-center gap-2">
                     <i class="fa-solid fa-envelope text-red-500"></i> Hubungi Kami
                 </h3>
                 <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-                    <!-- Form Pesan -->
                     <form onsubmit="event.preventDefault(); alert('Pesan Anda berhasil terkirim!');" class="space-y-3">
                         <div>
                             <label class="block text-xs font-bold text-gray-700 mb-1">Nama Anda</label>
@@ -284,10 +225,9 @@ if (plat.includes('shopee')) {
                         </button>
                     </form>
 
-                    <!-- Info Sosial Media & Alamat -->
                     <div class="space-y-4 border-t md:border-t-0 md:border-l pt-4 md:pt-0 md:pl-6 border-gray-100">
                         <p class="text-xs text-gray-600 leading-relaxed">
-                            Punya pertanyaan seputar produk atau kerja sama afiliasi? Jangan ragu untuk langsung berkonsultasi via WhatsApp atau media sosial kami.
+                            Punya pertanyaan seputar produk atau kerja sama afiliasi? Jangan ragu untuk langsung berkonsultasi via WhatsApp.
                         </p>
                         <div class="space-y-2 text-xs">
                             <a href="https://wa.me/62895422768896" target="_blank" class="flex items-center gap-3 text-green-600 font-semibold hover:underline">
@@ -305,7 +245,7 @@ if (plat.includes('shopee')) {
             </section>
 
             <footer class="text-center text-xs text-gray-400 py-4">
-                &copy; 2026 Shane Market. All Rights Reserved.
+                &copy; Created By Muhlisin. All Rights Reserved.
             </footer>
 
         </main>
@@ -329,16 +269,16 @@ if (plat.includes('shopee')) {
                     <input type="text" id="prodPrice" placeholder="Contoh: Rp 150.000" class="w-full bg-gray-50 border rounded-xl p-2.5 outline-none focus:ring-2 focus:ring-amber-500">
                 </div>
                 <div>
-                    <div>
-                <label class="block font-bold text-gray-700 mb-1">Kategori Produk</label>
-                <select id="prodCategory" class="w-full bg-gray-50 border rounded-xl p-2.5 outline-none focus:ring-2 focus:ring-amber-500 text-sm">
-                    <option value="pakaian">Pakaian Anak & Dewasa</option>
-                    <option value="hijab">Hijab</option>
-                    <option value="rumah-tangga">Alat Rumah Tangga</option>
-                    <option value="perlengkapan-sekolah">Perlengkapan Sekolah</option>
-                    <option value="parfum">Parfum</option>
-                </select>
-            </div>
+                    <label class="block font-bold text-gray-700 mb-1">Kategori Produk</label>
+                    <select id="prodCategory" class="w-full bg-gray-50 border rounded-xl p-2.5 outline-none focus:ring-2 focus:ring-amber-500 text-sm">
+                        <option value="pakaian">Pakaian Anak & Dewasa</option>
+                        <option value="hijab">Hijab</option>
+                        <option value="rumah-tangga">Alat Rumah Tangga</option>
+                        <option value="perlengkapan-sekolah">Perlengkapan Sekolah</option>
+                        <option value="parfum">Parfum</option>
+                    </select>
+                </div>
+                <div>
                     <label class="block font-bold text-gray-700 mb-1">URL Link Gambar Barang</label>
                     <input type="text" id="prodImg" placeholder="Tempel link foto produk" class="w-full bg-gray-50 border rounded-xl p-2.5 outline-none focus:ring-2 focus:ring-amber-500">
                 </div>
@@ -355,145 +295,208 @@ if (plat.includes('shopee')) {
         </div>
     </div>
 
-    <!-- LOGIKA SISTEM SCRIPT -->
+    <!-- LOGIKA SISTEM SCRIPT FIREBASE -->
     <script>
-        let isAdmin = false;
-        const defaultProducts = [
-            {
-                id: 1,
-                title: "Smartwatch Elegant Series",
-                price: "Rp 299.000",
-                img: "https://images.unsplash.com/photo-1523275335684-37898b6baf30?w=500",
-                link: "https://wa.me/62895422768896?text=Halo,%20saya%20mau%20pesan%20Smartwatch"
-            },
-            {
-                id: 2,
-                title: "Headphone Wireless Bass Pro",
-                price: "Rp 245.000",
-                img: "https://images.unsplash.com/photo-1505740420928-5e560c06d30e?w=500",
-                link: "https://wa.me/62895422768896?text=Halo,%20saya%20mau%20pesan%20Headphone"
-            }
-        ];
+        // 2. PASTE CONFIG FIREBASE ANDA DI SINI
+        const firebaseConfig = {
+            apiKey: "AIzaSyXXXXXX_PASTE_API_KEY_ANDA",
+            authDomain: "muhlisin-market.firebaseapp.com",
+            databaseURL: "https://muhlisin-market-default-rtdb.firebaseio.com",
+            projectId: "muhlisin-market",
+            storageBucket: "muhlisin-market.appspot.com",
+            messagingSenderId: "1234567890",
+            appId: "1:1234567890:web:abcdef123456"
+        };
 
-        let products = JSON.parse(localStorage.getItem('shaneProducts')) || defaultProducts;
+        // Inisialisasi Firebase
+        firebase.initializeApp(firebaseConfig);
+        const db = firebase.database();
+
+        let isAdmin = false;
+        let products = [];
+
+        // AMBIL DATA DARI FIREBASE SECARA REALTIME
+        db.ref('products').on('value', (snapshot) => {
+            const data = snapshot.val();
+            products = [];
+            if (data) {
+                Object.keys(data).forEach(key => {
+                    products.push({ id: key, ...data[key] });
+                });
+            }
+            renderProducts();
+        });
 
         function renderProducts(itemsToRender = null) {
-    const productGrid = document.getElementById('productGrid');
-    if (!productGrid) return;
+            const productGrid = document.getElementById('productGrid');
+            if (!productGrid) return;
 
-    const allProducts = JSON.parse(localStorage.getItem('shaneProducts')) || products;
-    const list = itemsToRender || allProducts;
+            const list = itemsToRender || products;
+            productGrid.innerHTML = '';
 
-    productGrid.innerHTML = '';
+            list.forEach(p => {
+                const card = document.createElement('div');
+                card.className = "product-card bg-white rounded-xl shadow-sm overflow-hidden border border-gray-100 hover:shadow-md transition" ;
+                card.setAttribute('data-kategori', p.category || '');
+                card.innerHTML = `
+                    <div class="relative w-full bg-slate-800 rounded-t-lg overflow-hidden flex items-center justify-center p-2">
+                        <img src="${p.img || 'https://images.unsplash.com/photo-1523275335684-37898b6baf30?w=500'}" class="w-full h-auto max-h-80 object-contain rounded-lg">
+                        ${isAdmin ? `
+                            <button onclick="deleteProduct('${p.id}')" class="absolute top-2 right-2 bg-red-600 text-white p-2 rounded-lg text-xs font-bold shadow hover:bg-red-700">
+                                <i class="fa-solid fa-trash"></i> Hapus
+                            </button>
+                        ` : ''}
+                    </div>
+                    <div class="p-4">
+                        <h4 class="font-bold text-slate-800 text-lg">${p.title}</h4>
+                        <div class="flex items-center justify-between mt-3">
+                            <p class="text-amber-600 font-bold text-lg">${p.price}</p>
+                        </div>
+                        <a href="${p.link || '#'}" target="_blank" class="block text-center mt-3 bg-slate-900 hover:bg-slate-800 text-white py-2 rounded-lg text-xs font-bold">Beli Sekarang</a>
+                    </div>
+                `;
+                productGrid.appendChild(card);
+            });
 
-    list.forEach(p => {
-        const card = document.createElement('div');
-        card.className = "bg-white rounded-xl shadow-sm overflow-hidden border border-gray-100 hover:shadow-md transition";
-        card.innerHTML = `
-           <div class="relative w-full bg-slate-800 rounded-lg overflow-hidden flex items-center justify-center">
-  <span class="...">...</span>
-  <img src="${p.img || 'https://images.unsplash.com/photo-1523275335684-37898b6baf30?w=500'}" class="w-full h-auto max-h-80 object-contain rounded-lg">
-</div>
-                ${isAdmin ? `
-                    <button onclick="deleteProduct(${p.id})" class="absolute top-2 right-2 bg-red-600 text-white p-2 rounded-lg text-xs font-bold shadow hover:bg-red-700">
-                        <i class="fa-solid fa-trash"></i> Hapus
-                    </button>
-                ` : ''}
-            </div>
-            <div class="p-4">
-                <h4 class="font-bold text-slate-800 text-lg">${p.title}</h4>
-                <div class="flex items-center justify-between mt-3">
-                    <p class="text-amber-600 font-bold text-lg">${p.price}</p>
-                </div>
-                <a href="${p.link || '#'}" target="_blank" class="block text-center mt-3 bg-slate-900 hover:bg-slate-800 text-white py-2 rounded-lg text-xs font-bold">Beli Sekarang</a>
-            </div>
-        `;
-        productGrid.appendChild(card);
-    });
-
-    const statTotal = document.getElementById('statTotalProduct');
-    if (statTotal) statTotal.textContent = allProducts.length + " Item";
-}
-      function toggleAdminMode() {
-    // Jika posisi sekarang sedang OFF, minta password dulu
-    if (!isAdmin) {
-        const password = prompt("Masukkan password Admin:");
-        if (password !== "240785") { // Ganti 240785 dengan password pilihan Anda
-            alert("Password salah!");
-            return; // Hentikan fungsi jika password salah
+            const statTotal = document.getElementById('statTotalProduct');
+            if (statTotal) statTotal.textContent = products.length + " Item";
         }
-    }
 
-    // Ubah status ON/OFF jika password benar (atau jika sedang mematikan Mode Admin)
-    isAdmin = !isAdmin;
-    const btn = document.getElementById('adminToggleBtn');
-    const addBtn = document.getElementById('addProductBtn');
+        function toggleAdminMode() {
+            if (!isAdmin) {
+                const password = prompt("Masukkan password Admin:");
+                if (password !== "240785") {
+                    alert("Password salah!");
+                    return;
+                }
+            }
 
-    if (isAdmin) {
-        btn.innerHTML = '<i class="fa-solid fa-unlock text-green-400 mr-1"></i> Mode Admin: ON';
-        btn.className = "w-full py-2 bg-green-900 text-green-200 text-xs rounded text-center font-bold";
-        addBtn.classList.remove('hidden');
-    } else {
-        btn.innerHTML = '<i class="fa-solid fa-lock mr-1"></i> Mode Admin: OFF';
-        btn.className = "w-full py-2 bg-slate-800 text-gray-300 text-xs rounded text-center font-bold";
-        addBtn.classList.add('hidden');
-    }
-    renderProducts();
-}
+            isAdmin = !isAdmin;
+            const btn = document.getElementById('adminToggleBtn');
+            const addBtn = document.getElementById('addProductBtn');
+
+            if (isAdmin) {
+                btn.innerHTML = '<i class="fa-solid fa-unlock text-green-400 mr-1"></i> Mode Admin: ON';
+                btn.className = "w-full py-2 bg-green-900 text-green-200 text-xs rounded text-center font-bold";
+                addBtn.classList.remove('hidden');
+            } else {
+                btn.innerHTML = '<i class="fa-solid fa-lock mr-1"></i> Mode Admin: OFF';
+                btn.className = "w-full py-2 bg-slate-800 text-gray-300 text-xs rounded text-center font-bold";
+                addBtn.classList.add('hidden');
+            }
+            renderProducts();
+        }
 
         function openProductModal() { document.getElementById('productModal').classList.remove('hidden'); }
         function closeProductModal() { document.getElementById('productModal').classList.add('hidden'); }
 
+        // SIMPAN PRODUK LANGSUNG KE FIREBASE
         function saveProduct() {
             const title = document.getElementById('prodTitle').value;
             const price = document.getElementById('prodPrice').value;
             const img = document.getElementById('prodImg').value;
             const link = document.getElementById('prodLink').value || 'https://wa.me/62895422768896';
-const category = document.getElementById('prodCategory') ? document.getElementById('prodCategory').value : 'semua';
+            const category = document.getElementById('prodCategory') ? document.getElementById('prodCategory').value : 'pakaian';
 
             if(!title || !price) return alert("Nama barang dan harga wajib diisi!");
 
-           products.push({ id: Date.now(), title, price, img, link, category });
-            localStorage.setItem('shaneProducts', JSON.stringify(products));
-            renderProducts();
-            closeProductModal();
-
-            document.getElementById('prodTitle').value = '';
-            document.getElementById('prodPrice').value = '';
-            document.getElementById('prodImg').value = '';
-            document.getElementById('prodLink').value = '';
+            // Push data ke Firebase Database
+            db.ref('products').push({
+                title: title,
+                price: price,
+                img: img,
+                link: link,
+                category: category,
+                createdAt: Date.now()
+            }).then(() => {
+                closeProductModal();
+                document.getElementById('prodTitle').value = '';
+                document.getElementById('prodPrice').value = '';
+                document.getElementById('prodImg').value = '';
+                document.getElementById('prodLink').value = '';
+            }).catch((err) => {
+                alert("Gagal menyimpan ke Firebase: " + err.message);
+            });
         }
 
+        // HAPUS PRODUK DARI FIREBASE
         function deleteProduct(id) {
             if(confirm("Apakah Anda yakin ingin menghapus barang ini?")) {
-                products = products.filter(p => p.id !== id);
-                localStorage.setItem('shaneProducts', JSON.stringify(products));
-                renderProducts();
+                db.ref('products/' + id).remove();
             }
         }
-function filterKategori(kat) {
-  const cards = document.querySelectorAll('.product-card');
-  cards.forEach(card => {
-    const cardKat = card.getAttribute('data-kategori') || '';
-    if (kat === 'semua' || cardKat.trim().toLowerCase() === kat.trim().toLowerCase()) {
-      card.style.display = 'flex';
-    } else {
-      card.style.display = 'none';
-    }
-  });
-}
+
+        function filterKategori(kat) {
+            const cards = document.querySelectorAll('#productGrid .product-card');
+            cards.forEach(card => {
+                const cardKat = card.getAttribute('data-kategori') || '';
+                if (kat === 'semua' || cardKat.trim().toLowerCase() === kat.trim().toLowerCase()) {
+                    card.style.display = 'block';
+                } else {
+                    card.style.display = 'none';
+                }
+            });
+        }
+
         function searchProducts() {
-    const query = document.getElementById('searchInput').value.toLowerCase();
-    const allProducts = JSON.parse(localStorage.getItem('shaneProducts')) || (typeof products !== 'undefined' ? products : []);
-    
-    const filtered = allProducts.filter(p => 
-        (p.title && p.title.toLowerCase().includes(query)) || 
-        (p.category && p.category.toLowerCase().includes(query))
-    );
-    
-    renderProducts(filtered);
-}
-        window.onload = renderProducts;
+            const query = document.getElementById('searchInput').value.toLowerCase();
+            const filtered = products.filter(p => 
+                (p.title && p.title.toLowerCase().includes(query)) || 
+                (p.category && p.category.toLowerCase().includes(query))
+            );
+            renderProducts(filtered);
+        }
+
+        // LOAD DATA GOOGLE SHEETS
+        const SHEET_CSV_URL = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vTNjG6NbRm9fgnKmm4MyIaejESx_CEG-ZaWYtPvPB4UXE8PAIchdQt8Akukie0HbzRgyKdROWcIMscL/pub?gid=0&single=true&output=csv';
+
+        fetch(SHEET_CSV_URL)
+            .then(response => response.text())
+            .then(csvText => {
+                const rows = csvText.split('\n').slice(1);
+                const container = document.getElementById('daftar-produk');
+                container.innerHTML = '';
+
+                let count = 0;
+                rows.forEach(row => {
+                    const cols = row.split(',');
+                    if (cols.length >= 5) {
+                        const [nama, harga, platform, foto, link, kategori] = cols.map(c => c.trim().replace(/^"|"$/g, ''));
+                        
+                        if(nama && link) {
+                            count++;
+                            const plat = (platform || '').toLowerCase();
+
+                            let badgeBg = 'bg-slate-700 text-white';
+                            if (plat.includes('shopee')) badgeBg = 'bg-orange-500 text-white';
+                            else if (plat.includes('tokopedia') || plat.includes('tokped')) badgeBg = 'bg-emerald-600 text-white';
+                            else if (plat.includes('tiktok')) badgeBg = 'bg-black text-white border border-gray-600';
+
+                            container.innerHTML += `
+                                <div class="product-card bg-slate-800 p-3 rounded-xl border border-slate-700 flex flex-col justify-between hover:border-amber-400 transition" data-kategori="${kategori}">
+                                    <div>
+                                        <img src="${foto || 'https://via.placeholder.com/300'}" alt="${nama}" class="w-full h-auto max-h-80 object-contain rounded-lg mb-2">
+                                        <span class="text-[10px] font-bold px-2 py-0.5 rounded ${badgeBg}">${platform || 'Produk'}</span>
+                                        <h4 class="font-bold text-white text-xs mt-1 line-clamp-2">${nama}</h4>
+                                        <p class="text-amber-400 font-bold text-sm mt-1">${harga}</p>
+                                    </div>
+                                    <a href="${link}" target="_blank" class="mt-3 bg-amber-500 hover:bg-amber-600 text-slate-900 text-xs font-bold py-2 rounded-lg text-center block">
+                                        Beli Sekarang <i class="fa-solid fa-arrow-up-right-from-square text-[10px]"></i>
+                                    </a>
+                                </div>
+                            `;
+                        }
+                    }
+                });
+
+                if (count === 0) {
+                    container.innerHTML = '<p class="text-gray-400 text-xs col-span-full py-4 text-center">Belum ada produk di Google Sheets.</p>';
+                }
+            })
+            .catch(err => {
+                console.error(err);
+                document.getElementById('daftar-produk').innerHTML = '<p class="text-red-400 text-xs col-span-full py-4 text-center">Gagal memuat produk dari Google Sheets.</p>';
+            });
     </script>
 </body>
 </html>
