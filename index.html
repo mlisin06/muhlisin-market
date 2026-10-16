@@ -77,6 +77,39 @@
         </a>
     </nav>
 
+    <!-- MODAL SHARE PRODUK -->
+    <div id="shareModal" class="hidden fixed inset-0 bg-black bg-opacity-50 z-50 flex items-center justify-center p-4">
+        <div class="bg-white rounded-2xl max-w-sm w-full p-5 shadow-xl text-center space-y-4">
+            <div class="flex justify-between items-center border-b pb-2">
+                <h3 class="font-bold text-sm text-slate-800 flex items-center gap-2">
+                    <i class="fa-solid fa-share-nodes text-amber-500"></i> Bagikan Produk Ini
+                </h3>
+                <button onclick="closeShareModal()" class="text-gray-400 hover:text-gray-600 font-bold text-lg">&times;</button>
+            </div>
+            
+            <p id="shareProductTitle" class="text-xs font-bold text-slate-700 line-clamp-2"></p>
+
+            <div class="grid grid-cols-4 gap-2 pt-2">
+                <a id="shareWaBtn" href="#" target="_blank" class="flex flex-col items-center gap-1 p-2 bg-green-50 hover:bg-green-100 rounded-xl transition text-green-600 text-[10px] font-bold">
+                    <i class="fa-brands fa-whatsapp text-2xl"></i>
+                    <span>WhatsApp</span>
+                </a>
+                <a id="shareFbBtn" href="#" target="_blank" class="flex flex-col items-center gap-1 p-2 bg-blue-50 hover:bg-blue-100 rounded-xl transition text-blue-600 text-[10px] font-bold">
+                    <i class="fa-brands fa-facebook text-2xl"></i>
+                    <span>Facebook</span>
+                </a>
+                <a id="shareXBtn" href="#" target="_blank" class="flex flex-col items-center gap-1 p-2 bg-gray-100 hover:bg-gray-200 rounded-xl transition text-slate-800 text-[10px] font-bold">
+                    <i class="fa-brands fa-x-twitter text-2xl"></i>
+                    <span>Twitter/X</span>
+                </a>
+                <button onclick="copyShareLink()" class="flex flex-col items-center gap-1 p-2 bg-amber-50 hover:bg-amber-100 rounded-xl transition text-amber-700 text-[10px] font-bold">
+                    <i class="fa-solid fa-copy text-2xl"></i>
+                    <span>Salin Link</span>
+                </button>
+            </div>
+        </div>
+    </div>
+
     <!-- MODAL KERANJANG BELANJA DENGAN FORM COD -->
     <div id="cartModal" class="hidden fixed inset-0 bg-black bg-opacity-50 z-50 flex items-center justify-center p-4">
         <div class="bg-white rounded-2xl max-w-lg w-full p-6 shadow-xl flex flex-col max-h-[90vh]">
@@ -455,7 +488,7 @@
         </main>
     </div>
 
-    <!-- SCRIPT FIREBASE & CART LOGIC -->
+    <!-- SCRIPT FIREBASE & LOGIC -->
     <script>
         const firebaseConfig = {
             databaseURL: "https://muhlisin-market-default-rtdb.asia-southeast1.firebasedatabase.app/"
@@ -467,6 +500,7 @@
         let products = [];
         let cart = [];
         let currentWaNum = "62895422768896";
+        let currentShareUrl = window.location.href;
 
         // LISTEN PENGATURAN UMUM & STATISTIK
         db.ref('settings').on('value', (snapshot) => {
@@ -614,6 +648,9 @@
                     <div>
                         <div class="relative w-full bg-slate-800 rounded-t-lg overflow-hidden flex items-center justify-center p-2">
                             <span class="absolute top-2 left-2 bg-red-600 text-white text-[10px] font-bold px-2 py-0.5 rounded uppercase shadow">${p.badge || 'PROMO'}</span>
+                            <button onclick="openShareModal('${escapedTitle}', '${p.price}', '${p.link || ''}')" aria-label="Bagikan ${p.title}" class="absolute top-2 right-2 bg-slate-900 bg-opacity-70 hover:bg-opacity-100 text-amber-400 w-7 h-7 rounded-full flex items-center justify-center text-xs shadow transition">
+                                <i class="fa-solid fa-share-nodes"></i>
+                            </button>
                             <img src="${p.img || 'https://via.placeholder.com/300'}" alt="${p.title}" class="w-full h-auto max-h-80 object-contain rounded-lg" loading="lazy">
                         </div>
                         <div class="p-4">
@@ -636,6 +673,36 @@
 
             const statTotal = document.getElementById('statTotalProduct');
             if (statTotal) statTotal.textContent = products.length + " Item";
+        }
+
+        // FUNGSI SHARE PRODUK
+        function openShareModal(title, price, link) {
+            const modal = document.getElementById('shareModal');
+            document.getElementById('shareProductTitle').textContent = title + " (" + price + ")";
+            
+            const targetUrl = link && link.startsWith('http') ? link : window.location.href;
+            currentShareUrl = targetUrl;
+
+            const shareText = encodeURIComponent(`Lihat rekomendasi produk bagus ini: "${title}" (${price}) hanya di Muhlisin Market!\n\nLink: ${targetUrl}`);
+            
+            document.getElementById('shareWaBtn').href = `https://wa.me/?text=${shareText}`;
+            document.getElementById('shareFbBtn').href = `https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(targetUrl)}`;
+            document.getElementById('shareXBtn').href = `https://twitter.com/intent/tweet?text=${shareText}`;
+
+            modal.classList.remove('hidden');
+        }
+
+        function closeShareModal() {
+            document.getElementById('shareModal').classList.add('hidden');
+        }
+
+        function copyShareLink() {
+            navigator.clipboard.writeText(currentShareUrl).then(() => {
+                alert('Tautan produk berhasil disalin ke clipboard!');
+                closeShareModal();
+            }).catch(() => {
+                alert('Gagal menyalin tautan.');
+            });
         }
 
         // FUNGSI KERANJANG BELANJA & CHECKOUT COD
