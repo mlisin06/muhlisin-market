@@ -56,27 +56,78 @@
         <span id="cartBadge" class="bg-red-600 text-white px-2 py-0.5 rounded-full text-[10px]">0</span>
     </button>
 
-    <!-- MODAL KERANJANG BELANJA -->
+    <!-- MODAL KERANJANG BELANJA DENGAN FORM COD -->
     <div id="cartModal" class="hidden fixed inset-0 bg-black bg-opacity-50 z-50 flex items-center justify-center p-4">
-        <div class="bg-white rounded-2xl max-w-lg w-full p-6 shadow-xl flex flex-col max-h-[85vh]">
-            <div class="flex justify-between items-center border-b pb-3 mb-4">
+        <div class="bg-white rounded-2xl max-w-lg w-full p-6 shadow-xl flex flex-col max-h-[90vh]">
+            <div class="flex justify-between items-center border-b pb-3 mb-3">
                 <h3 class="font-bold text-lg text-slate-800 flex items-center gap-2">
-                    <i class="fa-solid fa-cart-shopping text-amber-500"></i> Keranjang Belanja Anda
+                    <i class="fa-solid fa-cart-shopping text-amber-500"></i> Keranjang & Checkout
                 </h3>
-                <button onclick="toggleCartModal()" aria-label="Tutup Keranjang" class="text-gray-400 hover:text-gray-600 font-bold text-lg">&times;</button>
+                <button onclick="toggleCartModal()" aria-label="Tutup Keranjang" class="text-gray-400 hover:text-gray-600 font-bold text-xl">&times;</button>
             </div>
             
-            <div id="cartItemsList" class="flex-1 overflow-y-auto space-y-3 mb-4 pr-1">
-                <p class="text-xs text-gray-400 text-center py-4">Keranjang masih kosong.</p>
+            <div class="flex-1 overflow-y-auto space-y-4 pr-1">
+                <!-- DAFTAR ITEM KERANJANG -->
+                <div>
+                    <p class="text-xs font-bold text-gray-500 mb-2 uppercase">1. Produk Yang Dipilih</p>
+                    <div id="cartItemsList" class="space-y-2">
+                        <p class="text-xs text-gray-400 text-center py-3">Keranjang masih kosong.</p>
+                    </div>
+                </div>
+
+                <!-- FORM PEMBAYARAN COD & ALAMAT (Hanya muncul jika keranjang tidak kosong) -->
+                <div id="checkoutFormSection" class="hidden space-y-3 border-t pt-3">
+                    <p class="text-xs font-bold text-gray-500 uppercase">2. Informasi Pengiriman & Pembayaran</p>
+                    
+                    <div class="bg-amber-50 border border-amber-200 rounded-lg p-2.5 text-xs text-amber-800 flex items-center gap-2">
+                        <i class="fa-solid fa-shield-heart text-amber-600 text-base"></i>
+                        <span><strong>Layanan COD Aktif!</strong> Anda dapat membayar secara tunai langsung ke kurir saat paket sampai.</span>
+                    </div>
+
+                    <div>
+                        <label class="block text-[11px] font-bold text-gray-700 mb-1">Metode Pembayaran</label>
+                        <select id="selectPaymentMethod" class="w-full bg-gray-50 border rounded-lg p-2 text-xs outline-none focus:ring-2 focus:ring-amber-500 font-semibold">
+                            <option value="COD (Bayar di Tempat)">🚚 COD (Bayar di Tempat / Tunai ke Kurir)</option>
+                            <option value="Transfer Bank / QRIS">💳 Transfer Bank / QRIS (BCA, Mandiri, E-Wallet)</option>
+                        </select>
+                    </div>
+
+                    <div class="grid grid-cols-2 gap-2">
+                        <div>
+                            <label class="block text-[11px] font-bold text-gray-700 mb-1">Nama Penerima</label>
+                            <input type="text" id="custName" placeholder="Nama Anda" class="w-full bg-gray-50 border rounded-lg p-2 text-xs outline-none focus:ring-2 focus:ring-amber-500">
+                        </div>
+                        <div>
+                            <label class="block text-[11px] font-bold text-gray-700 mb-1">Kurir Pengiriman</label>
+                            <select id="selectCourier" class="w-full bg-gray-50 border rounded-lg p-2 text-xs outline-none focus:ring-2 focus:ring-amber-500">
+                                <option value="J&T Express COD">J&T Express (COD)</option>
+                                <option value="SiCepat Express">SiCepat Express</option>
+                                <option value="JNE Express">JNE Express</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <div>
+                        <label class="block text-[11px] font-bold text-gray-700 mb-1">Kecamatan & Kota/Kabupaten</label>
+                        <input type="text" id="custDistrict" placeholder="Contoh: Kec. Ulujami, Pemalang" class="w-full bg-gray-50 border rounded-lg p-2 text-xs outline-none focus:ring-2 focus:ring-amber-500">
+                    </div>
+
+                    <div>
+                        <label class="block text-[11px] font-bold text-gray-700 mb-1">Alamat Lengkap (RT/RW / No. Rumah)</label>
+                        <textarea id="custAddress" rows="2" placeholder="Nama Jalan, RT/RW, No. Rumah, Patokan..." class="w-full bg-gray-50 border rounded-lg p-2 text-xs outline-none focus:ring-2 focus:ring-amber-500"></textarea>
+                    </div>
+                </div>
             </div>
 
-            <div class="border-t pt-4 space-y-3">
-                <div class="flex justify-between font-bold text-base text-slate-800">
-                    <span>Total Estimasi:</span>
-                    <span id="cartTotalPrice" class="text-amber-600">Rp 0</span>
+            <!-- RINGKASAN TOTAL & TOMBOL CHECKOUT WA -->
+            <div class="border-t pt-3 mt-3 space-y-2">
+                <div class="flex justify-between font-bold text-sm text-slate-800">
+                    <span>Subtotal Produk:</span>
+                    <span id="cartTotalPrice" class="text-amber-600 font-extrabold">Rp 0</span>
                 </div>
+                <p class="text-[10px] text-gray-400 italic text-right">*Ongkos kirim akan dihitung oleh admin sesuai kecamatan tujuan.</p>
                 <button onclick="checkoutWhatsApp()" class="w-full bg-green-600 hover:bg-green-700 text-white py-3 rounded-xl text-xs font-bold transition shadow flex items-center justify-center gap-2">
-                    <i class="fa-brands fa-whatsapp text-base"></i> Checkout Pesanan via WhatsApp
+                    <i class="fa-brands fa-whatsapp text-base"></i> Pesan COD via WhatsApp
                 </button>
             </div>
         </div>
@@ -288,25 +339,24 @@
                 </div>
             </section>
 
-            <!-- SEKSI METODE PEMBAYARAN & EKSPEDISI (OPSI A) -->
+            <!-- SEKSI METODE PEMBAYARAN & EKSPEDISI -->
             <section class="mb-8 bg-white p-6 rounded-xl shadow-sm text-center">
                 <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
                     <div>
                         <p class="text-xs font-bold text-gray-500 uppercase tracking-wider mb-3">Metode Pembayaran Aman</p>
                         <div class="flex flex-wrap justify-center gap-2 text-gray-600 text-xs font-bold">
+                            <span class="bg-amber-100 text-amber-800 px-3 py-1.5 rounded-lg border border-amber-300 flex items-center gap-1.5"><i class="fa-solid fa-hand-holding-dollar text-green-600"></i> COD (Bayar di Tempat)</span>
                             <span class="bg-gray-100 px-3 py-1.5 rounded-lg border flex items-center gap-1.5"><i class="fa-solid fa-qrcode text-amber-500"></i> QRIS</span>
                             <span class="bg-gray-100 px-3 py-1.5 rounded-lg border flex items-center gap-1.5"><i class="fa-solid fa-building-columns text-blue-600"></i> BCA</span>
                             <span class="bg-gray-100 px-3 py-1.5 rounded-lg border flex items-center gap-1.5"><i class="fa-solid fa-building-columns text-blue-800"></i> Mandiri</span>
-                            <span class="bg-gray-100 px-3 py-1.5 rounded-lg border flex items-center gap-1.5"><i class="fa-solid fa-wallet text-orange-500"></i> ShopeePay / COD</span>
                         </div>
                     </div>
                     <div>
                         <p class="text-xs font-bold text-gray-500 uppercase tracking-wider mb-3">Dukungan Ekspedisi Pengiriman</p>
                         <div class="flex flex-wrap justify-center gap-2 text-gray-600 text-xs font-bold">
-                            <span class="bg-gray-100 px-3 py-1.5 rounded-lg border flex items-center gap-1.5"><i class="fa-solid fa-truck-fast text-red-500"></i> J&T Express</span>
+                            <span class="bg-gray-100 px-3 py-1.5 rounded-lg border flex items-center gap-1.5"><i class="fa-solid fa-truck-fast text-red-500"></i> J&T Express (COD)</span>
                             <span class="bg-gray-100 px-3 py-1.5 rounded-lg border flex items-center gap-1.5"><i class="fa-solid fa-truck text-blue-500"></i> JNE</span>
                             <span class="bg-gray-100 px-3 py-1.5 rounded-lg border flex items-center gap-1.5"><i class="fa-solid fa-box text-orange-600"></i> SiCepat</span>
-                            <span class="bg-gray-100 px-3 py-1.5 rounded-lg border flex items-center gap-1.5"><i class="fa-solid fa-motorcycle text-green-600"></i> GoSend / Grab</span>
                         </div>
                     </div>
                 </div>
@@ -501,7 +551,7 @@
             if (statTotal) statTotal.textContent = products.length + " Item";
         }
 
-        // FUNGSI KERANJANG BELANJA
+        // FUNGSI KERANJANG BELANJA & CHECKOUT COD
         function toggleCartModal() {
             const modal = document.getElementById('cartModal');
             modal.classList.toggle('hidden');
@@ -526,13 +576,17 @@
 
         function renderCartItems() {
             const container = document.getElementById('cartItemsList');
+            const formSection = document.getElementById('checkoutFormSection');
             container.innerHTML = '';
 
             if (cart.length === 0) {
-                container.innerHTML = '<p class="text-xs text-gray-400 text-center py-4">Keranjang masih kosong.</p>';
+                container.innerHTML = '<p class="text-xs text-gray-400 text-center py-3">Keranjang masih kosong.</p>';
                 document.getElementById('cartTotalPrice').textContent = 'Rp 0';
+                if(formSection) formSection.classList.add('hidden');
                 return;
             }
+
+            if(formSection) formSection.classList.remove('hidden');
 
             let totalPriceNum = 0;
 
@@ -542,16 +596,16 @@
                 totalPriceNum += subtotal;
 
                 container.innerHTML += `
-                    <div class="flex justify-between items-center bg-gray-50 p-3 rounded-xl border border-gray-100 text-xs">
+                    <div class="flex justify-between items-center bg-gray-50 p-2.5 rounded-xl border border-gray-100 text-xs">
                         <div class="flex-1 pr-2">
                             <h4 class="font-bold text-slate-800 line-clamp-1">${item.title}</h4>
                             <p class="text-amber-600 font-semibold">${item.price} x ${item.qty}</p>
                         </div>
-                        <div class="flex items-center gap-2">
-                            <button onclick="changeQty(${index}, -1)" class="w-6 h-6 bg-gray-200 hover:bg-gray-300 rounded font-bold">-</button>
-                            <span class="font-bold">${item.qty}</span>
-                            <button onclick="changeQty(${index}, 1)" class="w-6 h-6 bg-gray-200 hover:bg-gray-300 rounded font-bold">+</button>
-                            <button onclick="removeFromCart(${index})" class="text-red-500 hover:text-red-700 ml-2 font-bold"><i class="fa-solid fa-trash"></i></button>
+                        <div class="flex items-center gap-1.5">
+                            <button onclick="changeQty(${index}, -1)" class="w-5 h-5 bg-gray-200 hover:bg-gray-300 rounded font-bold text-xs">-</button>
+                            <span class="font-bold px-1 text-xs">${item.qty}</span>
+                            <button onclick="changeQty(${index}, 1)" class="w-5 h-5 bg-gray-200 hover:bg-gray-300 rounded font-bold text-xs">+</button>
+                            <button onclick="removeFromCart(${index})" class="text-red-500 hover:text-red-700 ml-1 font-bold text-xs"><i class="fa-solid fa-trash"></i></button>
                         </div>
                     </div>
                 `;
@@ -581,7 +635,18 @@
                 return;
             }
 
-            let msg = `Halo Kak Muhlisin, saya ingin memesan produk berikut dari Muhlisin Market:\n\n`;
+            const name = document.getElementById('custName').value.trim();
+            const district = document.getElementById('custDistrict').value.trim();
+            const address = document.getElementById('custAddress').value.trim();
+            const payment = document.getElementById('selectPaymentMethod').value;
+            const courier = document.getElementById('selectCourier').value;
+
+            if (!name || !district || !address) {
+                alert('Mohon lengkapi Nama, Kecamatan/Kota, dan Alamat Lengkap untuk tujuan pengiriman COD!');
+                return;
+            }
+
+            let msg = `Halo Kak Muhlisin, saya ingin memesan barang berikut via *Muhlisin Market*:\n\n`;
             let totalEstimation = 0;
 
             cart.forEach((item, i) => {
@@ -591,7 +656,14 @@
                 msg += `${i + 1}. *${item.title}* (${item.price}) x ${item.qty} = Rp ${subtotal.toLocaleString('id-ID')}\n`;
             });
 
-            msg += `\n*Total Estimasi: Rp ${totalEstimation.toLocaleString('id-ID')}*\n\nMohon informasi ketersediaan stok dan total pembayarannya. Terima kasih!`;
+            msg += `\n💵 *Total Produk:* Rp ${totalEstimation.toLocaleString('id-ID')}\n`;
+            msg += `💳 *Metode Bayar:* ${payment}\n`;
+            msg += `🚚 *Ekspedisi:* ${courier}\n\n`;
+            msg += `📌 *DATA PENERIMA:* \n`;
+            msg += `• *Nama:* ${name}\n`;
+            msg += `• *Kecamatan/Kota:* ${district}\n`;
+            msg += `• *Alamat Lengkap:* ${address}\n\n`;
+            msg += `Mohon total ongkir & konfirmasi pengirimannya ya kak. Terima kasih!`;
 
             const encodedMsg = encodeURIComponent(msg);
             window.open(`https://wa.me/${currentWaNum}?text=${encodedMsg}`, '_blank');
