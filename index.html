@@ -46,8 +46,41 @@
     <!-- FLOATING WA BUTTON -->
     <a id="floatingWaBtn" href="#" target="_blank" aria-label="Tanya Admin di WhatsApp" class="fixed bottom-5 right-5 bg-green-600 hover:bg-green-700 text-white p-3 md:px-4 md:py-3 rounded-full shadow-2xl flex items-center gap-2 z-50 font-bold text-xs transition animate-pulse">
         <i class="fa-brands fa-whatsapp text-xl"></i>
-        <span class="hidden md:inline">Tanya Admin / Pesan via WA</span>
+        <span class="hidden md:inline">Tanya Admin</span>
     </a>
+
+    <!-- FLOATING CART BUTTON -->
+    <button onclick="toggleCartModal()" aria-label="Buka Keranjang Belanja" class="fixed bottom-20 right-5 md:bottom-5 md:right-48 bg-amber-500 hover:bg-amber-600 text-slate-900 p-3 md:px-4 md:py-3 rounded-full shadow-2xl flex items-center gap-2 z-50 font-bold text-xs transition">
+        <i class="fa-solid fa-cart-shopping text-xl"></i>
+        <span class="hidden md:inline">Keranjang</span>
+        <span id="cartBadge" class="bg-red-600 text-white px-2 py-0.5 rounded-full text-[10px]">0</span>
+    </button>
+
+    <!-- MODAL KERANJANG BELANJA -->
+    <div id="cartModal" class="hidden fixed inset-0 bg-black bg-opacity-50 z-50 flex items-center justify-center p-4">
+        <div class="bg-white rounded-2xl max-w-lg w-full p-6 shadow-xl flex flex-col max-h-[85vh]">
+            <div class="flex justify-between items-center border-b pb-3 mb-4">
+                <h3 class="font-bold text-lg text-slate-800 flex items-center gap-2">
+                    <i class="fa-solid fa-cart-shopping text-amber-500"></i> Keranjang Belanja Anda
+                </h3>
+                <button onclick="toggleCartModal()" aria-label="Tutup Keranjang" class="text-gray-400 hover:text-gray-600 font-bold text-lg">&times;</button>
+            </div>
+            
+            <div id="cartItemsList" class="flex-1 overflow-y-auto space-y-3 mb-4 pr-1">
+                <p class="text-xs text-gray-400 text-center py-4">Keranjang masih kosong.</p>
+            </div>
+
+            <div class="border-t pt-4 space-y-3">
+                <div class="flex justify-between font-bold text-base text-slate-800">
+                    <span>Total Estimasi:</span>
+                    <span id="cartTotalPrice" class="text-amber-600">Rp 0</span>
+                </div>
+                <button onclick="checkoutWhatsApp()" class="w-full bg-green-600 hover:bg-green-700 text-white py-3 rounded-xl text-xs font-bold transition shadow flex items-center justify-center gap-2">
+                    <i class="fa-brands fa-whatsapp text-base"></i> Checkout Pesanan via WhatsApp
+                </button>
+            </div>
+        </div>
+    </div>
 
     <!-- Peringatan Rotasi Layar HP -->
     <div id="rotate-notice" class="hidden fixed inset-0 bg-slate-900 bg-opacity-95 text-white z-50 flex-col items-center justify-center text-center p-6">
@@ -261,7 +294,7 @@
         </main>
     </div>
 
-    <!-- SCRIPT FIREBASE LOGIC -->
+    <!-- SCRIPT FIREBASE & CART LOGIC -->
     <script>
         const firebaseConfig = {
             databaseURL: "https://muhlisin-market-default-rtdb.asia-southeast1.firebasedatabase.app/"
@@ -271,6 +304,7 @@
         const db = firebase.database();
 
         let products = [];
+        let cart = [];
         let currentWaNum = "62895422768896";
 
         // LISTEN PENGATURAN UMUM & STATISTIK
@@ -412,8 +446,7 @@
                 card.className = "product-card bg-white rounded-xl shadow-sm overflow-hidden border border-gray-100 hover:shadow-md transition flex flex-col justify-between";
                 card.setAttribute('data-kategori', p.category || '');
 
-                const waMessage = encodeURIComponent(`Halo, saya berminat pesan ${p.title} (${p.price}). Apakah stok masih ada?`);
-                const productLink = p.link || `https://wa.me/${currentWaNum}?text=${waMessage}`;
+                const escapedTitle = (p.title || '').replace(/'/g, "\\'");
 
                 card.innerHTML = `
                     <div>
@@ -427,10 +460,13 @@
                             <p class="text-amber-600 font-bold text-lg mt-1">${p.price}</p>
                         </div>
                     </div>
-                    <div class="p-4 pt-0">
-                        <a href="${productLink}" target="_blank" aria-label="Beli ${p.title}" class="block text-center bg-green-600 hover:bg-green-700 text-white py-2.5 rounded-xl text-xs font-bold transition shadow-md flex items-center justify-center gap-1.5">
-                            <i class="fa-brands fa-whatsapp text-sm"></i> Beli Sekarang
+                    <div class="p-4 pt-0 grid grid-cols-2 gap-2">
+                        <a href="${p.link || '#'}" target="_blank" aria-label="Beli Cepat ${p.title}" class="text-center bg-green-600 hover:bg-green-700 text-white py-2 rounded-xl text-xs font-bold transition shadow flex items-center justify-center gap-1">
+                            <i class="fa-brands fa-whatsapp"></i> Beli
                         </a>
+                        <button onclick="addToCart('${p.id}', '${escapedTitle}', '${p.price}')" aria-label="Tambah ${p.title} ke Keranjang" class="text-center bg-slate-900 hover:bg-slate-800 text-amber-400 py-2 rounded-xl text-xs font-bold transition shadow flex items-center justify-center gap-1">
+                            <i class="fa-solid fa-cart-plus"></i> +Keranjang
+                        </button>
                     </div>
                 `;
                 productGrid.appendChild(card);
@@ -438,6 +474,103 @@
 
             const statTotal = document.getElementById('statTotalProduct');
             if (statTotal) statTotal.textContent = products.length + " Item";
+        }
+
+        // FUNGSI KERANJANG BELANJA
+        function toggleCartModal() {
+            const modal = document.getElementById('cartModal');
+            modal.classList.toggle('hidden');
+            renderCartItems();
+        }
+
+        function addToCart(id, title, price) {
+            const existing = cart.find(item => item.id === id);
+            if (existing) {
+                existing.qty += 1;
+            } else {
+                cart.push({ id, title, price, qty: 1 });
+            }
+            updateCartBadge();
+            alert(`Berhasil menambahkan "${title}" ke keranjang!`);
+        }
+
+        function updateCartBadge() {
+            const totalQty = cart.reduce((sum, item) => sum + item.qty, 0);
+            document.getElementById('cartBadge').textContent = totalQty;
+        }
+
+        function renderCartItems() {
+            const container = document.getElementById('cartItemsList');
+            container.innerHTML = '';
+
+            if (cart.length === 0) {
+                container.innerHTML = '<p class="text-xs text-gray-400 text-center py-4">Keranjang masih kosong.</p>';
+                document.getElementById('cartTotalPrice').textContent = 'Rp 0';
+                return;
+            }
+
+            let totalPriceNum = 0;
+
+            cart.forEach((item, index) => {
+                // Ekstrak angka dari string harga (misal: "Rp 50.000" -> 50000)
+                const cleanPrice = parseInt(item.price.replace(/[^0-9]/g, '')) || 0;
+                const subtotal = cleanPrice * item.qty;
+                totalPriceNum += subtotal;
+
+                container.innerHTML += `
+                    <div class="flex justify-between items-center bg-gray-50 p-3 rounded-xl border border-gray-100 text-xs">
+                        <div class="flex-1 pr-2">
+                            <h4 class="font-bold text-slate-800 line-clamp-1">${item.title}</h4>
+                            <p class="text-amber-600 font-semibold">${item.price} x ${item.qty}</p>
+                        </div>
+                        <div class="flex items-center gap-2">
+                            <button onclick="changeQty(${index}, -1)" class="w-6 h-6 bg-gray-200 hover:bg-gray-300 rounded font-bold">-</button>
+                            <span class="font-bold">${item.qty}</span>
+                            <button onclick="changeQty(${index}, 1)" class="w-6 h-6 bg-gray-200 hover:bg-gray-300 rounded font-bold">+</button>
+                            <button onclick="removeFromCart(${index})" class="text-red-500 hover:text-red-700 ml-2 font-bold"><i class="fa-solid fa-trash"></i></button>
+                        </div>
+                    </div>
+                `;
+            });
+
+            document.getElementById('cartTotalPrice').textContent = "Rp " + totalPriceNum.toLocaleString('id-ID');
+        }
+
+        function changeQty(index, delta) {
+            cart[index].qty += delta;
+            if (cart[index].qty <= 0) {
+                cart.splice(index, 1);
+            }
+            updateCartBadge();
+            renderCartItems();
+        }
+
+        function removeFromCart(index) {
+            cart.splice(index, 1);
+            updateCartBadge();
+            renderCartItems();
+        }
+
+        function checkoutWhatsApp() {
+            if (cart.length === 0) {
+                alert('Keranjang belanja Anda masih kosong!');
+                return;
+            }
+
+            let msg = `Halo Kak Muhlisin, saya ingin memesan produk berikut dari Muhlisin Market:\n\n`;
+            let totalEstimation = 0;
+
+            cart.forEach((item, i) => {
+                const cleanPrice = parseInt(item.price.replace(/[^0-9]/g, '')) || 0;
+                const subtotal = cleanPrice * item.qty;
+                totalEstimation += subtotal;
+                msg += `${i + 1}. *${item.title}* (${item.price}) x ${item.qty} = Rp ${subtotal.toLocaleString('id-ID')}\n`;
+            });
+
+            msg += `\n*Total Estimasi: Rp ${totalEstimation.toLocaleString('id-ID')}*\n\nMohon informasi ketersediaan stok dan total pembayarannya. Terima kasih!`;
+
+            const encodedMsg = encodeURIComponent(msg);
+            window.open(`https://wa.me/${currentWaNum}?text=${encodedMsg}`, '_blank');
         }
 
         function filterKategori(kat) {
