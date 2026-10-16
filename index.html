@@ -110,6 +110,21 @@
         </div>
     </div>
 
+    <!-- MODAL KEBIJAKAN & SYARAT KETENTUAN (POIN 3) -->
+    <div id="legalModal" class="hidden fixed inset-0 bg-black bg-opacity-50 z-50 flex items-center justify-center p-4">
+        <div class="bg-white rounded-2xl max-w-lg w-full p-6 shadow-xl flex flex-col max-h-[85vh]">
+            <div class="flex justify-between items-center border-b pb-3 mb-4">
+                <h3 id="legalModalTitle" class="font-bold text-base text-slate-800 flex items-center gap-2">
+                    <i class="fa-solid fa-file-shield text-amber-500"></i> Informasi Legal
+                </h3>
+                <button onclick="closeLegalModal()" class="text-gray-400 hover:text-gray-600 font-bold text-xl">&times;</button>
+            </div>
+            <div id="legalModalContent" class="flex-1 overflow-y-auto text-xs text-gray-600 space-y-3 leading-relaxed pr-2">
+                <!-- Konten dinamis -->
+            </div>
+        </div>
+    </div>
+
     <!-- MODAL KERANJANG BELANJA DENGAN FORM COD -->
     <div id="cartModal" class="hidden fixed inset-0 bg-black bg-opacity-50 z-50 flex items-center justify-center p-4">
         <div class="bg-white rounded-2xl max-w-lg w-full p-6 shadow-xl flex flex-col max-h-[90vh]">
@@ -481,8 +496,14 @@
                 </div>
             </section>
 
-            <footer id="footerText" class="text-center text-xs text-gray-400 py-4">
-                &copy; Created By Muhlisin. All Rights Reserved.
+            <!-- FOOTER DENGAN LINK LEGAL (POIN 3) -->
+            <footer class="text-center text-xs text-gray-400 py-6 space-y-2 border-t border-gray-200">
+                <div class="flex justify-center gap-4 font-semibold text-gray-600">
+                    <button onclick="openLegalModal('syarat')" class="hover:text-amber-600 transition">Syarat & Ketentuan</button>
+                    <span>•</span>
+                    <button onclick="openLegalModal('kebijakan')" class="hover:text-amber-600 transition">Kebijakan Privasi</button>
+                </div>
+                <p id="footerText">&copy; Created By Muhlisin. All Rights Reserved.</p>
             </footer>
 
         </main>
@@ -673,6 +694,35 @@
 
             const statTotal = document.getElementById('statTotalProduct');
             if (statTotal) statTotal.textContent = products.length + " Item";
+        }
+
+        // FUNGSI MODAL LEGAL (SYARAT & KEBIJAKAN)
+        function openLegalModal(type) {
+            const modal = document.getElementById('legalModal');
+            const titleElem = document.getElementById('legalModalTitle');
+            const contentElem = document.getElementById('legalModalContent');
+
+            if (type === 'syarat') {
+                titleElem.innerHTML = `<i class="fa-solid fa-file-contract text-amber-500"></i> Syarat & Ketentuan`;
+                contentElem.innerHTML = `
+                    <p><strong>1. Ketentuan Umum</strong><br>Dengan mengakses dan berbelanja di Muhlisin Market, Anda menyetujui seluruh syarat dan ketentuan yang berlaku.</p>
+                    <p><strong>2. Sistem Pembayaran & COD</strong><br>Layanan COD (Bayar di Tempat) mewajibkan pembeli menyiapkan pembayaran tunai kepada kurir saat paket tiba di alamat tujuan. Pembeli dilarang menolak pembayaran jika paket sudah dikirim sesuai pesanan.</p>
+                    <p><strong>3. Pemesanan via WhatsApp</strong><br>Seluruh rekapitulasi pesanan dikelola secara transparan melalui chat WhatsApp Admin untuk memastikan akurasi alamat dan ongkir.</p>
+                `;
+            } else {
+                titleElem.innerHTML = `<i class="fa-solid fa-user-shield text-amber-500"></i> Kebijakan Privasi`;
+                contentElem.innerHTML = `
+                    <p><strong>1. Kerahasiaan Data</strong><br>Muhlisin Market berkomitmen melindungi data pribadi pelanggan (Nama, Alamat, No. Telepon) yang diisi pada formulir keranjang belanja.</p>
+                    <p><strong>2. Penggunaan Informasi</strong><br>Data Anda hanya digunakan semata-mata untuk keperluan pengiriman pesanan, komunikasi konfirmasi via WhatsApp, dan layanan pelanggan.</p>
+                    <p><strong>3. Keamanan Transaksi</strong><br>Kami tidak pernah membagikan data atau informasi pribadi Anda kepada pihak ketiga manapun.</p>
+                `;
+            }
+
+            modal.classList.remove('hidden');
+        }
+
+        function closeLegalModal() {
+            document.getElementById('legalModal').classList.add('hidden');
         }
 
         // FUNGSI SHARE PRODUK
