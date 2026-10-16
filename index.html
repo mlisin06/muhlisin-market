@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     
-    <!-- FAVICON (Logo di Tab Browser) -->
+    <!-- FAVICON & LOGO -->
     <link rel="icon" type="image/jpeg" href="logo.jpg">
     <link rel="apple-touch-icon" href="logo.jpg">
 
@@ -15,44 +15,17 @@
     <title id="docTitle">Muhlisin Market - Pusat Rekomendasi Produk & Promo Diskon Terbaik</title>
     <meta name="title" content="Muhlisin Market - Pusat Rekomendasi Produk & Promo Diskon Terbaik">
     <meta name="description" content="Temukan kurasi rekomendasi produk pilihan terbaik, pakaian, hijab, alat rumah tangga, perlengkapan sekolah, dan parfum dengan harga diskon terjangkau hanya di Muhlisin Market.">
-    <meta name="keywords" content="Muhlisin Market, rekomendasi produk, promo diskon, belanja online murah, kurator produk, shopee affiliate, tiktok shop, pakaian, hijab, parfum, alat rumah tangga">
+    <meta name="keywords" content="Muhlisin Market, rekomendasi produk, promo diskon, belanja online murah, kurator produk, shopee affiliate, tiktok shop">
     <meta name="author" content="Muhlisin">
     <meta name="robots" content="index, follow">
     <link rel="canonical" href="https://mlisin06.github.io/muhlisin-market/index.html">
 
-    <!-- OPEN GRAPH / FACEBOOK / WHATSAPP PREVIEW -->
+    <!-- OPEN GRAPH / WHATSAPP PREVIEW -->
     <meta property="og:type" content="website">
     <meta property="og:url" content="https://mlisin06.github.io/muhlisin-market/index.html">
     <meta property="og:title" content="Muhlisin Market - Rekomendasi Produk & Diskon Termurah">
     <meta property="og:description" content="Pusat rekomendasi belanja terpercaya! Dapatkan promo diskon khusus, gratis ongkir, dan jaminan produk pilihan berkualitas tinggi.">
     <meta property="og:image" content="https://mlisin06.github.io/muhlisin-market/logo.jpg">
-
-    <!-- TWITTER CARD PREVIEW -->
-    <meta property="twitter:card" content="summary_large_image">
-    <meta property="twitter:url" content="https://mlisin06.github.io/muhlisin-market/index.html">
-    <meta property="twitter:title" content="Muhlisin Market - Rekomendasi Produk & Diskon Termurah">
-    <meta property="twitter:description" content="Pusat rekomendasi belanja terpercaya! Dapatkan promo diskon khusus, gratis ongkir, dan jaminan produk pilihan berkualitas tinggi.">
-    <meta property="twitter:image" content="https://mlisin06.github.io/muhlisin-market/logo.jpg">
-
-    <!-- STRUCTURED DATA (SCHEMA.ORG JSON-LD FOR GOOGLE) -->
-    <script type="application/ld+json">
-    {
-      "@context": "https://schema.org",
-      "@type": "OnlineStore",
-      "name": "Muhlisin Market",
-      "url": "https://mlisin06.github.io/muhlisin-market/index.html",
-      "logo": "https://mlisin06.github.io/muhlisin-market/logo.jpg",
-      "description": "Pusat rekomendasi produk pilihan terbaik dan diskon promo terpercaya oleh Muhlisin.",
-      "founder": {
-        "@type": "Person",
-        "name": "Muhlisin"
-      },
-      "sameAs": [
-        "https://instagram.com/shane_feela",
-        "https://tiktok.com/@shane_feela"
-      ]
-    }
-    </script>
 
     <!-- TAILWIND CSS & FONT AWESOME -->
     <script src="https://cdn.tailwindcss.com"></script>
@@ -70,57 +43,11 @@
 </head>
 <body class="bg-gray-100 font-sans text-gray-800">
 
-    <!-- FLOATING CART & WA BUTTONS -->
-    <div class="fixed bottom-5 right-5 z-50 flex flex-col gap-3 items-end">
-        <!-- Floating Cart Button -->
-        <button onclick="toggleCartModal()" class="relative bg-amber-500 hover:bg-amber-600 text-slate-900 p-3.5 rounded-full shadow-2xl flex items-center justify-center transition font-bold">
-            <i class="fa-solid fa-cart-shopping text-xl"></i>
-            <span id="cartBadgeCount" class="absolute -top-1 -right-1 bg-red-600 text-white text-[11px] font-extrabold w-5 h-5 rounded-full flex items-center justify-center border-2 border-white hidden">0</span>
-        </button>
-
-        <!-- Floating WA Button -->
-        <a id="floatingWaBtn" href="#" target="_blank" aria-label="Tanya Admin di WhatsApp" class="bg-green-600 hover:bg-green-700 text-white p-3 md:px-4 md:py-3 rounded-full shadow-2xl flex items-center gap-2 font-bold text-xs transition animate-pulse">
-            <i class="fa-brands fa-whatsapp text-xl"></i>
-            <span class="hidden md:inline">Tanya Admin / WA</span>
-        </a>
-    </div>
-
-    <!-- MODAL KERANJANG BELANJA -->
-    <div id="cartModal" class="fixed inset-0 bg-slate-900/60 backdrop-blur-sm z-50 flex justify-center items-center p-4 hidden">
-        <div class="bg-white w-full max-w-lg rounded-2xl shadow-2xl overflow-hidden flex flex-col max-h-[85vh]">
-            <!-- Header Modal -->
-            <div class="bg-slate-900 text-white p-4 flex justify-between items-center">
-                <div class="flex items-center gap-2">
-                    <i class="fa-solid fa-cart-shopping text-amber-400"></i>
-                    <h3 class="font-bold text-base">Keranjang Belanja</h3>
-                </div>
-                <button onclick="toggleCartModal()" class="text-gray-400 hover:text-white text-xl">
-                    <i class="fa-solid fa-xmark"></i>
-                </button>
-            </div>
-
-            <!-- List Barang Keranjang -->
-            <div id="cartItemsList" class="p-4 overflow-y-auto flex-1 space-y-3">
-                <p class="text-center text-gray-400 text-xs py-8">Keranjang belanja Anda masih kosong.</p>
-            </div>
-
-            <!-- Footer Modal & Total -->
-            <div class="p-4 bg-gray-50 border-t border-gray-100">
-                <div class="flex justify-between items-center mb-4">
-                    <span class="text-xs font-bold text-gray-500 uppercase">Total Estimasi</span>
-                    <span id="cartTotalPrice" class="text-lg font-extrabold text-amber-600">Rp 0</span>
-                </div>
-                <div class="flex gap-2">
-                    <button onclick="clearCart()" class="w-1/3 py-2.5 border border-red-200 text-red-600 hover:bg-red-50 text-xs font-bold rounded-xl transition">
-                        Kosongkan
-                    </button>
-                    <button onclick="checkoutViaWa()" class="w-2/3 bg-green-600 hover:bg-green-700 text-white py-2.5 rounded-xl text-xs font-bold transition flex items-center justify-center gap-2 shadow-md">
-                        <i class="fa-brands fa-whatsapp text-base"></i> Pesan via WA
-                    </button>
-                </div>
-            </div>
-        </div>
-    </div>
+    <!-- FLOATING WA BUTTON -->
+    <a id="floatingWaBtn" href="#" target="_blank" aria-label="Tanya Admin di WhatsApp" class="fixed bottom-5 right-5 bg-green-600 hover:bg-green-700 text-white p-3 md:px-4 md:py-3 rounded-full shadow-2xl flex items-center gap-2 z-50 font-bold text-xs transition animate-pulse">
+        <i class="fa-brands fa-whatsapp text-xl"></i>
+        <span class="hidden md:inline">Tanya Admin / Pesan via WA</span>
+    </a>
 
     <!-- Peringatan Rotasi Layar HP -->
     <div id="rotate-notice" class="hidden fixed inset-0 bg-slate-900 bg-opacity-95 text-white z-50 flex-col items-center justify-center text-center p-6">
@@ -135,7 +62,7 @@
         <aside class="w-64 bg-slate-900 text-white p-5 flex flex-col justify-between hidden md:block shrink-0 sticky top-0 h-screen">
             <div>
                 <div class="flex items-center gap-3 mb-8">
-                    <img src="logo.jpg" alt="Logo" class="w-8 h-8 rounded-full border border-amber-400">
+                    <i class="fa-solid fa-store text-2xl text-amber-400"></i>
                     <h1 id="brandNameSidebar" class="text-xl font-bold tracking-wide">Muhlisin Market</h1>
                 </div>
                 <nav class="space-y-2 text-sm">
@@ -173,4 +100,366 @@
                 </nav>
             </div>
             <div class="border-t border-slate-800 pt-4">
-                <a href="admin.html" target="_blank" class="block w-full py-2 bg-slate-800 hover:bg-slate-700 text-xs text
+                <a href="admin.html" target="_blank" class="block w-full py-2 bg-slate-800 hover:bg-slate-700 text-xs text-amber-400 rounded text-center font-bold">
+                    <i class="fa-solid fa-user-gear mr-1"></i> Buka Panel Admin
+                </a>
+            </div>
+        </aside>
+
+        <!-- Area Konten Utama -->
+        <main class="flex-1 p-6 overflow-y-auto">
+            
+            <!-- Header Atas -->
+            <header class="flex flex-col md:flex-row justify-between items-start md:items-center bg-white p-4 rounded-xl shadow-sm mb-6 gap-4">
+                <div>
+                    <h1 id="heroHeaderTitle" class="text-2xl font-bold text-slate-800">Selamat Datang di Muhlisin Market!</h1>
+                    <p id="heroHeaderSub" class="text-sm text-amber-600 font-semibold">🎁 Kumpulan Rekomendasi Produk Pilihan Terbaik & Diskon Spesial Hari Ini!</p>
+                </div>
+                <div class="flex items-center gap-3">
+                    <a id="headerWaBtn" href="#" target="_blank" aria-label="Hubungi WhatsApp Admin" class="bg-green-600 hover:bg-green-700 text-white px-4 py-2 rounded-lg text-sm font-semibold flex items-center gap-2 transition shadow">
+                        <i class="fa-brands fa-whatsapp text-lg"></i> Hubungi WA
+                    </a>
+                </div>
+            </header>
+
+            <!-- Ringkasan Statistik & Keunggulan -->
+            <section id="dasbor" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 mb-6">
+                <div class="bg-white p-4 rounded-xl shadow-sm border-l-4 border-amber-500 flex items-center justify-between">
+                    <div>
+                        <p class="text-xs text-gray-500 font-semibold uppercase">Total Produk</p>
+                        <h3 id="statTotalProduct" class="text-xl font-bold text-slate-800">0 Item</h3>
+                    </div>
+                    <i class="fa-solid fa-box-open text-2xl text-amber-500"></i>
+                </div>
+                <div class="bg-white p-4 rounded-xl shadow-sm border-l-4 border-red-500 flex items-center justify-between">
+                    <div>
+                        <p class="text-xs text-gray-500 font-semibold uppercase">Flash Sale</p>
+                        <h3 id="statFlashSale" class="text-xl font-bold text-slate-800">Diskon s/d 50%</h3>
+                    </div>
+                    <i class="fa-solid fa-bolt text-2xl text-red-500"></i>
+                </div>
+                <div class="bg-white p-4 rounded-xl shadow-sm border-l-4 border-blue-500 flex items-center justify-between">
+                    <div>
+                        <p class="text-xs text-gray-500 font-semibold uppercase">Mitra Afiliasi</p>
+                        <h3 id="statAffiliate" class="text-xl font-bold text-slate-800">Shopee & TikTok</h3>
+                    </div>
+                    <i class="fa-solid fa-handshake text-2xl text-blue-500"></i>
+                </div>
+                <div class="bg-white p-4 rounded-xl shadow-sm border-l-4 border-emerald-500 flex items-center justify-between">
+                    <div>
+                        <p class="text-xs text-gray-500 font-semibold uppercase">Layanan</p>
+                        <h3 id="statService" class="text-xl font-bold text-slate-800">Fast Response</h3>
+                    </div>
+                    <i class="fa-solid fa-headset text-2xl text-emerald-500"></i>
+                </div>
+            </section>
+
+            <!-- BANNER PROMO PERSUASIF -->
+            <section id="promoBannerSection" class="bg-gradient-to-r from-amber-500 to-red-600 text-white p-5 rounded-2xl shadow-lg mb-8 flex flex-col md:flex-row justify-between items-center gap-4">
+                <div>
+                    <span id="promoBadgeText" class="bg-white text-red-600 text-[10px] font-bold px-2.5 py-0.5 rounded-full uppercase">🔥 PROMO HARI INI</span>
+                    <h2 id="promoTitleText" class="text-xl font-bold mt-1">Gunakan Kode Voucher "MUHLISIN20K" untuk Diskon Tambahan!</h2>
+                    <p id="promoDescText" class="text-xs text-amber-100 mt-1">Dapatkan potongan harga & prioritas pengiriman khusus pembelian via WhatsApp.</p>
+                </div>
+                <a id="promoBtnLink" href="#" target="_blank" aria-label="Klaim Kupon Diskon" class="bg-slate-900 hover:bg-slate-800 text-amber-400 text-xs font-bold px-5 py-3 rounded-xl shadow transition shrink-0 flex items-center gap-2">
+                    <span id="promoBtnText">Klaim Kupon via WA</span> <i class="fa-solid fa-arrow-right"></i>
+                </a>
+            </section>
+
+            <!-- SEKSI 1: TENTANG KAMI -->
+            <section id="tentang" class="mb-8 bg-white p-6 rounded-xl shadow-sm">
+                <div class="flex flex-col md:flex-row items-center gap-6">
+                    <img id="aboutImage" src="logo.jpg" alt="Foto Profil Muhlisin Market" class="w-28 h-28 rounded-2xl object-cover shadow-md border-2 border-amber-400 shrink-0">
+                    <div class="space-y-2">
+                        <span id="aboutBadge" class="bg-amber-100 text-amber-800 text-xs font-bold px-2.5 py-1 rounded-md">100% TERPERCAYA</span>
+                        <h2 id="aboutTitle" class="text-xl font-bold text-slate-800">Muhlisin — Digital Marketer & Affiliate Curator</h2>
+                        <p id="aboutDescription" class="text-sm text-gray-600 leading-relaxed">
+                            Selamat datang di <strong>Muhlisin Market</strong>! Saya membantu Anda menemukan kurasi produk-produk terlaris, berkualitas tinggi, dan garansi original dengan diskon harga termurah.
+                        </p>
+                        <div class="flex flex-wrap gap-4 pt-2 text-xs font-semibold text-slate-700">
+                            <span id="trust1"><i class="fa-solid fa-circle-check text-emerald-500"></i> 100% Produk Pilihan</span>
+                            <span id="trust2"><i class="fa-solid fa-truck-fast text-blue-500"></i> Pengiriman Cepat</span>
+                            <span id="trust3"><i class="fa-solid fa-shield-halved text-amber-500"></i> Transaksi Aman</span>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- SEKSI 2: KATALOG PRODUK FIREBASE -->
+            <section id="terlaris" class="mb-8">
+                <div class="flex flex-col md:flex-row justify-between items-center mb-4 gap-4">
+                    <h2 class="text-xl font-bold text-slate-800 flex items-center gap-2 shrink-0">
+                        <i class="fa-solid fa-fire text-orange-500"></i> Rekomendasi Produk Terbaik
+                    </h2>
+                    <div class="w-full md:max-w-xs">
+                        <div class="relative">
+                            <input type="text" id="searchInput" onkeyup="searchProducts()" placeholder="Cari produk impianmu..." class="w-full pl-10 pr-4 py-2 rounded-xl border border-slate-200 focus:outline-none focus:ring-2 focus:ring-amber-500 bg-white text-slate-800 shadow-sm text-sm" aria-label="Cari produk">
+                            <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none text-slate-400">
+                                <i class="fa-solid fa-magnifying-glass text-xs"></i>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div id="productGrid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                    <p class="text-gray-400 text-xs col-span-full py-4 text-center">Memuat produk dari database...</p>
+                </div>
+            </section>
+
+            <!-- SEKSI 3: TESTIMONI PELANGGAN -->
+            <section id="testimoni" class="mb-8 bg-white p-6 rounded-xl shadow-sm">
+                <h2 class="text-xl font-bold text-slate-800 mb-4 flex items-center gap-2">
+                    <i class="fa-solid fa-star text-yellow-400"></i> Apa Kata Pembeli Kami?
+                </h2>
+                <div id="testimonialGrid" class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                    <p class="text-xs text-gray-400 col-span-full">Memuat testimoni...</p>
+                </div>
+            </section>
+
+            <!-- SEKSI 4: KONTAK KAMI -->
+            <section id="kontak" class="mb-8 bg-white p-6 rounded-xl shadow-sm">
+                <h2 class="text-xl font-bold text-slate-800 mb-4 flex items-center gap-2">
+                    <i class="fa-solid fa-envelope text-red-500"></i> Hubungi Kami
+                </h2>
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                    <form onsubmit="event.preventDefault(); alert('Pesan Anda berhasil terkirim!');" class="space-y-3">
+                        <div>
+                            <label class="block text-xs font-bold text-gray-700 mb-1" for="inputNama">Nama Anda</label>
+                            <input type="text" id="inputNama" placeholder="Masukkan nama..." required class="w-full bg-gray-50 border rounded-lg p-2.5 text-xs outline-none focus:ring-2 focus:ring-amber-500">
+                        </div>
+                        <div>
+                            <label class="block text-xs font-bold text-gray-700 mb-1" for="inputPesan">Pesan / Pertanyaan</label>
+                            <textarea id="inputPesan" rows="3" placeholder="Tuliskan pesan Anda..." required class="w-full bg-gray-50 border rounded-lg p-2.5 text-xs outline-none focus:ring-2 focus:ring-amber-500"></textarea>
+                        </div>
+                        <button type="submit" class="bg-slate-900 hover:bg-slate-800 text-white text-xs font-bold px-4 py-2.5 rounded-lg transition">
+                            Kirim Pesan
+                        </button>
+                    </form>
+
+                    <div class="space-y-4 border-t md:border-t-0 md:border-l pt-4 md:pt-0 md:pl-6 border-gray-100">
+                        <p id="contactIntroText" class="text-xs text-gray-600 leading-relaxed">
+                            Punya pertanyaan seputar produk atau kerja sama? Jangan ragu untuk konsultasi via WhatsApp.
+                        </p>
+                        <div class="space-y-2 text-xs">
+                            <a id="cntWa" href="#" target="_blank" aria-label="Kontak WhatsApp" class="flex items-center gap-3 text-green-600 font-semibold hover:underline">
+                                <i class="fa-brands fa-whatsapp text-lg"></i> <span id="cntWaText">+62 895422768896</span>
+                            </a>
+                            <a id="cntIg" href="#" target="_blank" aria-label="Kontak Instagram" class="flex items-center gap-3 text-pink-600 font-semibold hover:underline">
+                                <i class="fa-brands fa-instagram text-lg"></i> <span id="cntIgText">@shane_feela</span>
+                            </a>
+                            <a id="cntTiktok" href="#" target="_blank" aria-label="Kontak TikTok" class="flex items-center gap-3 text-black font-semibold hover:underline">
+                                <i class="fa-brands fa-tiktok text-lg"></i> <span id="cntTiktokText">@shane_feela</span>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <footer id="footerText" class="text-center text-xs text-gray-400 py-4">
+                &copy; Created By Muhlisin. All Rights Reserved.
+            </footer>
+
+        </main>
+    </div>
+
+    <!-- SCRIPT FIREBASE LOGIC -->
+    <script>
+        const firebaseConfig = {
+            databaseURL: "https://muhlisin-market-default-rtdb.asia-southeast1.firebasedatabase.app/"
+        };
+
+        firebase.initializeApp(firebaseConfig);
+        const db = firebase.database();
+
+        let products = [];
+        let currentWaNum = "62895422768896";
+
+        // LISTEN PENGATURAN UMUM & STATISTIK
+        db.ref('settings').on('value', (snapshot) => {
+            const data = snapshot.val();
+            if (data) {
+                if (data.brandName) {
+                    document.title = data.brandName + " - Pusat Rekomendasi & Diskon Terbaik";
+                    document.getElementById('brandNameSidebar').textContent = data.brandName;
+                }
+                if (data.heroTitle) document.getElementById('heroHeaderTitle').textContent = data.heroTitle;
+                if (data.heroSub) document.getElementById('heroHeaderSub').textContent = data.heroSub;
+                
+                if (data.statFlash) document.getElementById('statFlashSale').textContent = data.statFlash;
+                if (data.statAffiliate) document.getElementById('statAffiliate').textContent = data.statAffiliate;
+                if (data.statService) document.getElementById('statService').textContent = data.statService;
+                if (data.footerText) document.getElementById('footerText').innerHTML = "&copy; " + data.footerText;
+            }
+        });
+
+        // LISTEN PENGATURAN TENTANG KAMI
+        db.ref('about').on('value', (snapshot) => {
+            const data = snapshot.val();
+            if (data) {
+                if (data.img) document.getElementById('aboutImage').src = data.img;
+                if (data.badge) document.getElementById('aboutBadge').textContent = data.badge;
+                if (data.title) document.getElementById('aboutTitle').textContent = data.title;
+                if (data.desc) document.getElementById('aboutDescription').innerHTML = data.desc;
+                if (data.trust1) document.getElementById('trust1').innerHTML = `<i class="fa-solid fa-circle-check text-emerald-500"></i> ${data.trust1}`;
+                if (data.trust2) document.getElementById('trust2').innerHTML = `<i class="fa-solid fa-truck-fast text-blue-500"></i> ${data.trust2}`;
+                if (data.trust3) document.getElementById('trust3').innerHTML = `<i class="fa-solid fa-shield-halved text-amber-500"></i> ${data.trust3}`;
+            }
+        });
+
+        // LISTEN BANNER PROMO
+        db.ref('config/promo').on('value', (snapshot) => {
+            const data = snapshot.val();
+            const section = document.getElementById('promoBannerSection');
+            if (data) {
+                if (data.active === false) {
+                    section.classList.add('hidden');
+                } else {
+                    section.classList.remove('hidden');
+                    if (data.badge) document.getElementById('promoBadgeText').textContent = data.badge;
+                    if (data.title) document.getElementById('promoTitleText').textContent = data.title;
+                    if (data.desc) document.getElementById('promoDescText').textContent = data.desc;
+                    if (data.btnText) document.getElementById('promoBtnText').textContent = data.btnText;
+                    if (data.btnLink) document.getElementById('promoBtnLink').href = data.btnLink;
+                }
+            }
+        });
+
+        // LISTEN KONTAK & SOSMED
+        db.ref('config/contact').on('value', (snapshot) => {
+            const cfg = snapshot.val();
+            if (cfg) {
+                if (cfg.wa) {
+                    currentWaNum = cfg.wa;
+                    const waUrl = "https://wa.me/" + currentWaNum;
+                    document.getElementById('headerWaBtn').href = waUrl;
+                    document.getElementById('floatingWaBtn').href = waUrl;
+                    document.getElementById('cntWa').href = waUrl;
+                    document.getElementById('cntWaText').textContent = "+" + currentWaNum;
+                }
+                if (cfg.ig) {
+                    document.getElementById('cntIg').href = "https://instagram.com/" + cfg.ig.replace('@','');
+                    document.getElementById('cntIgText').textContent = cfg.ig;
+                }
+                if (cfg.tiktok) {
+                    document.getElementById('cntTiktok').href = "https://tiktok.com/" + cfg.tiktok.replace('@','');
+                    document.getElementById('cntTiktokText').textContent = cfg.tiktok;
+                }
+            }
+        });
+
+        // LISTEN KATEGORI
+        db.ref('categories').on('value', (snapshot) => {
+            const data = snapshot.val();
+            const container = document.getElementById('categoryMenuList');
+            container.innerHTML = '<button onclick="filterKategori(\'semua\')" class="w-full text-left block py-1.5 px-3 rounded hover:bg-slate-800 hover:text-white transition">Semua Produk</button>';
+            if (data) {
+                Object.keys(data).forEach(id => {
+                    const cat = data[id];
+                    container.innerHTML += `<button onclick="filterKategori('${cat.slug}')" class="w-full text-left block py-1.5 px-3 rounded hover:bg-slate-800 hover:text-white transition">${cat.name}</button>`;
+                });
+            }
+        });
+
+        // LISTEN PRODUK REALTIME
+        db.ref('products').on('value', (snapshot) => {
+            const data = snapshot.val();
+            products = [];
+            if (data) {
+                Object.keys(data).forEach(key => {
+                    products.push({ id: key, ...data[key] });
+                });
+            }
+            renderProducts();
+        });
+
+        // LISTEN TESTIMONI
+        db.ref('testimonials').on('value', (snapshot) => {
+            const data = snapshot.val();
+            const container = document.getElementById('testimonialGrid');
+            container.innerHTML = '';
+            if (data) {
+                Object.keys(data).forEach(id => {
+                    const t = data[id];
+                    let starsHtml = '';
+                    for(let i=0; i < (t.stars || 5); i++) starsHtml += '<i class="fa-solid fa-star"></i>';
+                    
+                    container.innerHTML += `
+                        <div class="p-4 bg-gray-50 rounded-lg border border-gray-100 space-y-2">
+                            <div class="flex text-yellow-400 text-sm">${starsHtml}</div>
+                            <p class="text-sm text-gray-600 italic">"${t.review}"</p>
+                            <p class="text-xs font-bold text-slate-800">— ${t.name}, ${t.city}</p>
+                        </div>
+                    `;
+                });
+            } else {
+                container.innerHTML = '<p class="text-xs text-gray-400 col-span-full">Belum ada testimoni.</p>';
+            }
+        });
+
+        function renderProducts(itemsToRender = null) {
+            const productGrid = document.getElementById('productGrid');
+            if (!productGrid) return;
+
+            const list = itemsToRender || products;
+            productGrid.innerHTML = '';
+
+            if (list.length === 0) {
+                productGrid.innerHTML = '<p class="text-gray-400 text-xs col-span-full py-4 text-center">Belum ada produk ditemukan.</p>';
+                return;
+            }
+
+            list.forEach(p => {
+                const card = document.createElement('article');
+                card.className = "product-card bg-white rounded-xl shadow-sm overflow-hidden border border-gray-100 hover:shadow-md transition flex flex-col justify-between";
+                card.setAttribute('data-kategori', p.category || '');
+
+                const waMessage = encodeURIComponent(`Halo, saya berminat pesan ${p.title} (${p.price}). Apakah stok masih ada?`);
+                const productLink = p.link || `https://wa.me/${currentWaNum}?text=${waMessage}`;
+
+                card.innerHTML = `
+                    <div>
+                        <div class="relative w-full bg-slate-800 rounded-t-lg overflow-hidden flex items-center justify-center p-2">
+                            <span class="absolute top-2 left-2 bg-red-600 text-white text-[10px] font-bold px-2 py-0.5 rounded uppercase shadow">${p.badge || 'PROMO'}</span>
+                            <img src="${p.img || 'https://via.placeholder.com/300'}" alt="${p.title}" class="w-full h-auto max-h-80 object-contain rounded-lg" loading="lazy">
+                        </div>
+                        <div class="p-4">
+                            <span class="text-[10px] bg-amber-100 text-amber-800 font-bold px-2 py-0.5 rounded uppercase">${p.category || 'Umum'}</span>
+                            <h3 class="font-bold text-slate-800 text-base mt-1 line-clamp-2">${p.title}</h3>
+                            <p class="text-amber-600 font-bold text-lg mt-1">${p.price}</p>
+                        </div>
+                    </div>
+                    <div class="p-4 pt-0">
+                        <a href="${productLink}" target="_blank" aria-label="Beli ${p.title}" class="block text-center bg-green-600 hover:bg-green-700 text-white py-2.5 rounded-xl text-xs font-bold transition shadow-md flex items-center justify-center gap-1.5">
+                            <i class="fa-brands fa-whatsapp text-sm"></i> Beli Sekarang
+                        </a>
+                    </div>
+                `;
+                productGrid.appendChild(card);
+            });
+
+            const statTotal = document.getElementById('statTotalProduct');
+            if (statTotal) statTotal.textContent = products.length + " Item";
+        }
+
+        function filterKategori(kat) {
+            const cards = document.querySelectorAll('#productGrid .product-card');
+            cards.forEach(card => {
+                const cardKat = card.getAttribute('data-kategori') || '';
+                if (kat === 'semua' || cardKat.trim().toLowerCase() === kat.trim().toLowerCase()) {
+                    card.style.display = 'flex';
+                } else {
+                    card.style.display = 'none';
+                }
+            });
+        }
+
+        function searchProducts() {
+            const query = document.getElementById('searchInput').value.toLowerCase();
+            const filtered = products.filter(p => 
+                (p.title && p.title.toLowerCase().includes(query)) || 
+                (p.category && p.category.toLowerCase().includes(query))
+            );
+            renderProducts(filtered);
+        }
+    </script>
+</body>
+</html>
