@@ -3,7 +3,10 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Master Panel Admin - Muhlisin Market</title>
+    <title>Panel Admin - Muhlisin Market</title>
+    <link rel="icon" type="image/jpeg" href="logo.jpg">
+    
+    <!-- TAILWIND CSS & FONT AWESOME -->
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
     
@@ -11,324 +14,342 @@
     <script src="https://www.gstatic.com/firebasejs/9.22.1/firebase-app-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/9.22.1/firebase-database-compat.js"></script>
 </head>
-<body class="bg-slate-900 text-gray-100 font-sans min-h-screen">
+<body class="bg-slate-100 font-sans text-gray-800">
 
-    <!-- LOGIN SCREEN -->
-    <div id="loginScreen" class="fixed inset-0 bg-slate-950 flex items-center justify-center p-4 z-50">
-        <div class="bg-slate-900 border border-slate-800 p-8 rounded-2xl max-w-sm w-full shadow-2xl space-y-4">
-            <div class="text-center space-y-2">
-                <i class="fa-solid fa-shield-halved text-4xl text-amber-400"></i>
-                <h2 class="text-xl font-bold text-white">Login Admin Master</h2>
-                <p class="text-xs text-gray-400">Masukkan PIN Admin untuk mengelola seluruh toko</p>
-            </div>
-            <div>
-                <input type="password" id="adminPin" placeholder="Masukkan PIN Admin" class="w-full bg-slate-800 border border-slate-700 rounded-xl p-3 text-center text-sm font-bold tracking-widest text-white outline-none focus:ring-2 focus:ring-amber-500">
-            </div>
-            <button onclick="checkAuth()" class="w-full bg-amber-500 hover:bg-amber-600 text-slate-950 font-bold py-3 rounded-xl transition text-sm">
-                Masuk ke Panel Admin
-            </button>
-        </div>
-    </div>
-
-    <!-- MAIN ADMIN DASHBOARD -->
-    <div id="adminPanel" class="hidden min-h-screen flex flex-col md:flex-row">
+    <div class="min-h-screen flex flex-col md:flex-row">
         
-        <!-- Sidebar Navigation -->
-        <aside class="w-full md:w-64 bg-slate-950 p-6 border-b md:border-b-0 md:border-r border-slate-800 shrink-0">
-            <div class="flex items-center gap-3 mb-8">
-                <i class="fa-solid fa-store text-2xl text-amber-400"></i>
-                <h1 class="font-bold text-lg text-white">Master Admin</h1>
+        <!-- SIDEBAR ADMIN -->
+        <aside class="w-full md:w-64 bg-slate-900 text-white p-5 shrink-0">
+            <div class="flex items-center gap-3 mb-6">
+                <img src="logo.jpg" alt="Logo Muhlisin Market" class="w-10 h-10 rounded-full object-cover border border-amber-400">
+                <div>
+                    <h1 class="font-bold text-sm">Muhlisin Market</h1>
+                    <p class="text-[10px] text-amber-400 font-semibold">Panel Kontrol Admin</p>
+                </div>
             </div>
-            <nav class="space-y-1.5 text-xs font-semibold">
-                <button onclick="showTab('produk')" class="w-full flex items-center gap-3 px-4 py-3 rounded-xl bg-amber-500 text-slate-950 font-bold transition">
-                    <i class="fa-solid fa-box-open"></i> Kelola Produk
-                </button>
-                <button onclick="showTab('kategori')" class="w-full flex items-center gap-3 px-4 py-3 rounded-xl hover:bg-slate-800 text-gray-300 transition">
-                    <i class="fa-solid fa-layer-group text-blue-400"></i> Kelola Kategori
-                </button>
-                <button onclick="showTab('pengaturan')" class="w-full flex items-center gap-3 px-4 py-3 rounded-xl hover:bg-slate-800 text-gray-300 transition">
-                    <i class="fa-solid fa-sliders text-amber-400"></i> Pengaturan Website
-                </button>
-                <button onclick="showTab('tentang')" class="w-full flex items-center gap-3 px-4 py-3 rounded-xl hover:bg-slate-800 text-gray-300 transition">
-                    <i class="fa-solid fa-user-tie text-purple-400"></i> Profil Tentang Kami
-                </button>
-                <button onclick="showTab('promo')" class="w-full flex items-center gap-3 px-4 py-3 rounded-xl hover:bg-slate-800 text-gray-300 transition">
-                    <i class="fa-solid fa-rectangle-ad text-red-400"></i> Banner Promo
-                </button>
-                <button onclick="showTab('testimoni')" class="w-full flex items-center gap-3 px-4 py-3 rounded-xl hover:bg-slate-800 text-gray-300 transition">
-                    <i class="fa-solid fa-star text-yellow-400"></i> Testimoni Klien
-                </button>
-                <button onclick="showTab('kontak')" class="w-full flex items-center gap-3 px-4 py-3 rounded-xl hover:bg-slate-800 text-gray-300 transition">
-                    <i class="fa-solid fa-address-book text-green-400"></i> Kontak & Sosmed
-                </button>
 
-                <a href="https://mlisin06.github.io/muhlisin-market/index.html" target="_blank" class="w-full flex items-center gap-3 px-4 py-3 rounded-xl hover:bg-slate-800 text-amber-400 transition mt-4">
-                    <i class="fa-solid fa-arrow-up-right-from-square"></i> Lihat Website Live
-                </a>
-            </nav>
-            <div class="mt-8 border-t border-slate-800 pt-4">
-                <button onclick="location.reload()" class="w-full py-2 bg-red-900/50 hover:bg-red-800 text-red-200 text-xs font-bold rounded-xl transition">
-                    <i class="fa-solid fa-right-from-bracket mr-1"></i> Keluar
+            <nav class="space-y-1 text-xs">
+                <button onclick="switchTab('tab-products')" class="w-full text-left flex items-center gap-2.5 px-3 py-2.5 rounded-lg bg-amber-500 text-slate-900 font-bold transition">
+                    <i class="fa-solid fa-boxes-stacked"></i> Kelola Produk & Stok
                 </button>
+                <button onclick="switchTab('tab-hero')" class="w-full text-left flex items-center gap-2.5 px-3 py-2.5 rounded-lg hover:bg-slate-800 text-gray-300 font-semibold transition">
+                    <i class="fa-solid fa-house-chimney text-amber-400"></i> Pengaturan Website & Hero
+                </button>
+                <button onclick="switchTab('tab-about')" class="w-full text-left flex items-center gap-2.5 px-3 py-2.5 rounded-lg hover:bg-slate-800 text-gray-300 font-semibold transition">
+                    <i class="fa-solid fa-user-tie text-blue-400"></i> Profil Tentang Kami
+                </button>
+                <button onclick="switchTab('tab-promo')" class="w-full text-left flex items-center gap-2.5 px-3 py-2.5 rounded-lg hover:bg-slate-800 text-gray-300 font-semibold transition">
+                    <i class="fa-solid fa-rectangle-ad text-red-400"></i> Banner Promo & Voucher
+                </button>
+                <button onclick="switchTab('tab-categories')" class="w-full text-left flex items-center gap-2.5 px-3 py-2.5 rounded-lg hover:bg-slate-800 text-gray-300 font-semibold transition">
+                    <i class="fa-solid fa-tags text-cyan-400"></i> Kategori Produk
+                </button>
+                <button onclick="switchTab('tab-testimonials')" class="w-full text-left flex items-center gap-2.5 px-3 py-2.5 rounded-lg hover:bg-slate-800 text-gray-300 font-semibold transition">
+                    <i class="fa-solid fa-comments text-purple-400"></i> Testimoni Pembeli
+                </button>
+                <button onclick="switchTab('tab-settings')" class="w-full text-left flex items-center gap-2.5 px-3 py-2.5 rounded-lg hover:bg-slate-800 text-gray-300 font-semibold transition">
+                    <i class="fa-solid fa-sliders text-emerald-400"></i> Kontak WA & Sosmed
+                </button>
+            </nav>
+
+            <div class="mt-8 pt-4 border-t border-slate-800">
+                <a href="index.html" target="_blank" class="block w-full text-center bg-slate-800 hover:bg-slate-700 py-2 rounded-lg text-xs font-bold text-amber-400 transition">
+                    <i class="fa-solid fa-globe mr-1"></i> Lihat Toko Online
+                </a>
             </div>
         </aside>
 
-        <!-- Main Content Area -->
-        <main class="flex-1 p-6 md:p-8 overflow-y-auto space-y-6">
+        <!-- AREA KONTEN UTAMA -->
+        <main class="flex-1 p-6 overflow-y-auto">
             
-            <!-- SECTION 1: KELOLA PRODUK -->
-            <div id="tabProduk" class="space-y-6">
-                <div class="bg-slate-800 p-6 rounded-2xl border border-slate-700 space-y-4">
-                    <h3 class="font-bold text-amber-400 text-sm flex items-center gap-2">
-                        <i class="fa-solid fa-plus-circle"></i> Tambah Produk Baru
-                    </h3>
-                    <div class="grid grid-cols-1 md:grid-cols-2 gap-4 text-xs">
-                        <div>
-                            <label class="block text-gray-300 font-bold mb-1">Nama Produk</label>
-                            <input type="text" id="pTitle" placeholder="Contoh: Kemeja Unisex Premium" class="w-full bg-slate-900 border border-slate-700 rounded-xl p-3 text-white">
-                        </div>
-                        <div>
-                            <label class="block text-gray-300 font-bold mb-1">Harga Jual / Diskon</label>
-                            <input type="text" id="pPrice" placeholder="Contoh: Rp 120.000" class="w-full bg-slate-900 border border-slate-700 rounded-xl p-3 text-white">
-                        </div>
-                        <div>
-                            <label class="block text-gray-300 font-bold mb-1">Kategori Produk</label>
-                            <select id="pCategory" class="w-full bg-slate-900 border border-slate-700 rounded-xl p-3 text-white">
-                                <!-- Loaded dynamically -->
-                            </select>
-                        </div>
-                        <div>
-                            <label class="block text-gray-300 font-bold mb-1">Label Badge (Misal: FLASH SALE)</label>
-                            <input type="text" id="pBadge" placeholder="Contoh: DISKON 30%" class="w-full bg-slate-900 border border-slate-700 rounded-xl p-3 text-white">
-                        </div>
-                        <div>
-                            <label class="block text-gray-300 font-bold mb-1">URL Link Foto Produk</label>
-                            <input type="text" id="pImg" placeholder="https://i.postimg.cc/..." class="w-full bg-slate-900 border border-slate-700 rounded-xl p-3 text-white">
-                        </div>
-                        <div>
-                            <label class="block text-gray-300 font-bold mb-1">Link Checkout / Shopee / WA</label>
-                            <input type="text" id="pLink" placeholder="https://shopee.co.id/... (atau kosongkan untuk WA)" class="w-full bg-slate-900 border border-slate-700 rounded-xl p-3 text-white">
-                        </div>
-                    </div>
-                    <button onclick="addProductToFirebase()" class="bg-amber-500 hover:bg-amber-400 text-slate-950 font-bold text-xs px-6 py-3 rounded-xl transition">
-                        <i class="fa-solid fa-save mr-1"></i> Simpan Produk
-                    </button>
-                </div>
-
-                <div class="space-y-3">
-                    <h3 class="font-bold text-white text-sm">Daftar Produk Aktif</h3>
-                    <div id="adminProductList" class="grid grid-cols-1 md:grid-cols-3 gap-4">
-                        <p class="text-xs text-gray-500 col-span-full">Memuat produk...</p>
+            <!-- TAB 1: KELOLA PRODUK, STOK, & TERJUAL -->
+            <section id="tab-products" class="space-y-6">
+                <div class="flex justify-between items-center bg-white p-4 rounded-xl shadow-sm border">
+                    <div>
+                        <h2 class="font-bold text-lg text-slate-800"><i class="fa-solid fa-boxes-stacked text-amber-500 mr-2"></i>Kelola Produk & Indikator Stok</h2>
+                        <p class="text-xs text-gray-500">Tambah produk baru atau atur stok terbatas & jumlah terjual di kartu produk.</p>
                     </div>
                 </div>
-            </div>
 
-            <!-- SECTION 2: KELOLA KATEGORI -->
-            <div id="tabKategori" class="hidden space-y-6">
-                <div class="bg-slate-800 p-6 rounded-2xl border border-slate-700 space-y-4">
-                    <h3 class="font-bold text-blue-400 text-sm">Tambah Kategori Baru</h3>
-                    <div class="grid grid-cols-1 md:grid-cols-2 gap-4 text-xs">
-                        <div>
-                            <label class="block text-gray-300 font-bold mb-1">Nama Kategori</label>
-                            <input type="text" id="catName" placeholder="Contoh: Sepatu Olahraga" class="w-full bg-slate-900 border border-slate-700 rounded-xl p-3 text-white">
+                <!-- FORM TAMBAH / EDIT PRODUK -->
+                <div class="bg-white p-5 rounded-xl shadow-sm border space-y-4">
+                    <h3 class="font-bold text-sm text-slate-800 border-b pb-2"><i class="fa-solid fa-plus-circle text-green-600 mr-1.5"></i> Tambah / Edit Produk</h3>
+                    
+                    <form id="productForm" onsubmit="saveProduct(event)" class="space-y-3 text-xs">
+                        <input type="hidden" id="prodId">
+                        
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-3">
+                            <div>
+                                <label class="block font-bold mb-1 text-gray-700">Nama Produk</label>
+                                <input type="text" id="prodTitle" placeholder="Contoh: Parfum Luxury Oud 50ml" required class="w-full border rounded-lg p-2 outline-none focus:ring-2 focus:ring-amber-500">
+                            </div>
+                            <div>
+                                <label class="block font-bold mb-1 text-gray-700">Kategori</label>
+                                <select id="prodCategory" class="w-full border rounded-lg p-2 outline-none focus:ring-2 focus:ring-amber-500">
+                                    <option value="Umum">Umum</option>
+                                </select>
+                            </div>
                         </div>
-                        <div>
-                            <label class="block text-gray-300 font-bold mb-1">Slug Kode (Tanpa spasi)</label>
-                            <input type="text" id="catSlug" placeholder="Contoh: sepatu-olahraga" class="w-full bg-slate-900 border border-slate-700 rounded-xl p-3 text-white">
-                        </div>
-                    </div>
-                    <button onclick="addCategory()" class="bg-blue-600 hover:bg-blue-500 text-white font-bold text-xs px-6 py-3 rounded-xl transition">
-                        Tambah Kategori
-                    </button>
-                </div>
 
-                <div class="space-y-3">
-                    <h3 class="font-bold text-white text-sm">Daftar Kategori Terpasang</h3>
-                    <div id="adminCategoryList" class="grid grid-cols-1 md:grid-cols-3 gap-3">
-                        <p class="text-xs text-gray-500 col-span-full">Memuat kategori...</p>
-                    </div>
-                </div>
-            </div>
-
-            <!-- SECTION 3: PENGATURAN TAMPILAN WEBSITES -->
-            <div id="tabPengaturan" class="hidden space-y-6">
-                <div class="bg-slate-800 p-6 rounded-2xl border border-slate-700 space-y-4 text-xs">
-                    <h3 class="font-bold text-amber-400 text-sm">Pengaturan Header Utama & Statistik</h3>
-                    <div class="space-y-3">
-                        <div>
-                            <label class="block text-gray-300 font-bold mb-1">Nama Brand / Toko</label>
-                            <input type="text" id="cfgBrand" class="w-full bg-slate-900 border border-slate-700 rounded-xl p-3 text-white">
-                        </div>
-                        <div>
-                            <label class="block text-gray-300 font-bold mb-1">Judul Sambutan Header</label>
-                            <input type="text" id="cfgHeroTitle" class="w-full bg-slate-900 border border-slate-700 rounded-xl p-3 text-white">
-                        </div>
-                        <div>
-                            <label class="block text-gray-300 font-bold mb-1">Sub-Judul Header (Persuasif)</label>
-                            <input type="text" id="cfgHeroSub" class="w-full bg-slate-900 border border-slate-700 rounded-xl p-3 text-white">
-                        </div>
                         <div class="grid grid-cols-1 md:grid-cols-3 gap-3">
                             <div>
-                                <label class="block text-gray-300 font-bold mb-1">Teks Flash Sale</label>
-                                <input type="text" id="cfgStatFlash" class="w-full bg-slate-900 border border-slate-700 rounded-xl p-3 text-white">
+                                <label class="block font-bold mb-1 text-gray-700">Harga (Rp)</label>
+                                <input type="text" id="prodPrice" placeholder="Rp 99.000" required class="w-full border rounded-lg p-2 outline-none focus:ring-2 focus:ring-amber-500">
                             </div>
                             <div>
-                                <label class="block text-gray-300 font-bold mb-1">Teks Mitra Afiliasi</label>
-                                <input type="text" id="cfgStatAffiliate" class="w-full bg-slate-900 border border-slate-700 rounded-xl p-3 text-white">
+                                <label class="block font-bold mb-1 text-gray-700">Terjual (Teks / Angka)</label>
+                                <input type="text" id="prodSold" placeholder="Contoh: 45+ atau 120" class="w-full border rounded-lg p-2 outline-none focus:ring-2 focus:ring-amber-500">
                             </div>
                             <div>
-                                <label class="block text-gray-300 font-bold mb-1">Teks Layanan</label>
-                                <input type="text" id="cfgStatService" class="w-full bg-slate-900 border border-slate-700 rounded-xl p-3 text-white">
+                                <label class="block font-bold mb-1 text-gray-700">Sisa Stok (Angka)</label>
+                                <input type="text" id="prodStock" placeholder="Contoh: 3" class="w-full border rounded-lg p-2 outline-none focus:ring-2 focus:ring-amber-500">
                             </div>
                         </div>
-                        <div>
-                            <label class="block text-gray-300 font-bold mb-1">Teks Hak Cipta Footer</label>
-                            <input type="text" id="cfgFooter" class="w-full bg-slate-900 border border-slate-700 rounded-xl p-3 text-white">
-                        </div>
-                    </div>
-                    <button onclick="saveSiteSettings()" class="bg-amber-500 hover:bg-amber-400 text-slate-950 font-bold px-6 py-3 rounded-xl transition">
-                        Simpan Pengaturan Utama
-                    </button>
-                </div>
-            </div>
 
-            <!-- SECTION 4: KELOLA TENTANG KAMI -->
-            <div id="tabTentang" class="hidden space-y-6">
-                <div class="bg-slate-800 p-6 rounded-2xl border border-slate-700 space-y-4 text-xs">
-                    <h3 class="font-bold text-purple-400 text-sm">Pengaturan Profil "Tentang Kami"</h3>
-                    <div class="space-y-3">
-                        <div>
-                            <label class="block text-gray-300 font-bold mb-1">URL Foto Profil</label>
-                            <input type="text" id="abImg" class="w-full bg-slate-900 border border-slate-700 rounded-xl p-3 text-white">
-                        </div>
-                        <div>
-                            <label class="block text-gray-300 font-bold mb-1">Label Badge Profil</label>
-                            <input type="text" id="abBadge" class="w-full bg-slate-900 border border-slate-700 rounded-xl p-3 text-white">
-                        </div>
-                        <div>
-                            <label class="block text-gray-300 font-bold mb-1">Nama & Gelar Profil</label>
-                            <input type="text" id="abTitle" class="w-full bg-slate-900 border border-slate-700 rounded-xl p-3 text-white">
-                        </div>
-                        <div>
-                            <label class="block text-gray-300 font-bold mb-1">Deskripsi Lengkap Personal</label>
-                            <textarea id="abDesc" rows="3" class="w-full bg-slate-900 border border-slate-700 rounded-xl p-3 text-white"></textarea>
-                        </div>
                         <div class="grid grid-cols-1 md:grid-cols-3 gap-3">
                             <div>
-                                <label class="block text-gray-300 font-bold mb-1">Keunggulan 1</label>
-                                <input type="text" id="abTrust1" class="w-full bg-slate-900 border border-slate-700 rounded-xl p-3 text-white">
+                                <label class="block font-bold mb-1 text-gray-700">URL Gambar Produk</label>
+                                <input type="url" id="prodImg" placeholder="https://..." required class="w-full border rounded-lg p-2 outline-none focus:ring-2 focus:ring-amber-500">
                             </div>
                             <div>
-                                <label class="block text-gray-300 font-bold mb-1">Keunggulan 2</label>
-                                <input type="text" id="abTrust2" class="w-full bg-slate-900 border border-slate-700 rounded-xl p-3 text-white">
+                                <label class="block font-bold mb-1 text-gray-700">Label Badge (Misal: PROMO / DISKON)</label>
+                                <input type="text" id="prodBadge" placeholder="PROMO 50%" class="w-full border rounded-lg p-2 outline-none focus:ring-2 focus:ring-amber-500">
                             </div>
                             <div>
-                                <label class="block text-gray-300 font-bold mb-1">Keunggulan 3</label>
-                                <input type="text" id="abTrust3" class="w-full bg-slate-900 border border-slate-700 rounded-xl p-3 text-white">
+                                <label class="block font-bold mb-1 text-gray-700">Link Produk / Checkout WA (Opsional)</label>
+                                <input type="url" id="prodLink" placeholder="https://wa.me/..." class="w-full border rounded-lg p-2 outline-none focus:ring-2 focus:ring-amber-500">
                             </div>
                         </div>
-                    </div>
-                    <button onclick="saveAboutConfig()" class="bg-purple-600 hover:bg-purple-500 text-white font-bold px-6 py-3 rounded-xl transition">
-                        Update Profil Tentang Kami
-                    </button>
-                </div>
-            </div>
 
-            <!-- SECTION 5: KELOLA BANNER PROMO -->
-            <div id="tabPromo" class="hidden space-y-6">
-                <div class="bg-slate-800 p-6 rounded-2xl border border-slate-700 space-y-4 text-xs">
-                    <h3 class="font-bold text-red-400 text-sm">Pengaturan Banner Promo / Kupon</h3>
-                    <div class="space-y-3">
-                        <div>
-                            <label class="block text-gray-300 font-bold mb-1">Teks Badge Promo</label>
-                            <input type="text" id="cfgPromoBadge" placeholder="PROMO HARI INI" class="w-full bg-slate-900 border border-slate-700 rounded-xl p-3 text-white">
+                        <div class="flex gap-2 pt-2">
+                            <button type="submit" class="bg-amber-500 hover:bg-amber-600 text-slate-900 font-bold px-4 py-2 rounded-lg transition shadow">
+                                <i class="fa-solid fa-floppy-disk mr-1"></i> Simpan Produk
+                            </button>
+                            <button type="button" onclick="resetProductForm()" class="bg-gray-200 hover:bg-gray-300 text-gray-700 font-bold px-4 py-2 rounded-lg transition">
+                                Batal
+                            </button>
                         </div>
-                        <div>
-                            <label class="block text-gray-300 font-bold mb-1">Judul Utama Promo</label>
-                            <input type="text" id="cfgPromoTitle" class="w-full bg-slate-900 border border-slate-700 rounded-xl p-3 text-white">
-                        </div>
-                        <div>
-                            <label class="block text-gray-300 font-bold mb-1">Deskripsi Promo</label>
-                            <input type="text" id="cfgPromoDesc" class="w-full bg-slate-900 border border-slate-700 rounded-xl p-3 text-white">
-                        </div>
-                        <div>
-                            <label class="block text-gray-300 font-bold mb-1">Teks Tombol Aksi</label>
-                            <input type="text" id="cfgPromoBtnText" class="w-full bg-slate-900 border border-slate-700 rounded-xl p-3 text-white">
-                        </div>
-                        <div>
-                            <label class="block text-gray-300 font-bold mb-1">Link Tombol WA / Promo</label>
-                            <input type="text" id="cfgPromoBtnLink" class="w-full bg-slate-900 border border-slate-700 rounded-xl p-3 text-white">
-                        </div>
-                    </div>
-                    <button onclick="savePromoConfig()" class="bg-red-600 hover:bg-red-500 text-white font-bold px-6 py-3 rounded-xl transition">
-                        Update Banner Promo
-                    </button>
-                </div>
-            </div>
-
-            <!-- SECTION 6: KELOLA TESTIMONI -->
-            <div id="tabTestimoni" class="hidden space-y-6">
-                <div class="bg-slate-800 p-6 rounded-2xl border border-slate-700 space-y-4 text-xs">
-                    <h3 class="font-bold text-yellow-400 text-sm">Tambah Testimoni Baru</h3>
-                    <div class="grid grid-cols-1 md:grid-cols-3 gap-3">
-                        <div>
-                            <label class="block text-gray-300 font-bold mb-1">Nama Pembeli</label>
-                            <input type="text" id="tName" placeholder="Contoh: Budi Santoso" class="w-full bg-slate-900 border border-slate-700 rounded-xl p-3 text-white">
-                        </div>
-                        <div>
-                            <label class="block text-gray-300 font-bold mb-1">Kota / Domisili</label>
-                            <input type="text" id="tCity" placeholder="Contoh: Jakarta" class="w-full bg-slate-900 border border-slate-700 rounded-xl p-3 text-white">
-                        </div>
-                        <div>
-                            <label class="block text-gray-300 font-bold mb-1">Jumlah Bintang (1-5)</label>
-                            <input type="number" id="tStars" value="5" min="1" max="5" class="w-full bg-slate-900 border border-slate-700 rounded-xl p-3 text-white">
-                        </div>
-                        <div class="md:col-span-3">
-                            <label class="block text-gray-300 font-bold mb-1">Ulasan / Kata Pembeli</label>
-                            <textarea id="tReview" rows="2" placeholder="Tuliskan ulasan pembeli..." class="w-full bg-slate-900 border border-slate-700 rounded-xl p-3 text-white"></textarea>
-                        </div>
-                    </div>
-                    <button onclick="addTestimonial()" class="bg-yellow-500 hover:bg-yellow-400 text-slate-950 font-bold px-6 py-3 rounded-xl transition">
-                        Tambah Testimoni
-                    </button>
+                    </form>
                 </div>
 
-                <div class="space-y-3">
-                    <h3 class="font-bold text-white text-sm">Daftar Testimoni</h3>
-                    <div id="adminTestimonialList" class="grid grid-cols-1 md:grid-cols-2 gap-3">
-                        <p class="text-xs text-gray-500 col-span-full">Memuat testimoni...</p>
+                <!-- DAFTAR PRODUK -->
+                <div class="bg-white p-5 rounded-xl shadow-sm border space-y-3">
+                    <h3 class="font-bold text-sm text-slate-800 border-b pb-2">Daftar Produk Aktif</h3>
+                    <div class="overflow-x-auto">
+                        <table class="w-full text-xs text-left border-collapse">
+                            <thead>
+                                <tr class="bg-slate-100 border-b text-gray-600">
+                                    <th class="p-2.5">Gambar</th>
+                                    <th class="p-2.5">Nama Produk</th>
+                                    <th class="p-2.5">Harga</th>
+                                    <th class="p-2.5">Kategori</th>
+                                    <th class="p-2.5">Terjual</th>
+                                    <th class="p-2.5">Stok</th>
+                                    <th class="p-2.5 text-center">Aksi</th>
+                                </tr>
+                            </thead>
+                            <tbody id="adminProductTable">
+                                <tr>
+                                    <td colspan="7" class="p-4 text-center text-gray-400">Memuat data produk...</td>
+                                </tr>
+                            </tbody>
+                        </table>
                     </div>
                 </div>
-            </div>
+            </section>
 
-            <!-- SECTION 7: KELOLA KONTAK -->
-            <div id="tabKontak" class="hidden space-y-6">
-                <div class="bg-slate-800 p-6 rounded-2xl border border-slate-700 space-y-4 text-xs">
-                    <h3 class="font-bold text-green-400 text-sm">Pengaturan Nomor WA & Sosial Media</h3>
-                    <div class="space-y-3">
+            <!-- TAB 2: PENGATURAN WEBSITE & HERO -->
+            <section id="tab-hero" class="hidden space-y-6">
+                <div class="bg-white p-5 rounded-xl shadow-sm border space-y-4 max-w-lg">
+                    <h2 class="font-bold text-lg text-slate-800 border-b pb-2"><i class="fa-solid fa-house-chimney text-amber-500 mr-2"></i>Pengaturan Judul & Branding Utama</h2>
+                    <form onsubmit="saveWebsiteSettings(event)" class="space-y-3 text-xs">
                         <div>
-                            <label class="block text-gray-300 font-bold mb-1">Nomor WhatsApp Utama (Format 628...)</label>
-                            <input type="text" id="cfgWa" class="w-full bg-slate-900 border border-slate-700 rounded-xl p-3 text-white">
+                            <label class="block font-bold mb-1 text-gray-700">Nama Brand / Toko</label>
+                            <input type="text" id="settingBrandName" placeholder="Muhlisin Market" required class="w-full border rounded-lg p-2">
                         </div>
                         <div>
-                            <label class="block text-gray-300 font-bold mb-1">Username Instagram</label>
-                            <input type="text" id="cfgIg" class="w-full bg-slate-900 border border-slate-700 rounded-xl p-3 text-white">
+                            <label class="block font-bold mb-1 text-gray-700">Judul Utama (Hero Header Title)</label>
+                            <input type="text" id="settingHeroTitle" placeholder="Selamat Datang di Muhlisin Market!" required class="w-full border rounded-lg p-2">
                         </div>
                         <div>
-                            <label class="block text-gray-300 font-bold mb-1">Username TikTok</label>
-                            <input type="text" id="cfgTiktok" class="w-full bg-slate-900 border border-slate-700 rounded-xl p-3 text-white">
+                            <label class="block font-bold mb-1 text-gray-700">Sub-Judul (Hero Header Sub)</label>
+                            <input type="text" id="settingHeroSub" placeholder="🎁 Kumpulan Rekomendasi Produk Pilihan..." required class="w-full border rounded-lg p-2">
                         </div>
-                    </div>
-                    <button onclick="saveContactConfig()" class="bg-green-600 hover:bg-green-500 text-white font-bold px-6 py-3 rounded-xl transition">
-                        Update Informasi Kontak
-                    </button>
+                        <div class="grid grid-cols-3 gap-2">
+                            <div>
+                                <label class="block font-bold mb-1 text-gray-700">Stat Flash Sale</label>
+                                <input type="text" id="settingStatFlash" placeholder="Diskon s/d 50%" class="w-full border rounded-lg p-2">
+                            </div>
+                            <div>
+                                <label class="block font-bold mb-1 text-gray-700">Stat Mitra</label>
+                                <input type="text" id="settingStatAffiliate" placeholder="Shopee & TikTok" class="w-full border rounded-lg p-2">
+                            </div>
+                            <div>
+                                <label class="block font-bold mb-1 text-gray-700">Stat Layanan</label>
+                                <input type="text" id="settingStatService" placeholder="Fast Response" class="w-full border rounded-lg p-2">
+                            </div>
+                        </div>
+                        <div>
+                            <label class="block font-bold mb-1 text-gray-700">Teks Hak Cipta Footer</label>
+                            <input type="text" id="settingFooterText" placeholder="Created By Muhlisin. All Rights Reserved." class="w-full border rounded-lg p-2">
+                        </div>
+                        <button type="submit" class="bg-amber-500 hover:bg-amber-600 text-slate-900 font-bold px-4 py-2 rounded-lg transition shadow">
+                            <i class="fa-solid fa-floppy-disk mr-1"></i> Simpan Pengaturan Website
+                        </button>
+                    </form>
                 </div>
-            </div>
+            </section>
+
+            <!-- TAB 3: PROFIL TENTANG KAMI -->
+            <section id="tab-about" class="hidden space-y-6">
+                <div class="bg-white p-5 rounded-xl shadow-sm border space-y-4 max-w-lg">
+                    <h2 class="font-bold text-lg text-slate-800 border-b pb-2"><i class="fa-solid fa-user-tie text-blue-500 mr-2"></i>Pengaturan Profil Tentang Kami</h2>
+                    <form onsubmit="saveAboutSettings(event)" class="space-y-3 text-xs">
+                        <div>
+                            <label class="block font-bold mb-1 text-gray-700">URL Foto Profil / Toko</label>
+                            <input type="url" id="aboutImg" placeholder="logo.jpg atau https://..." required class="w-full border rounded-lg p-2">
+                        </div>
+                        <div>
+                            <label class="block font-bold mb-1 text-gray-700">Badge Atas Profil</label>
+                            <input type="text" id="aboutBadge" placeholder="100% TERPERCAYA" required class="w-full border rounded-lg p-2">
+                        </div>
+                        <div>
+                            <label class="block font-bold mb-1 text-gray-700">Judul Profil (Nama & Peran)</label>
+                            <input type="text" id="aboutTitle" placeholder="Muhlisin — Digital Marketer & Affiliate Curator" required class="w-full border rounded-lg p-2">
+                        </div>
+                        <div>
+                            <label class="block font-bold mb-1 text-gray-700">Deskripsi Lengkap</label>
+                            <textarea id="aboutDesc" rows="3" required class="w-full border rounded-lg p-2"></textarea>
+                        </div>
+                        <div class="grid grid-cols-3 gap-2">
+                            <div>
+                                <label class="block font-bold mb-1 text-gray-700">Poin Trust 1</label>
+                                <input type="text" id="aboutTrust1" placeholder="100% Produk Pilihan" class="w-full border rounded-lg p-2">
+                            </div>
+                            <div>
+                                <label class="block font-bold mb-1 text-gray-700">Poin Trust 2</label>
+                                <input type="text" id="aboutTrust2" placeholder="Pengiriman Cepat" class="w-full border rounded-lg p-2">
+                            </div>
+                            <div>
+                                <label class="block font-bold mb-1 text-gray-700">Poin Trust 3</label>
+                                <input type="text" id="aboutTrust3" placeholder="Transaksi Aman" class="w-full border rounded-lg p-2">
+                            </div>
+                        </div>
+                        <button type="submit" class="bg-amber-500 hover:bg-amber-600 text-slate-900 font-bold px-4 py-2 rounded-lg transition shadow">
+                            <i class="fa-solid fa-floppy-disk mr-1"></i> Simpan Profil Tentang Kami
+                        </button>
+                    </form>
+                </div>
+            </section>
+
+            <!-- TAB 4: BANNER PROMO & VOUCHER -->
+            <section id="tab-promo" class="hidden space-y-6">
+                <div class="bg-white p-5 rounded-xl shadow-sm border space-y-4 max-w-lg">
+                    <h2 class="font-bold text-lg text-slate-800 border-b pb-2"><i class="fa-solid fa-rectangle-ad text-red-500 mr-2"></i>Pengaturan Banner Promo Hari Ini</h2>
+                    <form onsubmit="savePromoConfig(event)" class="space-y-3 text-xs">
+                        <div class="flex items-center gap-2">
+                            <input type="checkbox" id="promoActive" class="w-4 h-4 text-amber-500 rounded">
+                            <label for="promoActive" class="font-bold text-gray-700">Tampilkan Banner Promo di Website Utama</label>
+                        </div>
+                        <div>
+                            <label class="block font-bold mb-1 text-gray-700">Teks Badge Atas</label>
+                            <input type="text" id="promoBadge" placeholder="🔥 PROMO HARI INI" class="w-full border rounded-lg p-2">
+                        </div>
+                        <div>
+                            <label class="block font-bold mb-1 text-gray-700">Judul Promo Utama</label>
+                            <input type="text" id="promoTitle" placeholder="Gunakan Kode Voucher..." class="w-full border rounded-lg p-2">
+                        </div>
+                        <div>
+                            <label class="block font-bold mb-1 text-gray-700">Deskripsi Singkat</label>
+                            <textarea id="promoDesc" rows="2" class="w-full border rounded-lg p-2"></textarea>
+                        </div>
+                        <div>
+                            <label class="block font-bold mb-1 text-gray-700">Teks Tombol Aksi</label>
+                            <input type="text" id="promoBtnText" placeholder="Klaim Kupon via WA" class="w-full border rounded-lg p-2">
+                        </div>
+                        <div>
+                            <label class="block font-bold mb-1 text-gray-700">Link Tujuan Tombol Aksi</label>
+                            <input type="text" id="promoBtnLink" placeholder="https://wa.me/..." class="w-full border rounded-lg p-2">
+                        </div>
+                        <button type="submit" class="bg-amber-500 hover:bg-amber-600 text-slate-900 font-bold px-4 py-2 rounded-lg transition shadow">
+                            <i class="fa-solid fa-floppy-disk mr-1"></i> Simpan Banner Promo
+                        </button>
+                    </form>
+                </div>
+            </section>
+
+            <!-- TAB 5: KATEGORI PRODUK -->
+            <section id="tab-categories" class="hidden space-y-6">
+                <div class="bg-white p-5 rounded-xl shadow-sm border space-y-4 max-w-lg">
+                    <h2 class="font-bold text-lg text-slate-800 border-b pb-2"><i class="fa-solid fa-tags text-cyan-500 mr-2"></i>Kelola Kategori Produk</h2>
+                    <form onsubmit="addCategory(event)" class="flex gap-2 text-xs">
+                        <input type="text" id="newCatName" placeholder="Nama Kategori Baru..." required class="flex-1 border rounded-lg p-2">
+                        <button type="submit" class="bg-slate-900 hover:bg-slate-800 text-amber-400 font-bold px-4 py-2 rounded-lg transition">
+                            Tambah
+                        </button>
+                    </form>
+                    <div id="adminCategoryList" class="space-y-1.5 text-xs pt-2">
+                        <!-- List dinamis -->
+                    </div>
+                </div>
+            </section>
+
+            <!-- TAB 6: TESTIMONI PEMBELI -->
+            <section id="tab-testimonials" class="hidden space-y-6">
+                <div class="bg-white p-5 rounded-xl shadow-sm border space-y-4 max-w-lg">
+                    <h2 class="font-bold text-lg text-slate-800 border-b pb-2"><i class="fa-solid fa-comments text-purple-500 mr-2"></i>Tambah Testimoni Pembeli</h2>
+                    <form onsubmit="addTestimonial(event)" class="space-y-3 text-xs">
+                        <div>
+                            <label class="block font-bold mb-1 text-gray-700">Nama Pembeli</label>
+                            <input type="text" id="testiName" placeholder="Contoh: Budi Santoso" required class="w-full border rounded-lg p-2">
+                        </div>
+                        <div>
+                            <label class="block font-bold mb-1 text-gray-700">Kota Asal</label>
+                            <input type="text" id="testiCity" placeholder="Contoh: Pemalang" required class="w-full border rounded-lg p-2">
+                        </div>
+                        <div>
+                            <label class="block font-bold mb-1 text-gray-700">Isi Ulasan / Testimoni</label>
+                            <textarea id="testiReview" rows="3" placeholder="Barang cepat sampai, original!" required class="w-full border rounded-lg p-2"></textarea>
+                        </div>
+                        <button type="submit" class="bg-amber-500 hover:bg-amber-600 text-slate-900 font-bold px-4 py-2 rounded-lg transition shadow">
+                            Tambah Testimoni
+                        </button>
+                    </form>
+                    <div id="adminTestiList" class="space-y-2 border-t pt-3">
+                        <!-- List Testimoni -->
+                    </div>
+                </div>
+            </section>
+
+            <!-- TAB 7: KONTAK WA & SOSMED -->
+            <section id="tab-settings" class="hidden space-y-6">
+                <div class="bg-white p-5 rounded-xl shadow-sm border space-y-4 max-w-lg">
+                    <h2 class="font-bold text-lg text-slate-800 border-b pb-2"><i class="fa-solid fa-sliders text-emerald-500 mr-2"></i>Pengaturan Kontak WA & Sosial Media</h2>
+                    <form onsubmit="saveContactSettings(event)" class="space-y-3 text-xs">
+                        <div>
+                            <label class="block font-bold mb-1 text-gray-700">Nomor WhatsApp Admin (Awali dengan 62)</label>
+                            <input type="text" id="cfgWa" placeholder="62895422768896" required class="w-full border rounded-lg p-2 font-mono">
+                            <p class="text-[10px] text-gray-400 mt-0.5">*Gunakan format angka tanpa spasi/strip (misal: 62895...)</p>
+                        </div>
+                        <div>
+                            <label class="block font-bold mb-1 text-gray-700">Username Instagram</label>
+                            <input type="text" id="cfgIg" placeholder="@shane_feela" class="w-full border rounded-lg p-2">
+                        </div>
+                        <div>
+                            <label class="block font-bold mb-1 text-gray-700">Username TikTok</label>
+                            <input type="text" id="cfgTiktok" placeholder="@shane_feela" class="w-full border rounded-lg p-2">
+                        </div>
+                        <button type="submit" class="bg-amber-500 hover:bg-amber-600 text-slate-900 font-bold px-4 py-2 rounded-lg transition shadow">
+                            <i class="fa-solid fa-floppy-disk mr-1"></i> Simpan Kontak & Sosmed
+                        </button>
+                    </form>
+                </div>
+            </section>
 
         </main>
     </div>
 
-    <!-- SCRIPT FIREBASE LOGIC -->
+    <!-- FIREBASE SCRIPT & ADMIN LOGIC -->
     <script>
         const firebaseConfig = {
             databaseURL: "https://muhlisin-market-default-rtdb.asia-southeast1.firebasedatabase.app/"
@@ -337,277 +358,264 @@
         firebase.initializeApp(firebaseConfig);
         const db = firebase.database();
 
-        function checkAuth() {
-            const pin = document.getElementById('adminPin').value;
-            if (pin === "240785") {
-                document.getElementById('loginScreen').classList.add('hidden');
-                document.getElementById('adminPanel').classList.remove('hidden');
-                loadAllAdminData();
-            } else {
-                alert("PIN Admin Salah!");
+        function switchTab(tabId) {
+            document.querySelectorAll('main > section').forEach(sec => sec.classList.add('hidden'));
+            document.getElementById(tabId).classList.remove('hidden');
+        }
+
+        // LOAD PENGATURAN WEBSITE (SETTINGS)
+        db.ref('settings').on('value', (snapshot) => {
+            const data = snapshot.val();
+            if (data) {
+                document.getElementById('settingBrandName').value = data.brandName || '';
+                document.getElementById('settingHeroTitle').value = data.heroTitle || '';
+                document.getElementById('settingHeroSub').value = data.heroSub || '';
+                document.getElementById('settingStatFlash').value = data.statFlash || '';
+                document.getElementById('settingStatAffiliate').value = data.statAffiliate || '';
+                document.getElementById('settingStatService').value = data.statService || '';
+                document.getElementById('settingFooterText').value = data.footerText || '';
             }
-        }
+        });
 
-        function showTab(tab) {
-            const tabs = ['produk', 'kategori', 'pengaturan', 'tentang', 'promo', 'testimoni', 'kontak'];
-            tabs.forEach(t => {
-                const el = document.getElementById('tab' + t.charAt(0).toUpperCase() + t.slice(1));
-                if (el) el.classList.toggle('hidden', t !== tab);
+        function saveWebsiteSettings(e) {
+            e.preventDefault();
+            db.ref('settings').set({
+                brandName: document.getElementById('settingBrandName').value,
+                heroTitle: document.getElementById('settingHeroTitle').value,
+                heroSub: document.getElementById('settingHeroSub').value,
+                statFlash: document.getElementById('settingStatFlash').value,
+                statAffiliate: document.getElementById('settingStatAffiliate').value,
+                statService: document.getElementById('settingStatService').value,
+                footerText: document.getElementById('settingFooterText').value
             });
+            alert('Pengaturan website berhasil disimpan!');
         }
 
-        function loadAllAdminData() {
-            loadCategories();
-            loadProducts();
-            loadSettings();
-            loadAbout();
-            loadPromo();
-            loadTestimonials();
-            loadContacts();
-        }
+        // LOAD TENTANG KAMI (ABOUT)
+        db.ref('about').on('value', (snapshot) => {
+            const data = snapshot.val();
+            if (data) {
+                document.getElementById('aboutImg').value = data.img || '';
+                document.getElementById('aboutBadge').value = data.badge || '';
+                document.getElementById('aboutTitle').value = data.title || '';
+                document.getElementById('aboutDesc').value = data.desc || '';
+                document.getElementById('aboutTrust1').value = data.trust1 || '';
+                document.getElementById('aboutTrust2').value = data.trust2 || '';
+                document.getElementById('aboutTrust3').value = data.trust3 || '';
+            }
+        });
 
-        // KATEGORI
-        function addCategory() {
-            const name = document.getElementById('catName').value;
-            const slug = document.getElementById('catSlug').value || name.toLowerCase().replace(/ /g, '-');
-            if(!name) return alert("Nama kategori wajib diisi!");
-
-            db.ref('categories').push({ name, slug }).then(() => {
-                alert("Kategori berhasil ditambahkan!");
-                document.getElementById('catName').value = '';
-                document.getElementById('catSlug').value = '';
+        function saveAboutSettings(e) {
+            e.preventDefault();
+            db.ref('about').set({
+                img: document.getElementById('aboutImg').value,
+                badge: document.getElementById('aboutBadge').value,
+                title: document.getElementById('aboutTitle').value,
+                desc: document.getElementById('aboutDesc').value,
+                trust1: document.getElementById('aboutTrust1').value,
+                trust2: document.getElementById('aboutTrust2').value,
+                trust3: document.getElementById('aboutTrust3').value
             });
+            alert('Profil tentang kami berhasil disimpan!');
         }
 
-        function loadCategories() {
-            db.ref('categories').on('value', (snapshot) => {
-                const data = snapshot.val();
-                const list = document.getElementById('adminCategoryList');
-                const select = document.getElementById('pCategory');
-                list.innerHTML = '';
-                select.innerHTML = '';
+        // LOAD KATEGORI
+        db.ref('categories').on('value', (snapshot) => {
+            const data = snapshot.val();
+            const select = document.getElementById('prodCategory');
+            const list = document.getElementById('adminCategoryList');
+            
+            select.innerHTML = '<option value="Umum">Umum</option>';
+            list.innerHTML = '';
 
-                if (data) {
-                    Object.keys(data).forEach(id => {
-                        const c = data[id];
-                        select.innerHTML += `<option value="${c.slug}">${c.name}</option>`;
-                        list.innerHTML += `
-                            <div class="bg-slate-800 p-3 rounded-xl border border-slate-700 flex justify-between items-center text-xs">
-                                <div>
-                                    <p class="font-bold text-white">${c.name}</p>
-                                    <p class="text-[10px] text-gray-400">slug: ${c.slug}</p>
-                                </div>
-                                <button onclick="deleteCategory('${id}')" class="text-red-400 hover:text-red-300 font-bold"><i class="fa-solid fa-trash"></i></button>
-                            </div>
-                        `;
-                    });
-                } else {
-                    list.innerHTML = '<p class="text-xs text-gray-500 col-span-full">Belum ada kategori kustom.</p>';
-                }
-            });
+            if (data) {
+                Object.keys(data).forEach(id => {
+                    const c = data[id];
+                    select.innerHTML += `<option value="${c.name}">${c.name}</option>`;
+                    list.innerHTML += `
+                        <div class="flex justify-between items-center bg-gray-50 p-2 rounded border">
+                            <span class="font-bold text-slate-800">${c.name}</span>
+                            <button onclick="deleteCategory('${id}')" class="text-red-500 font-bold"><i class="fa-solid fa-trash"></i></button>
+                        </div>
+                    `;
+                });
+            }
+        });
+
+        // LOAD PRODUK
+        db.ref('products').on('value', (snapshot) => {
+            const data = snapshot.val();
+            const table = document.getElementById('adminProductTable');
+            table.innerHTML = '';
+
+            if (data) {
+                Object.keys(data).forEach(id => {
+                    const p = data[id];
+                    table.innerHTML += `
+                        <tr class="border-b hover:bg-gray-50">
+                            <td class="p-2.5"><img src="${p.img || 'https://via.placeholder.com/50'}" class="w-10 h-10 object-cover rounded"></td>
+                            <td class="p-2.5 font-bold text-slate-800">${p.title}</td>
+                            <td class="p-2.5 text-amber-600 font-bold">${p.price}</td>
+                            <td class="p-2.5"><span class="bg-amber-100 text-amber-800 px-2 py-0.5 rounded font-bold">${p.category || 'Umum'}</span></td>
+                            <td class="p-2.5 font-bold text-orange-600">${p.sold || '40+'}</td>
+                            <td class="p-2.5 font-bold text-red-600">${p.stock || '3'}</td>
+                            <td class="p-2.5 text-center space-x-1">
+                                <button onclick="editProduct('${id}', '${p.title.replace(/'/g, "\\'")}', '${p.price}', '${p.category}', '${p.img}', '${p.badge || ''}', '${p.link || ''}', '${p.sold || ''}', '${p.stock || ''}')" class="bg-blue-500 text-white px-2 py-1 rounded text-[10px] font-bold"><i class="fa-solid fa-pen"></i></button>
+                                <button onclick="deleteProduct('${id}')" class="bg-red-500 text-white px-2 py-1 rounded text-[10px] font-bold"><i class="fa-solid fa-trash"></i></button>
+                            </td>
+                        </tr>
+                    `;
+                });
+            } else {
+                table.innerHTML = '<tr><td colspan="7" class="p-4 text-center text-gray-400">Belum ada produk.</td></tr>';
+            }
+        });
+
+        // SIMPAN / EDIT PRODUK
+        function saveProduct(e) {
+            e.preventDefault();
+            const id = document.getElementById('prodId').value;
+            const payload = {
+                title: document.getElementById('prodTitle').value,
+                category: document.getElementById('prodCategory').value,
+                price: document.getElementById('prodPrice').value,
+                sold: document.getElementById('prodSold').value || '40+',
+                stock: document.getElementById('prodStock').value || '3',
+                img: document.getElementById('prodImg').value,
+                badge: document.getElementById('prodBadge').value || 'PROMO',
+                link: document.getElementById('prodLink').value || ''
+            };
+
+            if (id) {
+                db.ref('products/' + id).update(payload);
+            } else {
+                db.ref('products').push(payload);
+            }
+
+            resetProductForm();
+            alert('Produk berhasil disimpan!');
         }
 
-        function deleteCategory(id) {
-            if(confirm("Hapus kategori ini?")) db.ref('categories/' + id).remove();
+        function editProduct(id, title, price, category, img, badge, link, sold, stock) {
+            document.getElementById('prodId').value = id;
+            document.getElementById('prodTitle').value = title;
+            document.getElementById('prodPrice').value = price;
+            document.getElementById('prodCategory').value = category;
+            document.getElementById('prodImg').value = img;
+            document.getElementById('prodBadge').value = badge;
+            document.getElementById('prodLink').value = link;
+            document.getElementById('prodSold').value = sold;
+            document.getElementById('prodStock').value = stock;
+            window.scrollTo({ top: 0, behavior: 'smooth' });
         }
 
-        // PRODUK
-        function addProductToFirebase() {
-            const title = document.getElementById('pTitle').value;
-            const price = document.getElementById('pPrice').value;
-            const category = document.getElementById('pCategory').value;
-            const badge = document.getElementById('pBadge').value || 'FLASH SALE';
-            const img = document.getElementById('pImg').value;
-            const link = document.getElementById('pLink').value;
-
-            if (!title || !price) return alert("Nama dan harga barang wajib diisi!");
-
-            db.ref('products').push({
-                title, price, category, badge, img, link, createdAt: Date.now()
-            }).then(() => {
-                alert("Produk berhasil ditambahkan!");
-                document.getElementById('pTitle').value = '';
-                document.getElementById('pPrice').value = '';
-                document.getElementById('pImg').value = '';
-                document.getElementById('pLink').value = '';
-            });
-        }
-
-        function loadProducts() {
-            db.ref('products').on('value', (snapshot) => {
-                const data = snapshot.val();
-                const list = document.getElementById('adminProductList');
-                list.innerHTML = '';
-
-                if (data) {
-                    Object.keys(data).forEach(id => {
-                        const p = data[id];
-                        list.innerHTML += `
-                            <div class="bg-slate-800 p-4 rounded-xl border border-slate-700 flex flex-col justify-between space-y-3">
-                                <img src="${p.img || 'https://via.placeholder.com/150'}" class="w-full h-32 object-cover rounded-lg">
-                                <div>
-                                    <span class="text-[10px] bg-amber-500/20 text-amber-400 font-bold px-2 py-0.5 rounded uppercase">${p.category || 'Umum'}</span>
-                                    <h4 class="font-bold text-white text-sm mt-1">${p.title}</h4>
-                                    <p class="text-amber-400 font-bold text-xs">${p.price}</p>
-                                </div>
-                                <button onclick="deleteProduct('${id}')" class="bg-red-600/20 hover:bg-red-600 text-red-300 hover:text-white text-xs font-bold py-2 rounded-lg transition">
-                                    <i class="fa-solid fa-trash"></i> Hapus Produk
-                                </button>
-                            </div>
-                        `;
-                    });
-                } else {
-                    list.innerHTML = '<p class="text-xs text-gray-500 col-span-full">Belum ada produk.</p>';
-                }
-            });
+        function resetProductForm() {
+            document.getElementById('productForm').reset();
+            document.getElementById('prodId').value = '';
         }
 
         function deleteProduct(id) {
-            if (confirm("Hapus produk ini?")) db.ref('products/' + id).remove();
+            if (confirm('Yakin ingin menghapus produk ini?')) {
+                db.ref('products/' + id).remove();
+            }
         }
 
-        // PENGATURAN UMUM WEBSITES
-        function saveSiteSettings() {
-            const brandName = document.getElementById('cfgBrand').value;
-            const heroTitle = document.getElementById('cfgHeroTitle').value;
-            const heroSub = document.getElementById('cfgHeroSub').value;
-            const statFlash = document.getElementById('cfgStatFlash').value;
-            const statAffiliate = document.getElementById('cfgStatAffiliate').value;
-            const statService = document.getElementById('cfgStatService').value;
-            const footerText = document.getElementById('cfgFooter').value;
-
-            db.ref('settings').set({ brandName, heroTitle, heroSub, statFlash, statAffiliate, statService, footerText }).then(() => {
-                alert("Pengaturan website disimpan!");
-            });
+        // TAMBAH KATEGORI
+        function addCategory(e) {
+            e.preventDefault();
+            const name = document.getElementById('newCatName').value.trim();
+            const slug = name.toLowerCase().replace(/\s+/g, '-');
+            db.ref('categories').push({ name, slug });
+            document.getElementById('newCatName').value = '';
         }
 
-        function loadSettings() {
-            db.ref('settings').once('value', (s) => {
-                const v = s.val() || {};
-                document.getElementById('cfgBrand').value = v.brandName || 'Muhlisin Market';
-                document.getElementById('cfgHeroTitle').value = v.heroTitle || 'Selamat Datang di Muhlisin Market!';
-                document.getElementById('cfgHeroSub').value = v.heroSub || '🎁 Kumpulan Rekomendasi Produk Pilihan Terbaik & Diskon Spesial Hari Ini!';
-                document.getElementById('cfgStatFlash').value = v.statFlash || 'Diskon s/d 50%';
-                document.getElementById('cfgStatAffiliate').value = v.statAffiliate || 'Shopee & TikTok';
-                document.getElementById('cfgStatService').value = v.statService || 'Fast Response';
-                document.getElementById('cfgFooter').value = v.footerText || 'Created By Muhlisin. All Rights Reserved.';
-            });
+        function deleteCategory(id) {
+            if (confirm('Hapus kategori ini?')) db.ref('categories/' + id).remove();
         }
 
-        // TENTANG KAMI
-        function saveAboutConfig() {
-            const img = document.getElementById('abImg').value;
-            const badge = document.getElementById('abBadge').value;
-            const title = document.getElementById('abTitle').value;
-            const desc = document.getElementById('abDesc').value;
-            const trust1 = document.getElementById('abTrust1').value;
-            const trust2 = document.getElementById('abTrust2').value;
-            const trust3 = document.getElementById('abTrust3').value;
+        // PROMO CONFIG
+        db.ref('config/promo').on('value', (snapshot) => {
+            const data = snapshot.val();
+            if (data) {
+                document.getElementById('promoActive').checked = data.active !== false;
+                document.getElementById('promoBadge').value = data.badge || '';
+                document.getElementById('promoTitle').value = data.title || '';
+                document.getElementById('promoDesc').value = data.desc || '';
+                document.getElementById('promoBtnText').value = data.btnText || '';
+                document.getElementById('promoBtnLink').value = data.btnLink || '';
+            }
+        });
 
-            db.ref('about').set({ img, badge, title, desc, trust1, trust2, trust3 }).then(() => {
-                alert("Profil tentang kami disimpan!");
+        function savePromoConfig(e) {
+            e.preventDefault();
+            db.ref('config/promo').set({
+                active: document.getElementById('promoActive').checked,
+                badge: document.getElementById('promoBadge').value,
+                title: document.getElementById('promoTitle').value,
+                desc: document.getElementById('promoDesc').value,
+                btnText: document.getElementById('promoBtnText').value,
+                btnLink: document.getElementById('promoBtnLink').value
             });
+            alert('Banner promo berhasil diperbarui!');
         }
 
-        function loadAbout() {
-            db.ref('about').once('value', (s) => {
-                const v = s.val() || {};
-                document.getElementById('abImg').value = v.img || 'https://i.postimg.cc/HngqWp0p/FOTO-LISIN.jpg';
-                document.getElementById('abBadge').value = v.badge || '100% TERPERCAYA';
-                document.getElementById('abTitle').value = v.title || 'Muhlisin — Digital Marketer & Affiliate Curator';
-                document.getElementById('abDesc').value = v.desc || 'Selamat datang di Muhlisin Market! Saya membantu Anda menemukan kurasi produk-produk terlaris.';
-                document.getElementById('abTrust1').value = v.trust1 || '100% Produk Pilihan';
-                document.getElementById('abTrust2').value = v.trust2 || 'Pengiriman Cepat';
-                document.getElementById('abTrust3').value = v.trust3 || 'Transaksi Aman';
-            });
-        }
+        // KONTAK CONFIG
+        db.ref('config/contact').on('value', (snapshot) => {
+            const cfg = snapshot.val();
+            if (cfg) {
+                document.getElementById('cfgWa').value = cfg.wa || '';
+                document.getElementById('cfgIg').value = cfg.ig || '';
+                document.getElementById('cfgTiktok').value = cfg.tiktok || '';
+            }
+        });
 
-        // PROMO
-        function savePromoConfig() {
-            const badge = document.getElementById('cfgPromoBadge').value;
-            const title = document.getElementById('cfgPromoTitle').value;
-            const desc = document.getElementById('cfgPromoDesc').value;
-            const btnText = document.getElementById('cfgPromoBtnText').value;
-            const btnLink = document.getElementById('cfgPromoBtnLink').value;
-
-            db.ref('config/promo').set({ badge, title, desc, btnText, btnLink }).then(() => {
-                alert("Banner Promo berhasil di-update!");
+        function saveContactSettings(e) {
+            e.preventDefault();
+            db.ref('config/contact').set({
+                wa: document.getElementById('cfgWa').value.trim(),
+                ig: document.getElementById('cfgIg').value.trim(),
+                tiktok: document.getElementById('cfgTiktok').value.trim()
             });
-        }
-
-        function loadPromo() {
-            db.ref('config/promo').once('value', (s) => {
-                const v = s.val() || {};
-                document.getElementById('cfgPromoBadge').value = v.badge || '🔥 PROMO HARI INI';
-                document.getElementById('cfgPromoTitle').value = v.title || 'Gunakan Kode Voucher "MUHLISIN20K" untuk Diskon Tambahan!';
-                document.getElementById('cfgPromoDesc').value = v.desc || 'Dapatkan potongan harga & prioritas pengiriman khusus via WA.';
-                document.getElementById('cfgPromoBtnText').value = v.btnText || 'Klaim Kupon via WA';
-                document.getElementById('cfgPromoBtnLink').value = v.btnLink || 'https://wa.me/62895422768896';
-            });
+            alert('Pengaturan kontak berhasil disimpan!');
         }
 
         // TESTIMONI
-        function addTestimonial() {
-            const name = document.getElementById('tName').value;
-            const city = document.getElementById('tCity').value;
-            const stars = parseInt(document.getElementById('tStars').value) || 5;
-            const review = document.getElementById('tReview').value;
-
-            if(!name || !review) return alert("Nama dan isi ulasan wajib diisi!");
-
-            db.ref('testimonials').push({ name, city, stars, review }).then(() => {
-                alert("Testimoni berhasil ditambahkan!");
-                document.getElementById('tName').value = '';
-                document.getElementById('tReview').value = '';
-            });
-        }
-
-        function loadTestimonials() {
-            db.ref('testimonials').on('value', (snapshot) => {
-                const data = snapshot.val();
-                const list = document.getElementById('adminTestimonialList');
-                list.innerHTML = '';
-                if(data) {
-                    Object.keys(data).forEach(id => {
-                        const t = data[id];
-                        list.innerHTML += `
-                            <div class="bg-slate-800 p-3 rounded-xl border border-slate-700 flex justify-between items-start text-xs">
-                                <div>
-                                    <p class="font-bold text-white">${t.name} (${t.city}) - ⭐ ${t.stars}</p>
-                                    <p class="text-gray-400 italic mt-1">"${t.review}"</p>
-                                </div>
-                                <button onclick="deleteTestimonial('${id}')" class="text-red-400 hover:text-red-300 font-bold ml-2"><i class="fa-solid fa-trash"></i></button>
+        db.ref('testimonials').on('value', (snapshot) => {
+            const data = snapshot.val();
+            const list = document.getElementById('adminTestiList');
+            list.innerHTML = '';
+            if (data) {
+                Object.keys(data).forEach(id => {
+                    const t = data[id];
+                    list.innerHTML += `
+                        <div class="flex justify-between items-center bg-gray-50 p-2 rounded border">
+                            <div>
+                                <p class="font-bold text-slate-800">${t.name} (${t.city})</p>
+                                <p class="text-gray-500 italic text-[11px]">"${t.review}"</p>
                             </div>
-                        `;
-                    });
-                } else {
-                    list.innerHTML = '<p class="text-xs text-gray-500 col-span-full">Belum ada testimoni.</p>';
-                }
+                            <button onclick="deleteTesti('${id}')" class="text-red-500 font-bold"><i class="fa-solid fa-trash"></i></button>
+                        </div>
+                    `;
+                });
+            }
+        });
+
+        function addTestimonial(e) {
+            e.preventDefault();
+            db.ref('testimonials').push({
+                name: document.getElementById('testiName').value,
+                city: document.getElementById('testiCity').value,
+                review: document.getElementById('testiReview').value,
+                stars: 5
             });
+            document.getElementById('testiName').value = '';
+            document.getElementById('testiCity').value = '';
+            document.getElementById('testiReview').value = '';
+            alert('Testimoni berhasil ditambahkan!');
         }
 
-        function deleteTestimonial(id) {
-            if(confirm("Hapus testimoni ini?")) db.ref('testimonials/' + id).remove();
-        }
-
-        // KONTAK
-        function saveContactConfig() {
-            const wa = document.getElementById('cfgWa').value;
-            const ig = document.getElementById('cfgIg').value;
-            const tiktok = document.getElementById('cfgTiktok').value;
-
-            db.ref('config/contact').set({ wa, ig, tiktok }).then(() => {
-                alert("Info Kontak berhasil disimpan!");
-            });
-        }
-
-        function loadContacts() {
-            db.ref('config/contact').once('value', (s) => {
-                const v = s.val() || {};
-                document.getElementById('cfgWa').value = v.wa || '62895422768896';
-                document.getElementById('cfgIg').value = v.ig || '@shane_feela';
-                document.getElementById('cfgTiktok').value = v.tiktok || '@shane_feela';
-            });
+        function deleteTesti(id) {
+            if (confirm('Hapus testimoni ini?')) db.ref('testimonials/' + id).remove();
         }
     </script>
 </body>
