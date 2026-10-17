@@ -56,7 +56,7 @@
         <span id="cartBadge" class="bg-red-600 text-white px-2 py-0.5 rounded-full text-[10px]">0</span>
     </button>
 
-    <!-- POP-UP NOTIFIKASI PEMBELIAN REALTIME (PILIHAN 2) -->
+    <!-- POP-UP NOTIFIKASI PEMBELIAN REALTIME -->
     <div id="recentOrderToast" class="fixed bottom-16 md:bottom-5 left-4 bg-white border border-gray-200 rounded-2xl p-3 shadow-2xl z-50 flex items-center gap-3 max-w-xs transition-all duration-500 opacity-0 translate-y-8 pointer-events-none">
         <div class="relative shrink-0">
             <img id="toastProductImg" src="logo.jpg" alt="Produk Dipesan" class="w-11 h-11 rounded-xl object-cover border border-amber-400">
@@ -85,6 +85,10 @@
             <span>Keranjang</span>
             <span id="mobileCartBadge" class="absolute -top-1 right-2 bg-red-600 text-white text-[9px] px-1.5 py-0.2 rounded-full font-bold">0</span>
         </button>
+        <a href="#titip-jual" class="flex flex-col items-center text-[10px] text-amber-300 hover:text-amber-400">
+            <i class="fa-solid fa-handshake text-base mb-0.5"></i>
+            <span>Mitra/Titip</span>
+        </a>
         <a id="mobileWaBtn" href="#" target="_blank" class="flex flex-col items-center text-[10px] text-emerald-400 font-semibold">
             <i class="fa-brands fa-whatsapp text-lg mb-0.5"></i>
             <span>Chat WA</span>
@@ -259,6 +263,9 @@
                         </div>
                     </details>
 
+                    <a href="#titip-jual" class="flex items-center gap-3 px-4 py-2.5 rounded-lg hover:bg-slate-800 transition text-gray-300">
+                        <i class="fa-solid fa-handshake text-amber-400"></i> Titip Jual / Mitra
+                    </a>
                     <a href="#panduan" class="flex items-center gap-3 px-4 py-2.5 rounded-lg hover:bg-slate-800 transition text-gray-300">
                         <i class="fa-solid fa-circle-question text-emerald-400"></i> Cara Belanja
                     </a>
@@ -376,6 +383,59 @@
                 </div>
                 <div id="productGrid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
                     <p class="text-gray-400 text-xs col-span-full py-4 text-center">Memuat produk dari database...</p>
+                </div>
+            </section>
+
+            <!-- SEKSI BARU: TITIP JUAL PRODUK / DUKUNGAN MITRA PENJUAL -->
+            <section id="titip-jual" class="mb-8 bg-gradient-to-br from-slate-900 to-slate-800 text-white p-6 rounded-2xl shadow-md">
+                <div class="max-w-3xl mx-auto space-y-4">
+                    <div class="text-center space-y-1">
+                        <span class="bg-amber-500 text-slate-900 text-[10px] font-bold px-3 py-1 rounded-full uppercase"><i class="fa-solid fa-handshake mr-1"></i> Program Kemitraan</span>
+                        <h2 class="text-xl font-bold text-white">Punya Produk Bagus? Titip Jual di Muhlisin Market!</h2>
+                        <p class="text-xs text-gray-300">Kami bantu promosikan produk Anda ke ribuan pengunjung. Cukup tentukan harga bersiho & penawaran komisi untuk kami!</p>
+                    </div>
+
+                    <form onsubmit="submitVendorForm(event)" class="bg-white text-slate-800 p-5 rounded-xl shadow space-y-3 text-xs">
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-3">
+                            <div>
+                                <label class="block font-bold text-gray-700 mb-1">Nama Lengkap Penjual / Toko Anda</label>
+                                <input type="text" id="vName" placeholder="Contoh: Toko Berkah / Ahmad" required class="w-full bg-gray-50 border rounded-lg p-2.5 outline-none focus:ring-2 focus:ring-amber-500">
+                            </div>
+                            <div>
+                                <label class="block font-bold text-gray-700 mb-1">Nomor WhatsApp Aktif Penjual</label>
+                                <input type="text" id="vWa" placeholder="0895..." required class="w-full bg-gray-50 border rounded-lg p-2.5 outline-none focus:ring-2 focus:ring-amber-500">
+                            </div>
+                        </div>
+
+                        <div class="grid grid-cols-1 md:grid-cols-3 gap-3">
+                            <div>
+                                <label class="block font-bold text-gray-700 mb-1">Nama Produk Yang Ingin Dititip</label>
+                                <input type="text" id="vProduct" placeholder="Contoh: Madu Murni 500ml" required class="w-full bg-gray-50 border rounded-lg p-2.5 outline-none focus:ring-2 focus:ring-amber-500">
+                            </div>
+                            <div>
+                                <label class="block font-bold text-gray-700 mb-1">Harga Jual Bersih (Rp)</label>
+                                <input type="text" id="vPrice" placeholder="Rp 75.000" required class="w-full bg-gray-50 border rounded-lg p-2.5 outline-none focus:ring-2 focus:ring-amber-500">
+                            </div>
+                            <div>
+                                <label class="block font-bold text-gray-700 mb-1">Komisi Bagi Hasil Untuk Admin</label>
+                                <input type="text" id="vCommission" placeholder="Contoh: Rp 15.000 / 10%" required class="w-full bg-gray-50 border rounded-lg p-2.5 outline-none focus:ring-2 focus:ring-amber-500">
+                            </div>
+                        </div>
+
+                        <div>
+                            <label class="block font-bold text-gray-700 mb-1">URL / Link Foto Produk (atau tulis 'Dikirim via WA')</label>
+                            <input type="text" id="vPhoto" placeholder="https://... atau kirim via WA" required class="w-full bg-gray-50 border rounded-lg p-2.5 outline-none focus:ring-2 focus:ring-amber-500">
+                        </div>
+
+                        <div>
+                            <label class="block font-bold text-gray-700 mb-1">Deskripsi & Keunggulan Produk</label>
+                            <textarea id="vDesc" rows="2" placeholder="Jelaskan keunggulan produk Anda..." class="w-full bg-gray-50 border rounded-lg p-2.5 outline-none focus:ring-2 focus:ring-amber-500"></textarea>
+                        </div>
+
+                        <button type="submit" class="w-full bg-amber-500 hover:bg-amber-600 text-slate-900 py-3 rounded-xl font-bold transition shadow flex items-center justify-center gap-2">
+                            <i class="fa-brands fa-whatsapp text-lg"></i> Kirim Pengajuan Titip Jual via WA Admin
+                        </button>
+                    </form>
                 </div>
             </section>
 
@@ -537,7 +597,7 @@
         let currentWaNum = "62895422768896";
         let currentShareUrl = window.location.href;
 
-        // DATA NAMA & KOTA UNTUK NOTIFIKASI PEMBELIAN REALTIME (PILIHAN 2)
+        // DATA NAMA & KOTA UNTUK NOTIFIKASI PEMBELIAN REALTIME
         const fakeBuyers = [
             { name: "Siti Aisyah", city: "Pemalang" },
             { name: "Budi Santoso", city: "Pekalongan" },
@@ -737,16 +797,44 @@
             if (statTotal) statTotal.textContent = products.length + " Item";
         }
 
-        // FUNGSI NOTIFIKASI REALTIME TOAST (PILIHAN 2)
+        // FUNGSI SUBMIT PENGAJUAN TITIP JUAL / MITRA
+        function submitVendorForm(e) {
+            e.preventDefault();
+            const name = document.getElementById('vName').value.trim();
+            const wa = document.getElementById('vWa').value.trim();
+            const product = document.getElementById('vProduct').value.trim();
+            const price = document.getElementById('vPrice').value.trim();
+            const commission = document.getElementById('vCommission').value.trim();
+            const photo = document.getElementById('vPhoto').value.trim();
+            const desc = document.getElementById('vDesc').value.trim();
+
+            let msg = `Halo Kak Muhlisin, saya ingin *MENGAJUKAN TITIP JUAL PRODUK* di Muhlisin Market:\n\n`;
+            msg += `👤 *Nama Penjual/Toko:* ${name}\n`;
+            msg += `📱 *No. WA Penjual:* ${wa}\n`;
+            msg += `📦 *Nama Produk:* ${product}\n`;
+            msg += `💰 *Harga Bersih Penjual:* ${price}\n`;
+            msg += `🎁 *Penawaran Komisi Admin:* ${commission}\n`;
+            msg += `🖼️ *Link Foto Produk:* ${photo}\n`;
+            msg += `📝 *Deskripsi Singkat:* ${desc}\n\n`;
+            msg += `Mohon info lanjut mengenai proses penayangan produknya ya Kak. Terima kasih!`;
+
+            // Simpan juga ke Firebase agar terdata di admin
+            db.ref('vendors').push({
+                name, wa, product, price, commission, photo, desc,
+                status: 'Menunggu Kurasi',
+                date: new Date().toLocaleDateString('id-ID')
+            });
+
+            const encodedMsg = encodeURIComponent(msg);
+            window.open(`https://wa.me/${currentWaNum}?text=${encodedMsg}`, '_blank');
+        }
+
+        // FUNGSI NOTIFIKASI REALTIME TOAST
         let toastInterval = null;
 
         function startOrderToastLoop() {
             if (toastInterval) clearInterval(toastInterval);
-            
-            // Jalankan notifikasi pertama setelah 4 detik
             setTimeout(showRandomOrderToast, 4000);
-
-            // Putar perulangan setiap 12 detik
             toastInterval = setInterval(showRandomOrderToast, 12000);
         }
 
@@ -767,7 +855,6 @@
             toast.classList.remove('opacity-0', 'translate-y-8', 'pointer-events-none');
             toast.classList.add('opacity-100', 'translate-y-0');
 
-            // Sembunyikan otomatis setelah 5 detik
             setTimeout(hideOrderToast, 5000);
         }
 
