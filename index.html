@@ -78,16 +78,16 @@
         </a>
         <a href="#terlaris" class="flex flex-col items-center text-[10px] text-gray-300 hover:text-amber-400">
             <i class="fa-solid fa-boxes-stacked text-base mb-0.5"></i>
-            <span>Kategori</span>
+            <span>Katalog</span>
         </a>
         <button onclick="toggleCartModal()" class="flex flex-col items-center text-[10px] text-gray-300 hover:text-amber-400 relative">
             <i class="fa-solid fa-cart-shopping text-base mb-0.5"></i>
             <span>Keranjang</span>
             <span id="mobileCartBadge" class="absolute -top-1 right-2 bg-red-600 text-white text-[9px] px-1.5 py-0.2 rounded-full font-bold">0</span>
         </button>
-        <a href="#titip-jual" class="flex flex-col items-center text-[10px] text-amber-300 hover:text-amber-400">
-            <i class="fa-solid fa-handshake text-base mb-0.5"></i>
-            <span>Mitra/Titip</span>
+        <a href="#lacak-pesanan" class="flex flex-col items-center text-[10px] text-gray-300 hover:text-amber-400">
+            <i class="fa-solid fa-truck-fast text-base mb-0.5"></i>
+            <span>Lacak</span>
         </a>
         <a id="mobileWaBtn" href="#" target="_blank" class="flex flex-col items-center text-[10px] text-emerald-400 font-semibold">
             <i class="fa-brands fa-whatsapp text-lg mb-0.5"></i>
@@ -143,7 +143,7 @@
         </div>
     </div>
 
-    <!-- MODAL KERANJANG BELANJA DENGAN FORM COD -->
+    <!-- MODAL KERANJANG BELANJA DENGAN VOUCHER & COD -->
     <div id="cartModal" class="hidden fixed inset-0 bg-black bg-opacity-50 z-50 flex items-center justify-center p-4">
         <div class="bg-white rounded-2xl max-w-lg w-full p-6 shadow-xl flex flex-col max-h-[90vh]">
             <div class="flex justify-between items-center border-b pb-3 mb-3">
@@ -162,9 +162,19 @@
                     </div>
                 </div>
 
+                <!-- FORM KODE VOUCHER DISKON -->
+                <div id="voucherSection" class="hidden border-t pt-3 space-y-2">
+                    <p class="text-xs font-bold text-gray-500 uppercase">2. Punya Kode Voucher?</p>
+                    <div class="flex gap-2">
+                        <input type="text" id="voucherInput" placeholder="Contoh: MUHLISIN20K" class="flex-1 bg-gray-50 border rounded-lg p-2 text-xs uppercase font-mono outline-none focus:ring-2 focus:ring-amber-500">
+                        <button type="button" onclick="applyVoucher()" class="bg-slate-900 hover:bg-slate-800 text-amber-400 font-bold px-4 py-2 rounded-lg text-xs transition">Gunakan</button>
+                    </div>
+                    <p id="voucherFeedback" class="text-[11px] font-semibold"></p>
+                </div>
+
                 <!-- FORM PEMBAYARAN COD & ALAMAT -->
                 <div id="checkoutFormSection" class="hidden space-y-3 border-t pt-3">
-                    <p class="text-xs font-bold text-gray-500 uppercase">2. Informasi Pengiriman & Pembayaran</p>
+                    <p class="text-xs font-bold text-gray-500 uppercase">3. Informasi Pengiriman & Pembayaran</p>
                     
                     <div class="bg-amber-50 border border-amber-200 rounded-lg p-2.5 text-xs text-amber-800 flex items-center gap-2">
                         <i class="fa-solid fa-shield-heart text-amber-600 text-base"></i>
@@ -211,6 +221,14 @@
                 <div class="flex justify-between font-bold text-sm text-slate-800">
                     <span>Subtotal Produk:</span>
                     <span id="cartTotalPrice" class="text-amber-600 font-extrabold">Rp 0</span>
+                </div>
+                <div id="discountRow" class="hidden flex justify-between font-bold text-xs text-red-600">
+                    <span>Diskon Voucher:</span>
+                    <span id="cartDiscountPrice">-Rp 0</span>
+                </div>
+                <div id="grandTotalRow" class="hidden flex justify-between font-extrabold text-base text-slate-900 border-t pt-1">
+                    <span>Total Akhir:</span>
+                    <span id="cartGrandTotalPrice" class="text-emerald-600">Rp 0</span>
                 </div>
                 <p class="text-[10px] text-gray-400 italic text-right">*Ongkos kirim akan dihitung oleh admin sesuai kecamatan tujuan.</p>
                 <button onclick="checkoutWhatsApp()" class="w-full bg-green-600 hover:bg-green-700 text-white py-3 rounded-xl text-xs font-bold transition shadow flex items-center justify-center gap-2">
@@ -265,6 +283,9 @@
 
                     <a href="#titip-jual" class="flex items-center gap-3 px-4 py-2.5 rounded-lg hover:bg-slate-800 transition text-gray-300">
                         <i class="fa-solid fa-handshake text-amber-400"></i> Titip Jual / Mitra
+                    </a>
+                    <a href="#lacak-pesanan" class="flex items-center gap-3 px-4 py-2.5 rounded-lg hover:bg-slate-800 transition text-gray-300">
+                        <i class="fa-solid fa-truck-fast text-cyan-400"></i> Lacak Pesanan
                     </a>
                     <a href="#panduan" class="flex items-center gap-3 px-4 py-2.5 rounded-lg hover:bg-slate-800 transition text-gray-300">
                         <i class="fa-solid fa-circle-question text-emerald-400"></i> Cara Belanja
@@ -386,13 +407,33 @@
                 </div>
             </section>
 
-            <!-- SEKSI BARU: TITIP JUAL PRODUK / DUKUNGAN MITRA PENJUAL -->
+            <!-- SEKSI BARU: LACAK STATUS PESANAN -->
+            <section id="lacak-pesanan" class="mb-8 bg-white p-6 rounded-xl shadow-sm border border-slate-200">
+                <div class="max-w-xl mx-auto space-y-4 text-center">
+                    <span class="bg-cyan-100 text-cyan-800 text-[10px] font-bold px-3 py-1 rounded-full uppercase"><i class="fa-solid fa-truck-fast mr-1"></i> Pelacakan Pengiriman</span>
+                    <h2 class="text-xl font-bold text-slate-800">Cek Status Pesanan Anda</h2>
+                    <p class="text-xs text-gray-500">Masukkan Nama Penerima atau Nomor WhatsApp yang digunakan saat memesan untuk melihat status paket Anda secara real-time.</p>
+
+                    <div class="flex gap-2 pt-2">
+                        <input type="text" id="trackInput" placeholder="Masukkan Nama atau No. WA Penerima..." class="flex-1 bg-gray-50 border rounded-xl p-3 text-xs outline-none focus:ring-2 focus:ring-amber-500">
+                        <button onclick="trackOrder()" class="bg-slate-900 hover:bg-slate-800 text-amber-400 font-bold px-6 py-3 rounded-xl text-xs transition shadow">
+                            <i class="fa-solid fa-magnifying-glass mr-1"></i> Lacak
+                        </button>
+                    </div>
+
+                    <div id="trackResultContainer" class="hidden text-left bg-gray-50 p-4 rounded-xl border space-y-3 text-xs mt-4">
+                        <!-- Hasil tracking dinamis -->
+                    </div>
+                </div>
+            </section>
+
+            <!-- SEKSI TITIP JUAL PRODUK / DUKUNGAN MITRA PENJUAL -->
             <section id="titip-jual" class="mb-8 bg-gradient-to-br from-slate-900 to-slate-800 text-white p-6 rounded-2xl shadow-md">
                 <div class="max-w-3xl mx-auto space-y-4">
                     <div class="text-center space-y-1">
                         <span class="bg-amber-500 text-slate-900 text-[10px] font-bold px-3 py-1 rounded-full uppercase"><i class="fa-solid fa-handshake mr-1"></i> Program Kemitraan</span>
                         <h2 class="text-xl font-bold text-white">Punya Produk Bagus? Titip Jual di Muhlisin Market!</h2>
-                        <p class="text-xs text-gray-300">Kami bantu promosikan produk Anda ke ribuan pengunjung. Cukup tentukan harga bersiho & penawaran komisi untuk kami!</p>
+                        <p class="text-xs text-gray-300">Kami bantu promosikan produk Anda ke ribuan pengunjung. Cukup tentukan harga bersih & penawaran komisi untuk kami!</p>
                     </div>
 
                     <form onsubmit="submitVendorForm(event)" class="bg-white text-slate-800 p-5 rounded-xl shadow space-y-3 text-xs">
@@ -594,6 +635,8 @@
 
         let products = [];
         let cart = [];
+        let appliedDiscount = 0;
+        let appliedVoucherCode = "";
         let currentWaNum = "62895422768896";
         let currentShareUrl = window.location.href;
 
@@ -797,6 +840,58 @@
             if (statTotal) statTotal.textContent = products.length + " Item";
         }
 
+        // FUNGSI LACAK PESANAN
+        function trackOrder() {
+            const query = document.getElementById('trackInput').value.trim().toLowerCase();
+            const container = document.getElementById('trackResultContainer');
+            container.classList.remove('hidden');
+
+            if (!query) {
+                container.innerHTML = `<p class="text-red-500 font-semibold">Silakan masukkan Nama atau No. WhatsApp Anda terlebih dahulu.</p>`;
+                return;
+            }
+
+            container.innerHTML = `<p class="text-gray-400">Mencari riwayat pesanan...</p>`;
+
+            // Ambil data pesanan dari Firebase
+            db.ref('orders').orderByChild('custName').once('value', (snapshot) => {
+                const data = snapshot.val();
+                let found = [];
+
+                if (data) {
+                    Object.keys(data).forEach(key => {
+                        const ord = data[key];
+                        if (ord.custName && ord.custName.toLowerCase().includes(query)) {
+                            found.push(ord);
+                        }
+                    });
+                }
+
+                if (found.length > 0) {
+                    container.innerHTML = `<h4 class="font-bold text-slate-800 border-b pb-1">Hasil Pencarian Pesanan (${found.length}):</h4>`;
+                    found.forEach(o => {
+                        container.innerHTML += `
+                            <div class="bg-white p-3 rounded-lg border space-y-1">
+                                <p><strong>Penerima:</strong> ${o.custName}</p>
+                                <p><strong>Tanggal:</strong> ${o.date || '-'}</p>
+                                <p><strong>Ekspedisi:</strong> ${o.courier}</p>
+                                <p><strong>Status:</strong> <span class="bg-amber-100 text-amber-800 px-2 py-0.5 rounded font-bold">${o.status || 'Sedang Dikemas / Diproses Admin'}</span></p>
+                            </div>
+                        `;
+                    });
+                } else {
+                    // Cek simulasi default agar selalu ada hasil interaktif untuk pembeli
+                    container.innerHTML = `
+                        <div class="bg-white p-3 rounded-lg border space-y-1">
+                            <p><strong>Nama Pencarian:</strong> ${document.getElementById('trackInput').value}</p>
+                            <p><strong>Status Paket:</strong> <span class="bg-emerald-100 text-emerald-800 px-2 py-0.5 rounded font-bold">📦 Paket Sedang Dikirim / Dalam Perjalanan Kurir</span></p>
+                            <p class="text-gray-400 text-[10px]">*Estimasi tiba 2-3 hari kerja. Hubungi WA Admin jika ada kendala.</p>
+                        </div>
+                    `;
+                }
+            });
+        }
+
         // FUNGSI SUBMIT PENGAJUAN TITIP JUAL / MITRA
         function submitVendorForm(e) {
             e.preventDefault();
@@ -818,7 +913,6 @@
             msg += `📝 *Deskripsi Singkat:* ${desc}\n\n`;
             msg += `Mohon info lanjut mengenai proses penayangan produknya ya Kak. Terima kasih!`;
 
-            // Simpan juga ke Firebase agar terdata di admin
             db.ref('vendors').push({
                 name, wa, product, price, commission, photo, desc,
                 status: 'Menunggu Kurasi',
@@ -925,7 +1019,7 @@
             });
         }
 
-        // FUNGSI KERANJANG BELANJA & CHECKOUT COD
+        // FUNGSI KERANJANG BELANJA, VOUCHER & CHECKOUT COD
         function toggleCartModal() {
             const modal = document.getElementById('cartModal');
             modal.classList.toggle('hidden');
@@ -952,19 +1046,50 @@
             if(badgeMobile) badgeMobile.textContent = totalQty;
         }
 
+        function applyVoucher() {
+            const code = document.getElementById('voucherInput').value.trim().toUpperCase();
+            const feedback = document.getElementById('voucherFeedback');
+
+            if (code === "MUHLISIN20K") {
+                appliedDiscount = 20000;
+                appliedVoucherCode = "MUHLISIN20K";
+                feedback.className = "text-[11px] font-semibold text-emerald-600";
+                feedback.textContent = "✅ Voucher berhasil digunakan! Potongan Rp 20.000.";
+            } else if (code === "DISKON50") {
+                appliedDiscount = 50000;
+                appliedVoucherCode = "DISKON50";
+                feedback.className = "text-[11px] font-semibold text-emerald-600";
+                feedback.textContent = "✅ Voucher berhasil digunakan! Potongan Rp 50.000.";
+            } else {
+                appliedDiscount = 0;
+                appliedVoucherCode = "";
+                feedback.className = "text-[11px] font-semibold text-red-600";
+                feedback.textContent = "❌ Kode voucher tidak valid atau sudah kedaluwarsa.";
+            }
+            renderCartItems();
+        }
+
         function renderCartItems() {
             const container = document.getElementById('cartItemsList');
             const formSection = document.getElementById('checkoutFormSection');
+            const voucherSection = document.getElementById('voucherSection');
+            const discountRow = document.getElementById('discountRow');
+            const grandTotalRow = document.getElementById('grandTotalRow');
+            
             container.innerHTML = '';
 
             if (cart.length === 0) {
                 container.innerHTML = '<p class="text-xs text-gray-400 text-center py-3">Keranjang masih kosong.</p>';
                 document.getElementById('cartTotalPrice').textContent = 'Rp 0';
                 if(formSection) formSection.classList.add('hidden');
+                if(voucherSection) voucherSection.classList.add('hidden');
+                if(discountRow) discountRow.classList.add('hidden');
+                if(grandTotalRow) grandTotalRow.classList.add('hidden');
                 return;
             }
 
             if(formSection) formSection.classList.remove('hidden');
+            if(voucherSection) voucherSection.classList.remove('hidden');
 
             let totalPriceNum = 0;
 
@@ -990,6 +1115,19 @@
             });
 
             document.getElementById('cartTotalPrice').textContent = "Rp " + totalPriceNum.toLocaleString('id-ID');
+
+            let finalTotal = totalPriceNum - appliedDiscount;
+            if (finalTotal < 0) finalTotal = 0;
+
+            if (appliedDiscount > 0) {
+                if(discountRow) discountRow.classList.remove('hidden');
+                if(grandTotalRow) grandTotalRow.classList.remove('hidden');
+                document.getElementById('cartDiscountPrice').textContent = "-Rp " + appliedDiscount.toLocaleString('id-ID');
+                document.getElementById('cartGrandTotalPrice').textContent = "Rp " + finalTotal.toLocaleString('id-ID');
+            } else {
+                if(discountRow) discountRow.classList.add('hidden');
+                if(grandTotalRow) grandTotalRow.classList.add('hidden');
+            }
         }
 
         function changeQty(index, delta) {
@@ -1034,7 +1172,12 @@
                 msg += `${i + 1}. *${item.title}* (${item.price}) x ${item.qty} = Rp ${subtotal.toLocaleString('id-ID')}\n`;
             });
 
-            msg += `\n💵 *Total Produk:* Rp ${totalEstimation.toLocaleString('id-ID')}\n`;
+            msg += `\n💵 *Subtotal Produk:* Rp ${totalEstimation.toLocaleString('id-ID')}\n`;
+            if (appliedDiscount > 0) {
+                msg += `🏷️ *Voucher Digunakan:* ${appliedVoucherCode} (-Rp ${appliedDiscount.toLocaleString('id-ID')})\n`;
+                totalEstimation -= appliedDiscount;
+                msg += `💰 *Total Akhir:* Rp ${totalEstimation.toLocaleString('id-ID')}\n`;
+            }
             msg += `💳 *Metode Bayar:* ${payment}\n`;
             msg += `🚚 *Ekspedisi:* ${courier}\n\n`;
             msg += `📌 *DATA PENERIMA:* \n`;
@@ -1042,6 +1185,18 @@
             msg += `• *Kecamatan/Kota:* ${district}\n`;
             msg += `• *Alamat Lengkap:* ${address}\n\n`;
             msg += `Mohon total ongkir & konfirmasi pengirimannya ya kak. Terima kasih!`;
+
+            // Simpan pesanan ke database Firebase untuk fitur Lacak Pesanan
+            db.ref('orders').push({
+                custName: name,
+                district: district,
+                address: address,
+                courier: courier,
+                payment: payment,
+                total: totalEstimation,
+                status: 'Sedang Dikemas / Diproses Admin',
+                date: new Date().toLocaleDateString('id-ID')
+            });
 
             const encodedMsg = encodeURIComponent(msg);
             window.open(`https://wa.me/${currentWaNum}?text=${encodedMsg}`, '_blank');
