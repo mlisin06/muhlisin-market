@@ -32,6 +32,9 @@
                 <button onclick="switchTab('tab-products')" class="w-full text-left flex items-center gap-2.5 px-3 py-2.5 rounded-lg bg-amber-500 text-slate-900 font-bold transition">
                     <i class="fa-solid fa-boxes-stacked"></i> Kelola Produk & Stok
                 </button>
+                <button onclick="switchTab('tab-orders')" class="w-full text-left flex items-center gap-2.5 px-3 py-2.5 rounded-lg hover:bg-slate-800 text-gray-300 font-semibold transition">
+                    <i class="fa-solid fa-truck-fast text-cyan-400"></i> Kelola Pesanan & Resi
+                </button>
                 <button onclick="switchTab('tab-vendors')" class="w-full text-left flex items-center gap-2.5 px-3 py-2.5 rounded-lg hover:bg-slate-800 text-gray-300 font-semibold transition">
                     <i class="fa-solid fa-handshake text-amber-400"></i> Mitra & Titip Jual
                 </button>
@@ -70,7 +73,7 @@
                 <div class="flex justify-between items-center bg-white p-4 rounded-xl shadow-sm border">
                     <div>
                         <h2 class="font-bold text-lg text-slate-800"><i class="fa-solid fa-boxes-stacked text-amber-500 mr-2"></i>Kelola Produk & Indikator Stok</h2>
-                        <p class="text-xs text-gray-500">Tambah produk baru atau atur stok terbatas & jumlah terjual di kartu produk[cite: 1].</p>
+                        <p class="text-xs text-gray-500">Tambah produk baru atau atur stok terbatas & jumlah terjual di kartu produk.</p>
                     </div>
                 </div>
 
@@ -161,12 +164,45 @@
                 </div>
             </section>
 
-            <!-- TAB 2: MITRA & TITIP JUAL -->
+            <!-- TAB BARU: KELOLA PESANAN & STATUS PENGIRIMAN -->
+            <section id="tab-orders" class="hidden space-y-6">
+                <div class="flex justify-between items-center bg-white p-4 rounded-xl shadow-sm border">
+                    <div>
+                        <h2 class="font-bold text-lg text-slate-800"><i class="fa-solid fa-truck-fast text-cyan-500 mr-2"></i>Kelola Pesanan & Status Pengiriman</h2>
+                        <p class="text-xs text-gray-500">Perbarui status pengiriman pesanan pembeli agar dapat dilacak di halaman utama.</p>
+                    </div>
+                </div>
+
+                <div class="bg-white p-5 rounded-xl shadow-sm border space-y-3">
+                    <div class="overflow-x-auto">
+                        <table class="w-full text-xs text-left border-collapse">
+                            <thead>
+                                <tr class="bg-slate-100 border-b text-gray-600">
+                                    <th class="p-2.5">Tanggal</th>
+                                    <th class="p-2.5">Nama Penerima</th>
+                                    <th class="p-2.5">Tujuan</th>
+                                    <th class="p-2.5">Ekspedisi</th>
+                                    <th class="p-2.5">Total</th>
+                                    <th class="p-2.5">Status Paket</th>
+                                    <th class="p-2.5 text-center">Aksi</th>
+                                </tr>
+                            </thead>
+                            <tbody id="adminOrderTable">
+                                <tr>
+                                    <td colspan="7" class="p-4 text-center text-gray-400">Belum ada pesanan masuk.</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </section>
+
+            <!-- TAB: MITRA & TITIP JUAL -->
             <section id="tab-vendors" class="hidden space-y-6">
                 <div class="flex justify-between items-center bg-white p-4 rounded-xl shadow-sm border">
                     <div>
                         <h2 class="font-bold text-lg text-slate-800"><i class="fa-solid fa-handshake text-amber-500 mr-2"></i>Daftar Pengajuan Mitra & Titip Jual</h2>
-                        <p class="text-xs text-gray-500">Pantau pengajuan produk dari penjual luar yang ingin menitipkan produknya[cite: 2].</p>
+                        <p class="text-xs text-gray-500">Pantau pengajuan produk dari penjual luar yang ingin menitipkan produknya.</p>
                     </div>
                 </div>
 
@@ -194,7 +230,7 @@
                 </div>
             </section>
 
-            <!-- TAB 3: PENGATURAN WEBSITE & HERO -->
+            <!-- TAB: PENGATURAN WEBSITE & HERO -->
             <section id="tab-hero" class="hidden space-y-6">
                 <div class="bg-white p-5 rounded-xl shadow-sm border space-y-4 max-w-lg">
                     <h2 class="font-bold text-lg text-slate-800 border-b pb-2"><i class="fa-solid fa-house-chimney text-amber-500 mr-2"></i>Pengaturan Judul & Branding Utama</h2>
@@ -236,7 +272,7 @@
                 </div>
             </section>
 
-            <!-- TAB 4: PROFIL TENTANG KAMI -->
+            <!-- TAB: PROFIL TENTANG KAMI -->
             <section id="tab-about" class="hidden space-y-6">
                 <div class="bg-white p-5 rounded-xl shadow-sm border space-y-4 max-w-lg">
                     <h2 class="font-bold text-lg text-slate-800 border-b pb-2"><i class="fa-solid fa-user-tie text-blue-500 mr-2"></i>Pengaturan Profil Tentang Kami</h2>
@@ -278,7 +314,7 @@
                 </div>
             </section>
 
-            <!-- TAB 5: BANNER PROMO & VOUCHER -->
+            <!-- TAB: BANNER PROMO & VOUCHER -->
             <section id="tab-promo" class="hidden space-y-6">
                 <div class="bg-white p-5 rounded-xl shadow-sm border space-y-4 max-w-lg">
                     <h2 class="font-bold text-lg text-slate-800 border-b pb-2"><i class="fa-solid fa-rectangle-ad text-red-500 mr-2"></i>Pengaturan Banner Promo Hari Ini</h2>
@@ -314,7 +350,7 @@
                 </div>
             </section>
 
-            <!-- TAB 6: KATEGORI PRODUK -->
+            <!-- TAB: KATEGORI PRODUK -->
             <section id="tab-categories" class="hidden space-y-6">
                 <div class="bg-white p-5 rounded-xl shadow-sm border space-y-4 max-w-lg">
                     <h2 class="font-bold text-lg text-slate-800 border-b pb-2"><i class="fa-solid fa-tags text-cyan-500 mr-2"></i>Kelola Kategori Produk</h2>
@@ -330,7 +366,7 @@
                 </div>
             </section>
 
-            <!-- TAB 7: TESTIMONI PEMBELI -->
+            <!-- TAB: TESTIMONI PEMBELI -->
             <section id="tab-testimonials" class="hidden space-y-6">
                 <div class="bg-white p-5 rounded-xl shadow-sm border space-y-4 max-w-lg">
                     <h2 class="font-bold text-lg text-slate-800 border-b pb-2"><i class="fa-solid fa-comments text-purple-500 mr-2"></i>Tambah Testimoni Pembeli</h2>
@@ -357,7 +393,7 @@
                 </div>
             </section>
 
-            <!-- TAB 8: KONTAK WA & SOSMED -->
+            <!-- TAB: KONTAK WA & SOSMED -->
             <section id="tab-settings" class="hidden space-y-6">
                 <div class="bg-white p-5 rounded-xl shadow-sm border space-y-4 max-w-lg">
                     <h2 class="font-bold text-lg text-slate-800 border-b pb-2"><i class="fa-solid fa-sliders text-emerald-500 mr-2"></i>Pengaturan Kontak WA & Sosial Media</h2>
@@ -477,6 +513,50 @@
                 });
             }
         });
+
+        // LOAD KELOLA PESANAN (ORDERS)
+        db.ref('orders').on('value', (snapshot) => {
+            const data = snapshot.val();
+            const table = document.getElementById('adminOrderTable');
+            table.innerHTML = '';
+
+            if (data) {
+                Object.keys(data).forEach(id => {
+                    const o = data[id];
+                    table.innerHTML += `
+                        <tr class="border-b hover:bg-gray-50">
+                            <td class="p-2.5 text-gray-500 font-semibold">${o.date || '-'}</td>
+                            <td class="p-2.5 font-bold text-slate-800">${o.custName}</td>
+                            <td class="p-2.5">${o.district}</td>
+                            <td class="p-2.5">${o.courier}</td>
+                            <td class="p-2.5 font-bold text-amber-600">Rp ${Number(o.total || 0).toLocaleString('id-ID')}</td>
+                            <td class="p-2.5">
+                                <select onchange="updateOrderStatus('${id}', this.value)" class="border rounded p-1 text-[11px] font-bold bg-amber-50 text-amber-800 outline-none">
+                                    <option value="Sedang Dikemas / Diproses Admin" ${o.status === 'Sedang Dikemas / Diproses Admin' ? 'selected' : ''}>Sedang Dikemas</option>
+                                    <option value="Paket Sedang Dikirim / Dalam Perjalanan Kurir" ${o.status === 'Paket Sedang Dikirim / Dalam Perjalanan Kurir' ? 'selected' : ''}>Dalam Perjalanan Kurir</option>
+                                    <option value="Selesai / Paket Telah Diterima" ${o.status === 'Selesai / Paket Telah Diterima' ? 'selected' : ''}>Selesai / Diterima</option>
+                                </select>
+                            </td>
+                            <td class="p-2.5 text-center">
+                                <button onclick="deleteOrder('${id}')" class="bg-red-500 text-white px-2 py-1 rounded text-[10px] font-bold"><i class="fa-solid fa-trash"></i></button>
+                            </td>
+                        </tr>
+                    `;
+                });
+            } else {
+                table.innerHTML = '<tr><td colspan="7" class="p-4 text-center text-gray-400">Belum ada pesanan masuk.</td></tr>';
+            }
+        });
+
+        function updateOrderStatus(id, newStatus) {
+            db.ref('orders/' + id).update({ status: newStatus });
+        }
+
+        function deleteOrder(id) {
+            if (confirm('Hapus data pesanan ini?')) {
+                db.ref('orders/' + id).remove();
+            }
+        }
 
         // LOAD DAFTAR MITRA / TITIP JUAL
         db.ref('vendors').on('value', (snapshot) => {
