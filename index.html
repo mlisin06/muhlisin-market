@@ -85,10 +85,10 @@
             <span>Keranjang</span>
             <span id="mobileCartBadge" class="absolute -top-1 right-2 bg-red-600 text-white text-[9px] px-1.5 py-0.2 rounded-full font-bold">0</span>
         </button>
-        <a href="#lacak-pesanan" class="flex flex-col items-center text-[10px] text-gray-300 hover:text-amber-400">
+        <button onclick="toggleSection('lacak-pesanan')" class="flex flex-col items-center text-[10px] text-gray-300 hover:text-amber-400">
             <i class="fa-solid fa-truck-fast text-base mb-0.5"></i>
             <span>Lacak</span>
-        </a>
+        </button>
         <a id="mobileWaBtn" href="#" target="_blank" class="flex flex-col items-center text-[10px] text-emerald-400 font-semibold">
             <i class="fa-brands fa-whatsapp text-lg mb-0.5"></i>
             <span>Chat WA</span>
@@ -281,21 +281,23 @@
                         </div>
                     </details>
 
-                    <a href="#titip-jual" class="flex items-center gap-3 px-4 py-2.5 rounded-lg hover:bg-slate-800 transition text-gray-300">
+                    <!-- TOMBOL MENU AKSES CEPAT (DAPAT DIKLIK UNTUK MUNCULKAN SEKSI) -->
+                    <button onclick="toggleSection('titip-jual')" class="w-full flex items-center gap-3 px-4 py-2.5 rounded-lg hover:bg-slate-800 transition text-gray-300 text-left">
                         <i class="fa-solid fa-handshake text-amber-400"></i> Titip Jual / Mitra
-                    </a>
-                    <a href="#lacak-pesanan" class="flex items-center gap-3 px-4 py-2.5 rounded-lg hover:bg-slate-800 transition text-gray-300">
+                    </button>
+                    <button onclick="toggleSection('lacak-pesanan')" class="w-full flex items-center gap-3 px-4 py-2.5 rounded-lg hover:bg-slate-800 transition text-gray-300 text-left">
                         <i class="fa-solid fa-truck-fast text-cyan-400"></i> Lacak Pesanan
-                    </a>
-                    <a href="#panduan" class="flex items-center gap-3 px-4 py-2.5 rounded-lg hover:bg-slate-800 transition text-gray-300">
+                    </button>
+                    <button onclick="toggleSection('panduan')" class="w-full flex items-center gap-3 px-4 py-2.5 rounded-lg hover:bg-slate-800 transition text-gray-300 text-left">
                         <i class="fa-solid fa-circle-question text-emerald-400"></i> Cara Belanja
-                    </a>
-                    <a href="#faq" class="flex items-center gap-3 px-4 py-2.5 rounded-lg hover:bg-slate-800 transition text-gray-300">
+                    </button>
+                    <button onclick="toggleSection('faq')" class="w-full flex items-center gap-3 px-4 py-2.5 rounded-lg hover:bg-slate-800 transition text-gray-300 text-left">
                         <i class="fa-solid fa-comments text-purple-400"></i> FAQ / Pertanyaan
-                    </a>
-                    <a href="#testimoni" class="flex items-center gap-3 px-4 py-2.5 rounded-lg hover:bg-slate-800 transition text-gray-300">
+                    </button>
+                    <button onclick="toggleSection('testimoni')" class="w-full flex items-center gap-3 px-4 py-2.5 rounded-lg hover:bg-slate-800 transition text-gray-300 text-left">
                         <i class="fa-solid fa-star text-yellow-400"></i> Testimoni Klien
-                    </a>
+                    </button>
+                    
                     <a href="#kontak" class="flex items-center gap-3 px-4 py-2.5 rounded-lg hover:bg-slate-800 transition text-gray-300">
                         <i class="fa-solid fa-envelope text-red-400"></i> Kontak Kami
                     </a>
@@ -314,8 +316,8 @@
             <!-- Header Atas -->
             <header class="flex flex-col md:flex-row justify-between items-start md:items-center bg-white p-4 rounded-xl shadow-sm mb-6 gap-4">
                 <div>
-                    <h1 id="heroHeaderTitle" class="text-2xl font-bold text-slate-800">Selamat Datang di Muhlisin Market!</h1>
-                    <p id="heroHeaderSub" class="text-sm text-amber-600 font-semibold">🎁 Kumpulan Rekomendasi Produk Pilihan Terbaik & Diskon Spesial Hari Ini!</p>
+                    <h1 id="heroHeaderTitle" class="text-2xl font-bold text-slate-800">Pusat Rekomendasi Produk Pilihan & Terlaris</h1>
+                    <p id="heroHeaderSub" class="text-sm text-amber-600 font-semibold">✨ Garansi Original 100% & Bisa Bayar di Tempat (COD) Tanpa Ribet!</p>
                 </div>
                 <div class="flex items-center gap-3">
                     <a id="headerWaBtn" href="#" target="_blank" aria-label="Hubungi WhatsApp Admin" class="bg-green-600 hover:bg-green-700 text-white px-4 py-2 rounded-lg text-sm font-semibold flex items-center gap-2 transition shadow">
@@ -387,7 +389,7 @@
                 </div>
             </section>
 
-            <!-- SEKSI 2: KATALOG PRODUK FIREBASE -->
+            <!-- SEKSI 2: KATALOG PRODUK FIREBASE (UTAMA YANG TAMPIL) -->
             <section id="terlaris" class="mb-8">
                 <div class="flex flex-col md:flex-row justify-between items-center mb-4 gap-4">
                     <h2 class="text-xl font-bold text-slate-800 flex items-center gap-2 shrink-0">
@@ -407,10 +409,34 @@
                 </div>
             </section>
 
-            <!-- SEKSI BARU: LACAK STATUS PESANAN -->
-            <section id="lacak-pesanan" class="mb-8 bg-white p-6 rounded-xl shadow-sm border border-slate-200">
+            <!-- TOMBOL AKSES CEPAT (BAR NAVIGASI DI DALAM HALAMAN UTAMA) -->
+            <div class="grid grid-cols-2 sm:grid-cols-5 gap-2 mb-8">
+                <button onclick="toggleSection('lacak-pesanan')" class="bg-cyan-600 hover:bg-cyan-700 text-white p-3 rounded-xl text-xs font-bold transition shadow flex flex-col items-center gap-1">
+                    <i class="fa-solid fa-truck-fast text-base"></i> Lacak Pesanan
+                </button>
+                <button onclick="toggleSection('panduan')" class="bg-emerald-600 hover:bg-emerald-700 text-white p-3 rounded-xl text-xs font-bold transition shadow flex flex-col items-center gap-1">
+                    <i class="fa-solid fa-circle-question text-base"></i> Cara Belanja
+                </button>
+                <button onclick="toggleSection('titip-jual')" class="bg-amber-600 hover:bg-amber-700 text-white p-3 rounded-xl text-xs font-bold transition shadow flex flex-col items-center gap-1">
+                    <i class="fa-solid fa-handshake text-base"></i> Titip Jual
+                </button>
+                <button onclick="toggleSection('faq')" class="bg-purple-600 hover:bg-purple-700 text-white p-3 rounded-xl text-xs font-bold transition shadow flex flex-col items-center gap-1">
+                    <i class="fa-solid fa-comments text-base"></i> Tanya Jawab
+                </button>
+                <button onclick="toggleSection('testimoni')" class="bg-blue-600 hover:bg-blue-700 text-white p-3 rounded-xl text-xs font-bold transition shadow flex flex-col items-center gap-1 col-span-2 sm:col-span-1">
+                    <i class="fa-solid fa-star text-base"></i> Testimoni
+                </button>
+            </div>
+
+            <!-- SEKSI YANG DISEMBUNYIKAN SECARA DEFAULT (MUNCUL JIKA DIKLIK) -->
+            
+            <!-- 1. LACAK STATUS PESANAN -->
+            <section id="lacak-pesanan" class="hidden mb-8 bg-white p-6 rounded-xl shadow-sm border border-slate-200">
                 <div class="max-w-xl mx-auto space-y-4 text-center">
-                    <span class="bg-cyan-100 text-cyan-800 text-[10px] font-bold px-3 py-1 rounded-full uppercase"><i class="fa-solid fa-truck-fast mr-1"></i> Pelacakan Pengiriman</span>
+                    <div class="flex justify-between items-center border-b pb-2">
+                        <span class="bg-cyan-100 text-cyan-800 text-[10px] font-bold px-3 py-1 rounded-full uppercase"><i class="fa-solid fa-truck-fast mr-1"></i> Pelacakan Pengiriman</span>
+                        <button onclick="toggleSection('lacak-pesanan')" class="text-gray-400 hover:text-gray-600 font-bold text-base">&times; Tutup</button>
+                    </div>
                     <h2 class="text-xl font-bold text-slate-800">Cek Status Pesanan Anda</h2>
                     <p class="text-xs text-gray-500">Masukkan Nama Penerima atau Nomor WhatsApp yang digunakan saat memesan untuk melihat status paket Anda secara real-time.</p>
 
@@ -427,11 +453,46 @@
                 </div>
             </section>
 
-            <!-- SEKSI TITIP JUAL PRODUK / DUKUNGAN MITRA PENJUAL -->
-            <section id="titip-jual" class="mb-8 bg-gradient-to-br from-slate-900 to-slate-800 text-white p-6 rounded-2xl shadow-md">
+            <!-- 2. PANDUAN CARA BELANJA -->
+            <section id="panduan" class="hidden mb-8 bg-white p-6 rounded-xl shadow-sm border border-slate-200">
+                <div class="flex justify-between items-center border-b pb-3 mb-4">
+                    <h2 class="text-lg font-bold text-slate-800 flex items-center gap-2">
+                        <i class="fa-solid fa-circle-question text-emerald-500"></i> Cara Belanja Mudah (4 Langkah)
+                    </h2>
+                    <button onclick="toggleSection('panduan')" class="text-gray-400 hover:text-gray-600 font-bold text-base">&times; Tutup</button>
+                </div>
+                <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 text-center">
+                    <div class="p-4 bg-amber-50 rounded-xl border border-amber-100 flex flex-col items-center">
+                        <div class="w-10 h-10 bg-amber-500 text-slate-900 font-bold rounded-full flex items-center justify-center text-lg mb-3 shadow">1</div>
+                        <h3 class="font-bold text-sm text-slate-800 mb-1">Pilih Produk</h3>
+                        <p class="text-xs text-gray-600">Pilih barang impian Anda di katalog lalu klik tombol <strong>+Keranjang</strong>.</p>
+                    </div>
+                    <div class="p-4 bg-blue-50 rounded-xl border border-blue-100 flex flex-col items-center">
+                        <div class="w-10 h-10 bg-blue-500 text-white font-bold rounded-full flex items-center justify-center text-lg mb-3 shadow">2</div>
+                        <h3 class="font-bold text-sm text-slate-800 mb-1">Isi Data & COD</h3>
+                        <p class="text-xs text-gray-600">Buka Keranjang, tentukan opsi <strong>COD (Bayar di Tempat)</strong> & isi alamat tujuan.</p>
+                    </div>
+                    <div class="p-4 bg-emerald-50 rounded-xl border border-emerald-100 flex flex-col items-center">
+                        <div class="w-10 h-10 bg-emerald-500 text-white font-bold rounded-full flex items-center justify-center text-lg mb-3 shadow">3</div>
+                        <h3 class="font-bold text-sm text-slate-800 mb-1">Kirim via WA</h3>
+                        <p class="text-xs text-gray-600">Klik checkout ke WhatsApp Admin untuk konfirmasi total ongkir & rincian pesanan.</p>
+                    </div>
+                    <div class="p-4 bg-purple-50 rounded-xl border border-purple-100 flex flex-col items-center">
+                        <div class="w-10 h-10 bg-purple-500 text-white font-bold rounded-full flex items-center justify-center text-lg mb-3 shadow">4</div>
+                        <h3 class="font-bold text-sm text-slate-800 mb-1">Bayar saat Sampai</h3>
+                        <p class="text-xs text-gray-600">Paket dikirim kurir. Anda tinggal bayar uang tunai langsung saat barang tiba di rumah!</p>
+                    </div>
+                </div>
+            </section>
+
+            <!-- 3. TITIP JUAL PRODUK / KEMITRAAN -->
+            <section id="titip-jual" class="hidden mb-8 bg-gradient-to-br from-slate-900 to-slate-800 text-white p-6 rounded-xl shadow-md border border-slate-700">
                 <div class="max-w-3xl mx-auto space-y-4">
-                    <div class="text-center space-y-1">
+                    <div class="flex justify-between items-center border-b border-slate-700 pb-2">
                         <span class="bg-amber-500 text-slate-900 text-[10px] font-bold px-3 py-1 rounded-full uppercase"><i class="fa-solid fa-handshake mr-1"></i> Program Kemitraan</span>
+                        <button onclick="toggleSection('titip-jual')" class="text-gray-400 hover:text-white font-bold text-base">&times; Tutup</button>
+                    </div>
+                    <div class="text-center space-y-1">
                         <h2 class="text-xl font-bold text-white">Punya Produk Bagus? Titip Jual di Muhlisin Market!</h2>
                         <p class="text-xs text-gray-300">Kami bantu promosikan produk Anda ke ribuan pengunjung. Cukup tentukan harga bersih & penawaran komisi untuk kami!</p>
                     </div>
@@ -480,40 +541,14 @@
                 </div>
             </section>
 
-            <!-- SEKSI PANDUAN CARA BELANJA -->
-            <section id="panduan" class="mb-8 bg-white p-6 rounded-xl shadow-sm">
-                <h2 class="text-xl font-bold text-slate-800 mb-6 flex items-center gap-2">
-                    <i class="fa-solid fa-circle-question text-emerald-500"></i> Cara Belanja Mudah (4 Langkah)
-                </h2>
-                <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 text-center">
-                    <div class="p-4 bg-amber-50 rounded-xl border border-amber-100 flex flex-col items-center">
-                        <div class="w-10 h-10 bg-amber-500 text-slate-900 font-bold rounded-full flex items-center justify-center text-lg mb-3 shadow">1</div>
-                        <h3 class="font-bold text-sm text-slate-800 mb-1">Pilih Produk</h3>
-                        <p class="text-xs text-gray-600">Pilih barang impian Anda di katalog lalu klik tombol <strong>+Keranjang</strong>.</p>
-                    </div>
-                    <div class="p-4 bg-blue-50 rounded-xl border border-blue-100 flex flex-col items-center">
-                        <div class="w-10 h-10 bg-blue-500 text-white font-bold rounded-full flex items-center justify-center text-lg mb-3 shadow">2</div>
-                        <h3 class="font-bold text-sm text-slate-800 mb-1">Isi Data & COD</h3>
-                        <p class="text-xs text-gray-600">Buka Keranjang, tentukan opsi <strong>COD (Bayar di Tempat)</strong> & isi alamat tujuan.</p>
-                    </div>
-                    <div class="p-4 bg-emerald-50 rounded-xl border border-emerald-100 flex flex-col items-center">
-                        <div class="w-10 h-10 bg-emerald-500 text-white font-bold rounded-full flex items-center justify-center text-lg mb-3 shadow">3</div>
-                        <h3 class="font-bold text-sm text-slate-800 mb-1">Kirim via WA</h3>
-                        <p class="text-xs text-gray-600">Klik checkout ke WhatsApp Admin untuk konfirmasi total ongkir & rincian pesanan.</p>
-                    </div>
-                    <div class="p-4 bg-purple-50 rounded-xl border border-purple-100 flex flex-col items-center">
-                        <div class="w-10 h-10 bg-purple-500 text-white font-bold rounded-full flex items-center justify-center text-lg mb-3 shadow">4</div>
-                        <h3 class="font-bold text-sm text-slate-800 mb-1">Bayar saat Sampai</h3>
-                        <p class="text-xs text-gray-600">Paket dikirim kurir. Anda tinggal bayar uang tunai langsung saat barang tiba di rumah!</p>
-                    </div>
+            <!-- 4. FAQ / PERTANYAAN UMUM -->
+            <section id="faq" class="hidden mb-8 bg-white p-6 rounded-xl shadow-sm border border-slate-200">
+                <div class="flex justify-between items-center border-b pb-3 mb-4">
+                    <h2 class="text-lg font-bold text-slate-800 flex items-center gap-2">
+                        <i class="fa-solid fa-comments text-purple-500"></i> Pertanyaan Umum (FAQ)
+                    </h2>
+                    <button onclick="toggleSection('faq')" class="text-gray-400 hover:text-gray-600 font-bold text-base">&times; Tutup</button>
                 </div>
-            </section>
-
-            <!-- SEKSI FAQ / PERTANYAAN UMUM -->
-            <section id="faq" class="mb-8 bg-white p-6 rounded-xl shadow-sm">
-                <h2 class="text-xl font-bold text-slate-800 mb-4 flex items-center gap-2">
-                    <i class="fa-solid fa-comments text-purple-500"></i> Pertanyaan Umum (FAQ)
-                </h2>
                 <div class="space-y-3">
                     <details class="group border rounded-xl p-3 text-xs bg-gray-50 cursor-pointer">
                         <summary class="font-bold text-slate-800 flex justify-between items-center">
@@ -539,11 +574,14 @@
                 </div>
             </section>
 
-            <!-- SEKSI 3: TESTIMONI PELANGGAN -->
-            <section id="testimoni" class="mb-8 bg-white p-6 rounded-xl shadow-sm">
-                <h2 class="text-xl font-bold text-slate-800 mb-4 flex items-center gap-2">
-                    <i class="fa-solid fa-star text-yellow-400"></i> Apa Kata Pembeli Kami?
-                </h2>
+            <!-- 5. TESTIMONI PELANGGAN -->
+            <section id="testimoni" class="hidden mb-8 bg-white p-6 rounded-xl shadow-sm border border-slate-200">
+                <div class="flex justify-between items-center border-b pb-3 mb-4">
+                    <h2 class="text-lg font-bold text-slate-800 flex items-center gap-2">
+                        <i class="fa-solid fa-star text-yellow-400"></i> Apa Kata Pembeli Kami?
+                    </h2>
+                    <button onclick="toggleSection('testimoni')" class="text-gray-400 hover:text-gray-600 font-bold text-base">&times; Tutup</button>
+                </div>
                 <div id="testimonialGrid" class="grid grid-cols-1 md:grid-cols-2 gap-4">
                     <p class="text-xs text-gray-400 col-span-full">Memuat testimoni...</p>
                 </div>
@@ -640,7 +678,6 @@
         let currentWaNum = "62895422768896";
         let currentShareUrl = window.location.href;
 
-        // DATA NAMA & KOTA UNTUK NOTIFIKASI PEMBELIAN REALTIME
         const fakeBuyers = [
             { name: "Siti Aisyah", city: "Pemalang" },
             { name: "Budi Santoso", city: "Pekalongan" },
@@ -654,7 +691,17 @@
 
         const fakeTimes = ["Baru saja", "1 menit lalu", "2 menit lalu", "5 menit lalu", "8 menit lalu"];
 
-        // LISTEN PENGATURAN UMUM & STATISTIK
+        // FUNGSI TOGGLE SEKSI (UNTUK MENYEMBUNYIKAN/MEMUNCULKAN SEKSI KETIKA DIKLIK)
+        function toggleSection(sectionId) {
+            const sec = document.getElementById(sectionId);
+            if (sec) {
+                sec.classList.toggle('hidden');
+                if (!sec.classList.contains('hidden')) {
+                    sec.scrollIntoView({ behavior: 'smooth' });
+                }
+            }
+        }
+
         db.ref('settings').on('value', (snapshot) => {
             const data = snapshot.val();
             if (data) {
@@ -664,7 +711,6 @@
                 }
                 if (data.heroTitle) document.getElementById('heroHeaderTitle').textContent = data.heroTitle;
                 if (data.heroSub) document.getElementById('heroHeaderSub').textContent = data.heroSub;
-                
                 if (data.statFlash) document.getElementById('statFlashSale').textContent = data.statFlash;
                 if (data.statAffiliate) document.getElementById('statAffiliate').textContent = data.statAffiliate;
                 if (data.statService) document.getElementById('statService').textContent = data.statService;
@@ -672,7 +718,6 @@
             }
         });
 
-        // LISTEN PENGATURAN TENTANG KAMI
         db.ref('about').on('value', (snapshot) => {
             const data = snapshot.val();
             if (data) {
@@ -686,7 +731,6 @@
             }
         });
 
-        // LISTEN BANNER PROMO
         db.ref('config/promo').on('value', (snapshot) => {
             const data = snapshot.val();
             const section = document.getElementById('promoBannerSection');
@@ -704,7 +748,6 @@
             }
         });
 
-        // LISTEN KONTAK & SOSMED
         db.ref('config/contact').on('value', (snapshot) => {
             const cfg = snapshot.val();
             if (cfg) {
@@ -728,7 +771,6 @@
             }
         });
 
-        // LISTEN KATEGORI
         db.ref('categories').on('value', (snapshot) => {
             const data = snapshot.val();
             const container = document.getElementById('categoryMenuList');
@@ -741,7 +783,6 @@
             }
         });
 
-        // LISTEN PRODUK REALTIME
         db.ref('products').on('value', (snapshot) => {
             const data = snapshot.val();
             products = [];
@@ -754,7 +795,6 @@
             startOrderToastLoop();
         });
 
-        // LISTEN TESTIMONI
         db.ref('testimonials').on('value', (snapshot) => {
             const data = snapshot.val();
             const container = document.getElementById('testimonialGrid');
@@ -817,7 +857,6 @@
                             <h3 class="font-bold text-slate-800 text-base line-clamp-2">${p.title}</h3>
                             <p class="text-amber-600 font-extrabold text-xl">${p.price}</p>
                             
-                            <!-- INDIKATOR PSIKOLOGIS (FOMO & PENJUALAN) -->
                             <div class="pt-1 border-t border-gray-100 text-[11px] flex justify-between items-center text-gray-500 font-semibold">
                                 <span class="text-orange-600"><i class="fa-solid fa-fire text-red-500"></i> Terjual <strong>${soldCount}</strong></span>
                                 <span class="text-red-600 bg-red-50 px-1.5 py-0.5 rounded"><i class="fa-solid fa-bolt"></i> Sisa <strong>${stockCount}</strong> Stok!</span>
@@ -840,7 +879,6 @@
             if (statTotal) statTotal.textContent = products.length + " Item";
         }
 
-        // FUNGSI LACAK PESANAN
         function trackOrder() {
             const query = document.getElementById('trackInput').value.trim().toLowerCase();
             const container = document.getElementById('trackResultContainer');
@@ -853,7 +891,6 @@
 
             container.innerHTML = `<p class="text-gray-400">Mencari riwayat pesanan...</p>`;
 
-            // Ambil data pesanan dari Firebase
             db.ref('orders').orderByChild('custName').once('value', (snapshot) => {
                 const data = snapshot.val();
                 let found = [];
@@ -880,7 +917,6 @@
                         `;
                     });
                 } else {
-                    // Cek simulasi default agar selalu ada hasil interaktif untuk pembeli
                     container.innerHTML = `
                         <div class="bg-white p-3 rounded-lg border space-y-1">
                             <p><strong>Nama Pencarian:</strong> ${document.getElementById('trackInput').value}</p>
@@ -892,7 +928,6 @@
             });
         }
 
-        // FUNGSI SUBMIT PENGAJUAN TITIP JUAL / MITRA
         function submitVendorForm(e) {
             e.preventDefault();
             const name = document.getElementById('vName').value.trim();
@@ -923,7 +958,6 @@
             window.open(`https://wa.me/${currentWaNum}?text=${encodedMsg}`, '_blank');
         }
 
-        // FUNGSI NOTIFIKASI REALTIME TOAST
         let toastInterval = null;
 
         function startOrderToastLoop() {
@@ -960,7 +994,6 @@
             }
         }
 
-        // FUNGSI MODAL LEGAL
         function openLegalModal(type) {
             const modal = document.getElementById('legalModal');
             const titleElem = document.getElementById('legalModalTitle');
@@ -989,7 +1022,6 @@
             document.getElementById('legalModal').classList.add('hidden');
         }
 
-        // FUNGSI SHARE PRODUK
         function openShareModal(title, price, link) {
             const modal = document.getElementById('shareModal');
             document.getElementById('shareProductTitle').textContent = title + " (" + price + ")";
@@ -1019,7 +1051,6 @@
             });
         }
 
-        // FUNGSI KERANJANG BELANJA, VOUCHER & CHECKOUT COD
         function toggleCartModal() {
             const modal = document.getElementById('cartModal');
             modal.classList.toggle('hidden');
@@ -1168,6 +1199,7 @@
             cart.forEach((item, i) => {
                 const cleanPrice = parseInt(item.price.replace(/[^0-9]/g, '')) || 0;
                 const subtotal = cleanPrice * item.qty;
+                totalSection = subtotal;
                 totalEstimation += subtotal;
                 msg += `${i + 1}. *${item.title}* (${item.price}) x ${item.qty} = Rp ${subtotal.toLocaleString('id-ID')}\n`;
             });
@@ -1186,7 +1218,6 @@
             msg += `• *Alamat Lengkap:* ${address}\n\n`;
             msg += `Mohon total ongkir & konfirmasi pengirimannya ya kak. Terima kasih!`;
 
-            // Simpan pesanan ke database Firebase untuk fitur Lacak Pesanan
             db.ref('orders').push({
                 custName: name,
                 district: district,
